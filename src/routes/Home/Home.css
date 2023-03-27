@@ -22,7 +22,7 @@
 
 .home-container .active-users-container {
     display: flex;
-    gap: 1.25em;
+    gap: 1em;
     position: absolute;
     transition: all 0.2s;
 }

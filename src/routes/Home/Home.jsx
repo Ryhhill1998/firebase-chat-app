@@ -3,7 +3,7 @@ import SearchBar from "../../common/components/SearchBar/SearchBar";
 import ActiveUserIcon from "../../common/components/ActiveUserIcon/ActiveUserIcon";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
 import {useSwipeable} from "react-swipeable";
-import {useEffect, useMemo, useState} from "react";
+import {useMemo, useRef, useState} from "react";
 
 const users = new Array(12).fill(0);
 const userId = 1;
@@ -26,12 +26,11 @@ const Home = () => {
     const [xPosition, setXPosition] = useState(0);
     const [offsetX, setOffsetX] = useState(0);
 
-    const minXPosition = useMemo(() => {
-        const paddingRight = 12;
-        const contentWidth = (window.innerWidth > 500 ? 500 : window.innerWidth) - 2 * paddingRight;
-        const sliderWidth = (45 * users.length) + (1.25 * 16 * (users.length - 1));
-        return contentWidth - sliderWidth;
-    }, []);
+    const sliderWidth = (60 * users.length) + (16 * (users.length - 1));
+    const contentWidth = (window.innerWidth > 500 ? 500 : window.innerWidth) - 2 * 20;
+    const minXPosition = contentWidth - sliderWidth;
+
+    console.log(sliderWidth, contentWidth, minXPosition);
 
     const handlers = useSwipeable({
         onSwiping: ({deltaX}) => {
@@ -65,6 +64,7 @@ const Home = () => {
             }
 
             setXPosition(newXPosition);
+            console.log(newXPosition)
         },
         preventScrollOnSwipe: true,
         trackMouse: true,

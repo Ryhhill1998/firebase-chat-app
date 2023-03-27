@@ -11,3 +11,9 @@
 html {
   background-color: #222222;
 }
+
+.container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}

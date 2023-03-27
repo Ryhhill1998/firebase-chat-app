@@ -5,3 +5,17 @@
     margin: 0 auto;
     padding: 0.75em 0.5em;
 }
+
+.home-container .search-bar {
+    margin-bottom: 1em;
+}
+
+.home-container .active-users-container {
+    display: flex;
+    gap: 1em;
+    overflow: hidden;
+}
+
+.home-container .active-users-container .user-icon {
+    flex-shrink: 0;
+}

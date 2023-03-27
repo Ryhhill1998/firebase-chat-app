@@ -5,7 +5,7 @@ import MessagePreview from "../../common/components/MessagePreview/MessagePrevie
 import {useSwipeable} from "react-swipeable";
 import {useEffect, useMemo, useState} from "react";
 
-const users = new Array(8).fill(0);
+const users = new Array(12).fill(0);
 const userId = 1;
 
 const message1 = {
@@ -73,6 +73,8 @@ const Home = () => {
 
     return (
         <div className="home-container container">
+            <h1>Chats</h1>
+
             <div className="search-bar-container">
                 <SearchBar/>
             </div>

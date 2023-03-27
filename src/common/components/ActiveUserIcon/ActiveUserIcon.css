@@ -1,0 +1,15 @@
+.active-user-icon {
+    position: relative;
+}
+
+.active-user-icon .active-indicator {
+    width: 18px;
+    height: 18px;
+    background-color: #38E54D;
+    border: solid 3px #222222;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    border-radius: 50%;
+}

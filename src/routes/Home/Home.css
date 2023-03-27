@@ -12,7 +12,7 @@
 
 .home-container .active-users-container {
     display: flex;
-    gap: 1em;
+    gap: 1.25em;
     overflow: hidden;
 }
 

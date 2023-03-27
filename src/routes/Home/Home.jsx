@@ -5,8 +5,6 @@ import MessagePreview from "../../common/components/MessagePreview/MessagePrevie
 import {useSwipeable} from "react-swipeable";
 import {useEffect, useMemo, useState} from "react";
 
-import { Carousel } from 'react-responsive-carousel';
-
 const users = new Array(12).fill(0);
 const userId = 1;
 
@@ -81,7 +79,7 @@ const Home = () => {
                 <SearchBar/>
             </div>
 
-            <Carousel>
+            <div className="slider-container">
                 <div className="active-users-container" {...handlers} style={style}>
                     {users.map((_, i) => (
                         <div key={i} className="active-user-container">
@@ -90,7 +88,7 @@ const Home = () => {
                         </div>
                     ))}
                 </div>
-            </Carousel>
+            </div>
 
             <div className="message-previews-container">
                 {messages.map((_, i) => (

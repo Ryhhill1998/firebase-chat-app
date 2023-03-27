@@ -3,7 +3,7 @@ import SearchBar from "../../common/components/SearchBar/SearchBar";
 import ActiveUserIcon from "../../common/components/ActiveUserIcon/ActiveUserIcon";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
 import {useSwipeable} from "react-swipeable";
-import {useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 const users = new Array(8).fill(0);
 const userId = 1;
@@ -22,17 +22,49 @@ const messages = new Array(8).fill(0);
 
 const Home = () => {
 
-    const [style, setStyle] = useState({});
+    const [style, setStyle] = useState({transform: `translateX(0px)`});
+    const [xPosition, setXPosition] = useState(0);
+    const [offsetX, setOffsetX] = useState(0);
+
+    const minXPosition = useMemo(() => {
+        const paddingRight = 12;
+        const contentWidth = (window.innerWidth > 500 ? 500 : window.innerWidth) - 2 * paddingRight;
+        const sliderWidth = (45 * users.length) + (1.25 * 16 * (users.length - 1));
+        return contentWidth - sliderWidth;
+    }, []);
 
     const handlers = useSwipeable({
         onSwiping: ({deltaX}) => {
             setStyle(style => {
                 const updatedStyle = {...style};
-                updatedStyle.transform = `translateX(${deltaX}px)`;
+                const translateX = xPosition + deltaX;
+                setOffsetX(deltaX);
+                updatedStyle.transform = `translateX(${translateX}px)`;
                 return updatedStyle;
             });
+        },
+        onTouchEndOrOnMouseUp: () => {
+            let newXPosition = xPosition + offsetX;
 
-            console.log("swiping")
+            if (newXPosition > 0) {
+                newXPosition = 0;
+
+                setStyle(style => {
+                    const updatedStyle = {...style};
+                    updatedStyle.transform = `translateX(${newXPosition}px)`;
+                    return updatedStyle;
+                });
+            } else if (newXPosition < minXPosition) {
+                newXPosition = minXPosition;
+
+                setStyle(style => {
+                    const updatedStyle = {...style};
+                    updatedStyle.transform = `translateX(${newXPosition}px)`;
+                    return updatedStyle;
+                });
+            }
+
+            setXPosition(newXPosition);
         },
         preventScrollOnSwipe: true,
         trackMouse: true,

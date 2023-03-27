@@ -11,24 +11,17 @@
     overflow: hidden;
     position: relative;
     height: 85px;
-    border: solid 1px yellow;
 }
 
 .home-container .active-users-container {
     display: flex;
     gap: 1.25em;
     position: absolute;
-    border: solid 1px white;
-    transition-property: transform;
-    transition-duration: 0.1s;
-    transition-timing-function: linear;
+    transition: all 0.2s ease;
 }
 
 .home-container .active-users-container .active-user-container {
     color: white;
-    text-align: center;
-    font-size: 0.7rem;
-    border: solid 1px white;
 }
 
 .home-container .active-users-container .active-user-container p {
@@ -39,6 +32,8 @@
     -webkit-line-clamp: 2;
     line-clamp: 2;
     -webkit-box-orient: vertical;
+    text-align: center;
+    font-size: 0.65rem;
 }
 
 .home-container .active-users-container .user-icon {

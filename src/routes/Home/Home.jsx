@@ -46,18 +46,22 @@ const Home = () => {
             if (newXPosition > 0) {
                 newXPosition = 0;
 
-                setStyle(style => {
-                    const updatedStyle = {...style};
-                    updatedStyle.transform = `translateX(${newXPosition}px)`;
-                    return updatedStyle;
+                requestAnimationFrame(() => {
+                    setStyle(style => {
+                        const updatedStyle = {...style};
+                        updatedStyle.transform = `translateX(${newXPosition}px)`;
+                        return updatedStyle;
+                    });
                 });
             } else if (newXPosition < minXPosition) {
                 newXPosition = minXPosition;
 
-                setStyle(style => {
-                    const updatedStyle = {...style};
-                    updatedStyle.transform = `translateX(${newXPosition}px)`;
-                    return updatedStyle;
+                requestAnimationFrame(() => {
+                    setStyle(style => {
+                        const updatedStyle = {...style};
+                        updatedStyle.transform = `translateX(${newXPosition}px)`;
+                        return updatedStyle;
+                    });
                 });
             }
 

@@ -30,8 +30,6 @@ const Home = () => {
     const contentWidth = (window.innerWidth > 500 ? 500 : window.innerWidth) - 2 * 20;
     const minXPosition = contentWidth - sliderWidth;
 
-    console.log(sliderWidth, contentWidth, minXPosition);
-
     const handlers = useSwipeable({
         onSwiping: ({deltaX}) => {
             setStyle(style => {
@@ -64,7 +62,6 @@ const Home = () => {
             }
 
             setXPosition(newXPosition);
-            console.log(newXPosition)
         },
         preventScrollOnSwipe: true,
         trackMouse: true,

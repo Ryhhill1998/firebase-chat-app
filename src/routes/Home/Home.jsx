@@ -95,7 +95,7 @@ const Home = () => {
                     <MessagePreview
                         key={message1.id * (i + 1)}
                         content={message1.content}
-                        name="Fran Nicholson"
+                        name="Ryan Henzell-Hill"
                         fromUser={userId === message1.fromId}
                     />
                 ))}

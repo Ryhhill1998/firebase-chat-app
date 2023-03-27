@@ -1,8 +1,8 @@
 .message-preview {
     display: flex;
     align-items: center;
-    gap: 0.75em;
-    padding: 0.75em;
+    gap: 1em;
+    padding: 1em 1.25em;
 }
 
 .message-preview > * {
@@ -13,7 +13,7 @@
     color: white;
     font-weight: 500;
     font-size: 0.9rem;
-    margin-bottom: 0.25em;
+    margin-bottom: 0.5em;
 }
 
 .message-preview .content p {

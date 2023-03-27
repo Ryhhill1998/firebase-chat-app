@@ -1,11 +1,15 @@
 .home-container h1 {
     text-align: center;
     font-size: 1.2rem;
-    margin-top: 0.5em;
+    padding: 0.5em;
+    position: sticky;
+    top: 0;
+    background-color: #222222;
+    z-index: 10;
 }
 
 .home-container .search-bar-container {
-    padding: 1em 1.25em;
+    padding: 0 1.25em 1em;
 }
 
 .home-container .slider-container {
@@ -25,7 +29,7 @@
 
 .home-container .active-users-container .active-user-container {
     color: white;
-    max-width: 55px;
+    max-width: 60px;
 }
 
 .home-container .active-users-container .active-user-container p {

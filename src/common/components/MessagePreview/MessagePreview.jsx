@@ -5,8 +5,6 @@ const MessagePreview = ({content, name, fromUser}) => {
     
     const contentWidth = window.innerWidth >= 500 ? "300px" : 0.6 * window.innerWidth + "px";
 
-    console.log(window.innerWidth)
-
     return (
         <div className="message-preview">
             <UserIcon/>

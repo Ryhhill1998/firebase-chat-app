@@ -2,6 +2,8 @@ import './Home.css';
 import SearchBar from "../../common/components/SearchBar/SearchBar";
 import ActiveUserIcon from "../../common/components/ActiveUserIcon/ActiveUserIcon";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
+import {useSwipeable} from "react-swipeable";
+import {useState} from "react";
 
 const users = new Array(8).fill(0);
 const userId = 1;
@@ -19,29 +21,51 @@ const message1 = {
 const messages = new Array(8).fill(0);
 
 const Home = () => {
+
+    const [style, setStyle] = useState({});
+
+    const handlers = useSwipeable({
+        onSwiping: ({deltaX}) => {
+            setStyle(style => {
+                const updatedStyle = {...style};
+                updatedStyle.transform = `translateX(${deltaX}px)`;
+                return updatedStyle;
+            });
+
+            console.log("swiping")
+        },
+        preventScrollOnSwipe: true,
+        trackMouse: true,
+        trackTouch: true
+    });
+
     return (
         <div className="home-container container">
             <div className="search-bar-container">
                 <SearchBar/>
             </div>
 
-            <div className="active-users-container">
-                {users.map((_, i) => (
-                    <div key={i} className="active-user-container">
-                        <ActiveUserIcon/>
-                        <p>Ryan Henzell-Hill</p>
-                    </div>
-                ))}
+            <div className="slider-container">
+                <div className="active-users-container" {...handlers} style={style}>
+                    {users.map((_, i) => (
+                        <div key={i} className="active-user-container">
+                            <ActiveUserIcon/>
+                            <p>Ryan Henzell-Hill</p>
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            {messages.map((_, i) => (
-                <MessagePreview
-                    key={message1.id * (i + 1)}
-                    content={message1.content}
-                    name="Fran Nicholson"
-                    fromUser={userId === message1.fromId}
-                />
-            ))}
+            <div className="message-previews-container">
+                {messages.map((_, i) => (
+                    <MessagePreview
+                        key={message1.id * (i + 1)}
+                        content={message1.content}
+                        name="Fran Nicholson"
+                        fromUser={userId === message1.fromId}
+                    />
+                ))}
+            </div>
         </div>
     );
 }

@@ -1,23 +1,34 @@
 .home-container {
-    /*border: solid 1px white;*/
+    border: solid 1px white;
 }
 
 .home-container .search-bar-container {
     padding: 0.75em;
 }
 
+.home-container .slider-container {
+    padding-left: 0.75em;
+    overflow: hidden;
+    position: relative;
+    height: 85px;
+    border: solid 1px yellow;
+}
+
 .home-container .active-users-container {
     display: flex;
     gap: 1.25em;
-    overflow: hidden;
-    padding: 0.5em 0;
-    /*border: solid 1px white;*/
+    position: absolute;
+    border: solid 1px white;
+    transition-property: transform;
+    transition-duration: 0.1s;
+    transition-timing-function: linear;
 }
 
 .home-container .active-users-container .active-user-container {
     color: white;
     text-align: center;
     font-size: 0.7rem;
+    border: solid 1px white;
 }
 
 .home-container .active-users-container .active-user-container p {

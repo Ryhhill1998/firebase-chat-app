@@ -25,6 +25,10 @@ const Home = () => {
         navigate("/chats/" + id);
     };
 
+    if (!userId) {
+        return <></>
+    }
+
     return (
         <div className="home-container container">
             <header>

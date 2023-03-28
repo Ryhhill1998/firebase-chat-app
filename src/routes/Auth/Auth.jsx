@@ -3,14 +3,13 @@ import "./Auth.css";
 import logoImgSrc from "../../common/images/logo.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFacebook, faGoogle} from "@fortawesome/free-brands-svg-icons";
-import {useNavigate} from "react-router-dom";
+import {signInWithGooglePopup} from "../../utils/firebase";
 
 const Auth = () => {
 
-    const navigate = useNavigate();
-
     const handleClick = () => {
-        navigate("/");
+        signInWithGooglePopup()
+            .then();
     };
 
     return (

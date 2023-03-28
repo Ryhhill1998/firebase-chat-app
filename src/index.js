@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
-    createBrowserRouter,
+    createBrowserRouter, redirect,
     RouterProvider,
 } from "react-router-dom";
 import './index.css';
@@ -14,34 +14,42 @@ import ErrorPage from "./routes/ErrorPage/ErrorPage";
 import ErrorComponent from "./common/components/ErrorComponent/ErrorComponent";
 
 import store from './app/store'
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
+import Root from "./routes/Root";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Home/>,
-        errorElement: <ErrorPage />,
-    },
-    {
-        path: "/auth",
-        element: <Auth/>,
-        errorElement: <ErrorPage />,
-    },
-    {
-        path: "/chats/:id",
-        element: <Chat/>,
-        errorElement: <ErrorComponent />,
-        loader: chatLoader
+        element: <Root/>,
+        errorElement: <ErrorPage/>,
+        children: [
+            {
+                path: "/",
+                element: <Home/>,
+                errorElement: <ErrorPage/>,
+            },
+            {
+                path: "/auth",
+                element: <Auth/>,
+                errorElement: <ErrorPage/>,
+            },
+            {
+                path: "/chats/:id",
+                element: <Chat/>,
+                errorElement: <ErrorComponent/>,
+                loader: chatLoader
+            },
+        ],
     },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-      <Provider store={store}>
-          <RouterProvider router={router} />
-      </Provider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <Provider store={store}>
+            <RouterProvider router={router}/>
+        </Provider>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

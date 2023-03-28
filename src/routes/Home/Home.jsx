@@ -2,27 +2,21 @@ import './Home.css';
 import SearchBar from "../../common/components/SearchBar/SearchBar";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
 import ActiveUsersSlider from "../../common/components/ActiveUsersSlider/ActiveUsersSlider";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {redirect, useNavigate} from "react-router-dom";
 import {faBars, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import USERS from "../../data/users.json";
 import CHATS from "../../data/chats.json";
-import {useSelector} from "react-redux";
-import {selectUser} from "../../features/user/userSlice";
-
-const userId = 1;
+import {useDispatch, useSelector} from "react-redux";
+import {resetUserId, selectUserId, setUserId} from "../../features/user/userSlice";
 
 const Home = () => {
 
     const navigate = useNavigate();
 
-    const user = useSelector(selectUser);
-
-    if (!user) {
-        navigate("/auth");
-    }
+    const userId = useSelector(selectUserId);
 
     const [chats, setChats] = useState(CHATS.chats);
     const [users, setUsers] = useState(USERS.users);

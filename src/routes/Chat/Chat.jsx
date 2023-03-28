@@ -75,13 +75,6 @@ const Chat = () => {
         }
     }, [messages]);
 
-    const handleMessageClick = (id) => {
-        const foundMessage = messages.find(message => message.id === id);
-        const {fromUserId, content} = foundMessage;
-        const newMessage = {id: chatDetails.messages.length + 1, fromUserId, content};
-        setMessages([...messages, newMessage]);
-    }
-
     return (
         <div className="chat-container container">
             <header>
@@ -106,7 +99,7 @@ const Chat = () => {
 
             <div className="message-bubbles-container" ref={divRef}>
                 {messages && messages.map(({id, content, fromUserId}) => (
-                    <MessageBubble key={id} id={id} content={content} fromUser={fromUserId === userId} handler={handleMessageClick}/>
+                    <MessageBubble key={id} id={id} content={content} fromUser={fromUserId === userId}/>
                 ))}
             </div>
         </div>

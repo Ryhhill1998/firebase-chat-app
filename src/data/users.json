@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Ryan",
+      "chatIds": [1],
+      "profileImageSrc": "./src/common/images/user.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Carolyn",
+      "chatIds": [1],
+      "profileImageSrc": "./src/common/images/user.jpg"
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {faChevronLeft, faMagnifyingGlass, faPhone, faVideo} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
+import {useEffect, useRef} from "react";
 
 const userId = 1;
 
@@ -65,6 +66,15 @@ const chatDetails = {
 const testMessage = chatDetails.messages[0];
 
 const Chat = () => {
+
+    const divRef = useRef(null);
+
+    useEffect(() => {
+        if (divRef.current) {
+            divRef.current.scrollTop = divRef.current.scrollHeight;
+        }
+    }, []);
+
     return (
         <div className="chat-container container">
             <header>
@@ -87,7 +97,7 @@ const Chat = () => {
                 </nav>
             </header>
 
-            <div className="message-bubbles-container">
+            <div className="message-bubbles-container" ref={divRef}>
                 {chatDetails.messages.map(({id, content, fromUserId}) => (
                     <MessageBubble key={id} content={content} fromUser={fromUserId === userId}/>
                 ))}

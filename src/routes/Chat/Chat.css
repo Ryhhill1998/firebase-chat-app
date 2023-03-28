@@ -4,6 +4,7 @@
     background-color: #222222;
     position: sticky;
     top: 0;
+    height: 100vh;
 }
 
 .chat-container nav {
@@ -52,5 +53,14 @@
 .chat-container .message-bubbles-container {
     display: flex;
     flex-direction: column;
+    overflow-anchor: none;
     gap: 1em;
+    margin-top: 2em;
+    height: 50%;
+    overflow: scroll;
 }
+
+.chat-container .message-bubbles-container .message-bubble:last-child {
+    overflow-anchor: auto;
+}
+

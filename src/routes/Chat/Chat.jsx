@@ -80,6 +80,14 @@ const Chat = () => {
         }
     }, [messages, windowInnerHeight]);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowInnerHeight(window.innerHeight + "px");
+        }
+
+        window.addEventListener('resize', handleResize)
+    }, []);
+
     const handleMessageSend = (content) => {
         const id = messages.length + 1;
 
@@ -92,14 +100,6 @@ const Chat = () => {
 
         setMessages([...messages, newMessage]);
     }
-
-    useEffect(() => {
-        const handleResize = () => {
-            setWindowInnerHeight(window.innerHeight + "px");
-        }
-
-        window.addEventListener('resize', handleResize)
-    }, []);
 
     const handleBackClick = () => {
         navigate("/");

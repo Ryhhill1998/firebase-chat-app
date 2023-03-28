@@ -2,7 +2,7 @@ import "./Auth.css";
 
 import logoImgSrc from "../../common/images/logo.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFacebook} from "@fortawesome/free-brands-svg-icons";
+import {faFacebook, faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {useNavigate} from "react-router-dom";
 
 const Auth = () => {
@@ -24,8 +24,8 @@ const Auth = () => {
             </header>
 
             <button onClick={handleClick}>
-                Sign in
-                <FontAwesomeIcon className="icon" icon={faFacebook} size="2x"/>
+                Google sign in
+                <FontAwesomeIcon className="icon" icon={faGoogle}/>
             </button>
         </div>
     );

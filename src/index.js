@@ -5,12 +5,16 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import './index.css';
-import Home from './routes/Home/Home';
 import reportWebVitals from './reportWebVitals';
+
+import Home from './routes/Home/Home';
 import Auth from "./routes/Auth/Auth";
 import Chat, {chatLoader} from "./routes/Chat/Chat";
 import ErrorPage from "./routes/ErrorPage/ErrorPage";
 import ErrorComponent from "./common/components/ErrorComponent/ErrorComponent";
+
+import store from './app/store'
+import { Provider } from 'react-redux'
 
 const router = createBrowserRouter([
     {
@@ -34,7 +38,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+          <RouterProvider router={router} />
+      </Provider>
   </React.StrictMode>
 );
 

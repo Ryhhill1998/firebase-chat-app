@@ -89,8 +89,18 @@ const Chat = () => {
         setMessages([...messages, newMessage]);
     }
 
+    const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight + "px");
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowInnerHeight(window.innerHeight + "px");
+        }
+
+        window.addEventListener('resize', handleResize)
+    }, []);
+
     return (
-        <div className="chat-container container" style={{height: window.innerHeight + "px"}}>
+        <div className="chat-container container" style={{height: windowInnerHeight}}>
             <header>
                 <nav>
                     <div className="container-lhs">

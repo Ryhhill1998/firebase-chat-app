@@ -26,7 +26,7 @@ const Home = () => {
     const [xPosition, setXPosition] = useState(0);
     const [offsetX, setOffsetX] = useState(0);
 
-    const sliderWidth = (60 * users.length) + (16 * (users.length - 1));
+    const sliderWidth = (60 * users.length) + (1.25 * 16 * (users.length - 1));
     const contentWidth = (window.innerWidth > 500 ? 500 : window.innerWidth) - 2 * 20;
     const minXPosition = contentWidth - sliderWidth;
 

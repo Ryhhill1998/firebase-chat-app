@@ -7,70 +7,36 @@ import {useEffect, useRef, useState} from "react";
 import NewMessageInput from "../../common/components/NewMessageInput/NewMessageInput";
 import {useNavigate} from "react-router-dom";
 
-const userId = 1;
+import CHATS from "../../data/chats.json";
+import USERS from "../../data/users.json";
 
-const chatDetails = {
-    id: 1,
-    userId: 2,
-    userName: "Carolyn H Hill",
-    messages: [
-        {
-            id: 1,
-            fromUserId: 2,
-            timeStamp: 1,
-            content: "Haha. I know, when I first saw it was going to be called CAZ, I wasn't impressed! Xx"
-        },
-        {
-            id: 2,
-            fromUserId: 2,
-            timeStamp: 2,
-            content: "Have you any plans for Easter weekend? Xx"
-        },
-        {
-            id: 3,
-            fromUserId: 1,
-            timeStamp: 3,
-            content: "I don't think so?"
-        },
-        {
-            id: 4,
-            fromUserId: 2,
-            timeStamp: 4,
-            content: "Just wondering if you fancy meeting up somewhere or coming over for food? Xx"
-        },
-        {
-            id: 5,
-            fromUserId: 1,
-            timeStamp: 5,
-            content: "Yeah. That sounds good!"
-        },
-        {
-            id: 6,
-            fromUserId: 2,
-            timeStamp: 6,
-            content: "Which do you fancy? Xx"
-        },
-        {
-            id: 7,
-            fromUserId: 1,
-            timeStamp: 7,
-            content: "I'm easy. Whichever you'd prefer"
-        },
-        {
-            id: 8,
-            fromUserId: 2,
-            timeStamp: 8,
-            content: "Any.. maybe we can see what the weather is like. Or just plan a takeaway? Xx"
-        },
-    ],
-};
+const currentUserId = 1;
 
 const Chat = () => {
 
+    const [chat, setChat] = useState(null);
+    const [username, setUsername] = useState(null);
+
+    useEffect(() => {
+        const id = +window.location.href.split("/").at(-1);
+        const foundChat = CHATS.chats.find(chat => chat.id === id);
+        setChat(foundChat);
+
+        const {userIds} = foundChat;
+        const otherUserId = userIds.find(userId => userId !== currentUserId);
+        const name = USERS.users.find(user => user.id === otherUserId).name;
+        setUsername(name);
+    }, []);
+
     const navigate = useNavigate();
 
-    const [messages, setMessages] = useState(chatDetails.messages);
+    const [messages, setMessages] = useState(null);
     const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight + "px");
+
+    useEffect(() => {
+        if (!chat) return;
+        setMessages(chat.messages);
+    }, [chat]);
 
     const divRef = useRef(null);
 
@@ -93,7 +59,7 @@ const Chat = () => {
 
         const newMessage = {
             id,
-            fromUserId: userId,
+            fromUserId: currentUserId,
             timeStamp: id,
             content
         };
@@ -117,7 +83,7 @@ const Chat = () => {
                         <div className="user-details-container">
                             <UserIcon  size="medium"/>
                             <h1>
-                                <span>{chatDetails.userName}</span>
+                                <span>{username}</span>
                                 <span>Active 9h ago</span>
                             </h1>
                         </div>
@@ -132,7 +98,7 @@ const Chat = () => {
 
             <div className="message-bubbles-container" ref={divRef}>
                 {messages && messages.map(({id, content, fromUserId}) => (
-                    <MessageBubble key={id} id={id} content={content} fromUser={fromUserId === userId}/>
+                    <MessageBubble key={id} id={id} content={content} fromUser={fromUserId === currentUserId}/>
                 ))}
             </div>
 

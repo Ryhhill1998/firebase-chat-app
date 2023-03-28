@@ -16,6 +16,12 @@
     justify-content: space-between;
 }
 
+.chat-container nav button {
+    background: none;
+    border: none;
+    font-size: inherit;
+}
+
 .chat-container nav .icon {
     color: #8F43EE;
     cursor: pointer;

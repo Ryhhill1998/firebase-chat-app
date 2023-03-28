@@ -27,6 +27,7 @@
 .new-message-input button {
     background: none;
     border: none;
+    font-size: inherit;
 }
 
 .new-message-input button .icon {

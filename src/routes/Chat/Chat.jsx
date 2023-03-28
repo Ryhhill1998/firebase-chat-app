@@ -94,7 +94,10 @@ const Chat = () => {
             <header>
                 <nav>
                     <div className="container-lhs">
-                        <FontAwesomeIcon className="icon" icon={faChevronLeft}/>
+                        <button>
+                            <FontAwesomeIcon className="icon" icon={faChevronLeft}/>
+                        </button>
+
                         <div className="user-details-container">
                             <UserIcon  size="medium"/>
                             <h1>

@@ -76,7 +76,7 @@ const Chat = () => {
     }, [messages]);
 
     return (
-        <div className="chat-container container">
+        <div className="chat-container container" style={{height: window.innerHeight + "px"}}>
             <header>
                 <nav>
                     <div className="container-lhs">

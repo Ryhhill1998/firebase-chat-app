@@ -8,6 +8,7 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 1em;
+    max-height: 100vh;
 }
 
 .chat-container nav {

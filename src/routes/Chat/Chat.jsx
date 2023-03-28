@@ -68,13 +68,15 @@ const Chat = () => {
 
     const [messages, setMessages] = useState(chatDetails.messages);
 
+    const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight + "px");
+
     const divRef = useRef(null);
 
     useEffect(() => {
         if (divRef.current) {
             divRef.current.scrollTop = divRef.current.scrollHeight;
         }
-    }, [messages]);
+    }, [messages, windowInnerHeight]);
 
     const handleMessageSend = (content) => {
         const id = messages.length + 1;
@@ -88,8 +90,6 @@ const Chat = () => {
 
         setMessages([...messages, newMessage]);
     }
-
-    const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight + "px");
 
     useEffect(() => {
         const handleResize = () => {

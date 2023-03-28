@@ -99,6 +99,10 @@ const Chat = () => {
         window.addEventListener('resize', handleResize)
     }, []);
 
+    useEffect(() => {
+        handleMessageSend(windowInnerHeight);
+    }, [windowInnerHeight]);
+
     return (
         <div className="chat-container container" style={{height: windowInnerHeight}}>
             <header>

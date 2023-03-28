@@ -19,10 +19,12 @@
     border-radius: 8px;
     line-height: 1.4rem;
     letter-spacing: 0.05rem;
+    font-weight: 500;
 }
 
 .message-bubble-container.sent .message-bubble {
-    background-color: #2F58CD;
+    background-color: #FFCB42;
+    color: #222222;
 }
 
 .message-bubble-container.received {

@@ -4,6 +4,8 @@ import MessagePreview from "../../common/components/MessagePreview/MessagePrevie
 import ActiveUsersSlider from "../../common/components/ActiveUsersSlider/ActiveUsersSlider";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {faBars, faChevronLeft, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const userId = 1;
 
@@ -77,7 +79,11 @@ const Home = () => {
 
     return (
         <div className="home-container container">
-            <h1>Chats</h1>
+            <header>
+                <FontAwesomeIcon className="icon" icon={faBars}/>
+                <h1>Chats</h1>
+                <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
+            </header>
 
             <div className="search-bar-container">
                 <SearchBar/>

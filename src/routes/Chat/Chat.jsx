@@ -4,6 +4,7 @@ import {faChevronLeft, faMagnifyingGlass, faPhone, faVideo} from "@fortawesome/f
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
 import {useEffect, useRef, useState} from "react";
+import NewMessageInput from "../../common/components/NewMessageInput/NewMessageInput";
 
 const userId = 1;
 
@@ -102,6 +103,8 @@ const Chat = () => {
                     <MessageBubble key={id} id={id} content={content} fromUser={fromUserId === userId}/>
                 ))}
             </div>
+
+            <NewMessageInput/>
         </div>
     );
 };

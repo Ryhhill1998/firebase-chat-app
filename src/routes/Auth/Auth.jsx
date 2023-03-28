@@ -3,8 +3,15 @@ import "./Auth.css";
 import logoImgSrc from "../../common/images/logo.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFacebook} from "@fortawesome/free-brands-svg-icons";
+import {useNavigate} from "react-router-dom";
 
 const Auth = () => {
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate("/");
+    };
 
     return (
         <div className="auth-container container">
@@ -16,7 +23,7 @@ const Auth = () => {
                 </div>
             </header>
 
-            <button>
+            <button onClick={handleClick}>
                 Sign in
                 <FontAwesomeIcon className="icon" icon={faFacebook} size="2x"/>
             </button>

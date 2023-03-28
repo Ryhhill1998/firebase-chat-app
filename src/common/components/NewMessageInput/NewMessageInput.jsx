@@ -13,8 +13,14 @@ const NewMessageInput = ({handleSend}) => {
     };
 
     const handleSendClick = () => {
+        if (!messageContent) return;
         handleSend(messageContent);
         setMessageContent("");
+    };
+
+    const handleKeyDown = ({key}) => {
+        if (key !== "Enter") return;
+        handleSendClick();
     };
 
     return (
@@ -26,6 +32,7 @@ const NewMessageInput = ({handleSend}) => {
                 onChange={handleChange}
                 placeholder="Write a message"
                 autoComplete="off"
+                onKeyDown={handleKeyDown}
             />
 
             <button onClick={handleSendClick}>

@@ -2,6 +2,9 @@ import "./Chat.css";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {faChevronLeft, faMagnifyingGlass, faPhone, faVideo} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
+
+const userId = 1;
 
 const chatDetails = {
     id: 1,
@@ -18,46 +21,48 @@ const chatDetails = {
             id: 2,
             fromUserId: 2,
             timeStamp: 2,
-            content: "Haha. I know, when I first saw it was going to be called CAZ, I wasn't impressed! Xx"
+            content: "Have you any plans for Easter weekend? Xx"
         },
         {
             id: 3,
-            fromUserId: 2,
+            fromUserId: 1,
             timeStamp: 3,
-            content: "Haha. I know, when I first saw it was going to be called CAZ, I wasn't impressed! Xx"
+            content: "I don't think so?"
         },
         {
             id: 4,
             fromUserId: 2,
             timeStamp: 4,
-            content: "Haha. I know, when I first saw it was going to be called CAZ, I wasn't impressed! Xx"
+            content: "Just wondering if you fancy meeting up somewhere or coming over for food? Xx"
         },
         {
             id: 5,
-            fromUserId: 2,
+            fromUserId: 1,
             timeStamp: 5,
-            content: "Haha. I know, when I first saw it was going to be called CAZ, I wasn't impressed! Xx"
+            content: "Yeah. That sounds good!"
         },
         {
             id: 6,
             fromUserId: 2,
             timeStamp: 6,
-            content: "Haha. I know, when I first saw it was going to be called CAZ, I wasn't impressed! Xx"
+            content: "Which do you fancy? Xx"
         },
         {
             id: 7,
-            fromUserId: 2,
+            fromUserId: 1,
             timeStamp: 7,
-            content: "Haha. I know, when I first saw it was going to be called CAZ, I wasn't impressed! Xx"
+            content: "I'm easy. Whichever you'd prefer"
         },
         {
             id: 8,
             fromUserId: 2,
             timeStamp: 8,
-            content: "Haha. I know, when I first saw it was going to be called CAZ, I wasn't impressed! Xx"
+            content: "Any.. maybe we can see what the weather is like. Or just plan a takeaway? Xx"
         },
     ],
-}
+};
+
+const testMessage = chatDetails.messages[0];
 
 const Chat = () => {
     return (
@@ -81,6 +86,12 @@ const Chat = () => {
                     </div>
                 </nav>
             </header>
+
+            <div className="message-bubbles-container">
+                {chatDetails.messages.map(({id, content, fromUserId}) => (
+                    <MessageBubble key={id} content={content} fromUser={fromUserId === userId}/>
+                ))}
+            </div>
         </div>
     );
 };

@@ -14,6 +14,7 @@
 
 .chat-container nav .icon {
     color: #8F43EE;
+    cursor: pointer;
 }
 
 .chat-container nav .container-lhs {
@@ -46,4 +47,10 @@
 .chat-container .user-details-container h1 span:last-child {
     font-size: 0.75rem;
     color: #B2B2B2;
+}
+
+.chat-container .message-bubbles-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }

@@ -12,10 +12,15 @@ import USERS from "../../data/users.json";
 
 const currentUserId = 1;
 
-// loader functions
-export const chatLoader = async ({id}) => {
-    id = +id;
+// loader function
+export const chatLoader = async ({params}) => {
+    const id = +params.id;
     const foundChat = CHATS.chats.find(chat => chat.id === id);
+
+    if (!foundChat) {
+        throw new Error("The requested chat does not exist.");
+    }
+
     const loadedChat = {...foundChat};
 
     const {userIds} = foundChat;

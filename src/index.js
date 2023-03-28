@@ -10,6 +10,7 @@ import reportWebVitals from './reportWebVitals';
 import Auth from "./routes/Auth/Auth";
 import Chat, {chatLoader} from "./routes/Chat/Chat";
 import ErrorPage from "./routes/ErrorPage/ErrorPage";
+import ErrorComponent from "./common/components/ErrorComponent/ErrorComponent";
 
 const router = createBrowserRouter([
     {
@@ -25,8 +26,8 @@ const router = createBrowserRouter([
     {
         path: "/chats/:id",
         element: <Chat/>,
-        errorElement: <ErrorPage />,
-        loader: async ({params}) => chatLoader(params)
+        errorElement: <ErrorComponent />,
+        loader: chatLoader
     },
 ]);
 

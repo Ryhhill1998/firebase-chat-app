@@ -4,8 +4,8 @@ import ActiveUserIcon from "../../common/components/ActiveUserIcon/ActiveUserIco
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
 import {useSwipeable} from "react-swipeable";
 import {useMemo, useRef, useState} from "react";
+import ActiveUsersSlider from "../../common/components/ActiveUsersSlider/ActiveUsersSlider";
 
-const users = new Array(12).fill(0);
 const userId = 1;
 
 const message1 = {
@@ -22,56 +22,6 @@ const messages = new Array(8).fill(0);
 
 const Home = () => {
 
-    const [style, setStyle] = useState({transform: `translateX(0px)`});
-    const [xPosition, setXPosition] = useState(0);
-    const [offsetX, setOffsetX] = useState(0);
-
-    const sliderWidth = (60 * users.length) + (1.25 * 16 * (users.length - 1));
-    const contentWidth = (window.innerWidth > 500 ? 500 : window.innerWidth) - 2 * 20;
-    const minXPosition = contentWidth - sliderWidth;
-
-    const handlers = useSwipeable({
-        onSwiping: ({deltaX}) => {
-            setStyle(style => {
-                const updatedStyle = {...style};
-                const translateX = xPosition + deltaX;
-                setOffsetX(deltaX);
-                updatedStyle.transform = `translateX(${translateX}px)`;
-                return updatedStyle;
-            });
-        },
-        onTouchEndOrOnMouseUp: () => {
-            let newXPosition = xPosition + offsetX;
-
-            if (newXPosition > 0) {
-                newXPosition = 0;
-
-                requestAnimationFrame(() => {
-                    setStyle(style => {
-                        const updatedStyle = {...style};
-                        updatedStyle.transform = `translateX(${newXPosition}px)`;
-                        return updatedStyle;
-                    });
-                });
-            } else if (newXPosition < minXPosition) {
-                newXPosition = minXPosition;
-
-                requestAnimationFrame(() => {
-                    setStyle(style => {
-                        const updatedStyle = {...style};
-                        updatedStyle.transform = `translateX(${newXPosition}px)`;
-                        return updatedStyle;
-                    });
-                });
-            }
-
-            setXPosition(newXPosition);
-        },
-        preventScrollOnSwipe: true,
-        trackMouse: true,
-        trackTouch: true
-    });
-
     return (
         <div className="home-container container">
             <h1>Chats</h1>
@@ -80,16 +30,7 @@ const Home = () => {
                 <SearchBar/>
             </div>
 
-            <div className="slider-container">
-                <div className="active-users-container" {...handlers} style={style}>
-                    {users.map((_, i) => (
-                        <div key={i} className="active-user-container">
-                            <ActiveUserIcon size="large"/>
-                            <p>Ryan Henzell-Hill</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
+            <ActiveUsersSlider/>
 
             <div className="message-previews-container">
                 {messages.map((_, i) => (

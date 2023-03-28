@@ -1,6 +1,6 @@
 import "./Chat.css";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
-import {faChevronLeft, faMagnifyingGlass, faPhone, faVideo} from "@fortawesome/free-solid-svg-icons";
+import {faChevronLeft, faPhone, faVideo} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
 import {useEffect, useRef, useState} from "react";

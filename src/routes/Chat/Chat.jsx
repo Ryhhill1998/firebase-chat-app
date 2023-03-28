@@ -5,38 +5,35 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
 import {useEffect, useRef, useState} from "react";
 import NewMessageInput from "../../common/components/NewMessageInput/NewMessageInput";
-import {useNavigate} from "react-router-dom";
+import {useLoaderData, useNavigate} from "react-router-dom";
 
 import CHATS from "../../data/chats.json";
 import USERS from "../../data/users.json";
 
 const currentUserId = 1;
 
+// loader functions
+export const chatLoader = async ({id}) => {
+    id = +id;
+    const foundChat = CHATS.chats.find(chat => chat.id === id);
+    const loadedChat = {...foundChat};
+
+    const {userIds} = foundChat;
+    const otherUserId = userIds.find(userId => userId !== currentUserId);
+    loadedChat.username = USERS.users.find(user => user.id === otherUserId).name;
+
+    return loadedChat;
+};
+
 const Chat = () => {
-
-    const [chat, setChat] = useState(null);
-    const [username, setUsername] = useState(null);
-
-    useEffect(() => {
-        const id = +window.location.href.split("/").at(-1);
-        const foundChat = CHATS.chats.find(chat => chat.id === id);
-        setChat(foundChat);
-
-        const {userIds} = foundChat;
-        const otherUserId = userIds.find(userId => userId !== currentUserId);
-        const name = USERS.users.find(user => user.id === otherUserId).name;
-        setUsername(name);
-    }, []);
+    const chat = useLoaderData();
 
     const navigate = useNavigate();
 
-    const [messages, setMessages] = useState(null);
-    const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight + "px");
+    const [messages, setMessages] = useState(chat.messages);
 
-    useEffect(() => {
-        if (!chat) return;
-        setMessages(chat.messages);
-    }, [chat]);
+    // window size config
+    const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight + "px");
 
     const divRef = useRef(null);
 
@@ -54,6 +51,7 @@ const Chat = () => {
         window.addEventListener('resize', handleResize)
     }, []);
 
+    // action handlers
     const handleMessageSend = (content) => {
         const id = messages.length + 1;
 
@@ -83,7 +81,7 @@ const Chat = () => {
                         <div className="user-details-container">
                             <UserIcon  size="medium"/>
                             <h1>
-                                <span>{username}</span>
+                                <span>{chat.username}</span>
                                 <span>Active 9h ago</span>
                             </h1>
                         </div>
@@ -97,7 +95,7 @@ const Chat = () => {
             </header>
 
             <div className="message-bubbles-container" ref={divRef}>
-                {messages && messages.map(({id, content, fromUserId}) => (
+                {messages.map(({id, content, fromUserId}) => (
                     <MessageBubble key={id} id={id} content={content} fromUser={fromUserId === currentUserId}/>
                 ))}
             </div>

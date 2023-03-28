@@ -8,7 +8,7 @@ import './index.css';
 import Home from './routes/Home/Home';
 import reportWebVitals from './reportWebVitals';
 import Auth from "./routes/Auth/Auth";
-import Chat from "./routes/Chat/Chat";
+import Chat, {chatLoader} from "./routes/Chat/Chat";
 import ErrorPage from "./routes/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
@@ -23,9 +23,10 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
     },
     {
-        path: "/chats/:chatId",
+        path: "/chats/:id",
         element: <Chat/>,
         errorElement: <ErrorPage />,
+        loader: async ({params}) => chatLoader(params)
     },
 ]);
 

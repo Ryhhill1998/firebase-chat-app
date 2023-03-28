@@ -76,6 +76,19 @@ const Chat = () => {
         }
     }, [messages]);
 
+    const handleMessageSend = (content) => {
+        const id = messages.length + 1;
+
+        const newMessage = {
+            id,
+            fromUserId: userId,
+            timeStamp: id,
+            content
+        };
+
+        setMessages([...messages, newMessage]);
+    }
+
     return (
         <div className="chat-container container" style={{height: window.innerHeight + "px"}}>
             <header>
@@ -104,7 +117,7 @@ const Chat = () => {
                 ))}
             </div>
 
-            <NewMessageInput/>
+            <NewMessageInput handleSend={handleMessageSend}/>
         </div>
     );
 };

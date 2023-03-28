@@ -3,13 +3,18 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
 
-const NewMessageInput = () => {
+const NewMessageInput = ({handleSend}) => {
 
     const [messageContent, setMessageContent] = useState("");
 
     const handleChange = ({target}) => {
         const {value} = target;
         setMessageContent(value);
+    };
+
+    const handleSendClick = () => {
+        handleSend(messageContent);
+        setMessageContent("");
     };
 
     return (
@@ -23,7 +28,7 @@ const NewMessageInput = () => {
                 autoComplete="off"
             />
 
-            <button>
+            <button onClick={handleSendClick}>
                 <FontAwesomeIcon className="icon" icon={faPaperPlane}/>
             </button>
         </div>

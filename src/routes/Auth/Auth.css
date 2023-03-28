@@ -48,4 +48,5 @@
     border: none;
     color: black;
     background-color: #EBB02D;
+    white-space: nowrap;
 }

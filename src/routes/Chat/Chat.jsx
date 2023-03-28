@@ -5,6 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
 import {useEffect, useRef, useState} from "react";
 import NewMessageInput from "../../common/components/NewMessageInput/NewMessageInput";
+import {useNavigate} from "react-router-dom";
 
 const userId = 1;
 
@@ -66,8 +67,9 @@ const chatDetails = {
 
 const Chat = () => {
 
-    const [messages, setMessages] = useState(chatDetails.messages);
+    const navigate = useNavigate();
 
+    const [messages, setMessages] = useState(chatDetails.messages);
     const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight + "px");
 
     const divRef = useRef(null);
@@ -99,16 +101,16 @@ const Chat = () => {
         window.addEventListener('resize', handleResize)
     }, []);
 
-    useEffect(() => {
-        handleMessageSend(windowInnerHeight);
-    }, [windowInnerHeight]);
+    const handleBackClick = () => {
+        navigate("/");
+    };
 
     return (
         <div className="chat-container container" style={{height: windowInnerHeight}}>
             <header>
                 <nav>
                     <div className="container-lhs">
-                        <button>
+                        <button onClick={handleBackClick}>
                             <FontAwesomeIcon className="icon" icon={faChevronLeft}/>
                         </button>
 

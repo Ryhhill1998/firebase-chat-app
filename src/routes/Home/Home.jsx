@@ -1,26 +1,79 @@
 import './Home.css';
 import SearchBar from "../../common/components/SearchBar/SearchBar";
-import ActiveUserIcon from "../../common/components/ActiveUserIcon/ActiveUserIcon";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
-import {useSwipeable} from "react-swipeable";
-import {useMemo, useRef, useState} from "react";
 import ActiveUsersSlider from "../../common/components/ActiveUsersSlider/ActiveUsersSlider";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const userId = 1;
 
-const message1 = {
-    id: 100,
-    fromId: 1,
-    toId: 2,
-    content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
-    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-    pariatur.`
+const chatDetails = {
+    id: 1,
+    userId: 2,
+    userName: "Carolyn H Hill",
+    messages: [
+        {
+            id: 1,
+            fromUserId: 2,
+            timeStamp: 1,
+            content: "Haha. I know, when I first saw it was going to be called CAZ, I wasn't impressed! Xx"
+        },
+        {
+            id: 2,
+            fromUserId: 2,
+            timeStamp: 2,
+            content: "Have you any plans for Easter weekend? Xx"
+        },
+        {
+            id: 3,
+            fromUserId: 1,
+            timeStamp: 3,
+            content: "I don't think so?"
+        },
+        {
+            id: 4,
+            fromUserId: 2,
+            timeStamp: 4,
+            content: "Just wondering if you fancy meeting up somewhere or coming over for food? Xx"
+        },
+        {
+            id: 5,
+            fromUserId: 1,
+            timeStamp: 5,
+            content: "Yeah. That sounds good!"
+        },
+        {
+            id: 6,
+            fromUserId: 2,
+            timeStamp: 6,
+            content: "Which do you fancy? Xx"
+        },
+        {
+            id: 7,
+            fromUserId: 1,
+            timeStamp: 7,
+            content: "I'm easy. Whichever you'd prefer"
+        },
+        {
+            id: 8,
+            fromUserId: 2,
+            timeStamp: 8,
+            content: "Any.. maybe we can see what the weather is like. Or just plan a takeaway? Xx"
+        },
+    ],
 };
 
-const messages = new Array(8).fill(0);
+const chats = new Array(8).fill(0);
 
 const Home = () => {
+
+    const navigate = useNavigate();
+
+    const [messages, setMessages] = useState(chatDetails.messages);
+
+    const handlePreviewClick = (id) => {
+        navigate("/chats/" + id);
+    };
 
     return (
         <div className="home-container container">
@@ -33,12 +86,14 @@ const Home = () => {
             <ActiveUsersSlider/>
 
             <div className="message-previews-container">
-                {messages.map((_, i) => (
+                {chats.map((_, i) => (
                     <MessagePreview
-                        key={message1.id * (i + 1)}
-                        content={message1.content}
+                        key={chatDetails.id * (i + 1)}
+                        id={chatDetails.id}
+                        content={messages.at(-1).content}
                         name="Ryan Henzell-Hill"
-                        fromUser={userId === message1.fromId}
+                        fromUser={userId === messages.at(-1).fromUserId}
+                        handleClick={handlePreviewClick}
                     />
                 ))}
             </div>

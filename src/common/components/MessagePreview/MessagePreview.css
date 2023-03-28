@@ -3,6 +3,7 @@
     align-items: center;
     gap: 1em;
     padding: 0.5em 1.25em;
+    cursor: pointer;
 }
 
 .message-preview > * {

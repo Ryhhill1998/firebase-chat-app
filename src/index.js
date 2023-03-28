@@ -8,7 +8,7 @@ import './index.css';
 import Home from './routes/Home/Home';
 import reportWebVitals from './reportWebVitals';
 import Auth from "./routes/Auth/Auth";
-import Message from "./routes/Message/Message";
+import Chat from "./routes/Chat/Chat";
 import ErrorPage from "./routes/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
@@ -23,8 +23,8 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
     },
     {
-        path: "/messages/:messageId",
-        element: <Message/>,
+        path: "/chats/:chatId",
+        element: <Chat/>,
         errorElement: <ErrorPage />,
     },
 ]);

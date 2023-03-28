@@ -7,7 +7,7 @@ const MessagePreview = ({content, name, fromUser}) => {
 
     return (
         <div className="message-preview">
-            <UserIcon/>
+            <UserIcon size="large"/>
             <div className="content">
                 <h3>{name}</h3>
                 <p style={{width: contentWidth}}>{(fromUser ? "You: " : "") + content}</p>

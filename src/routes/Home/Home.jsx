@@ -84,7 +84,7 @@ const Home = () => {
                 <div className="active-users-container" {...handlers} style={style}>
                     {users.map((_, i) => (
                         <div key={i} className="active-user-container">
-                            <ActiveUserIcon/>
+                            <ActiveUserIcon size="large"/>
                             <p>Ryan Henzell-Hill</p>
                         </div>
                     ))}

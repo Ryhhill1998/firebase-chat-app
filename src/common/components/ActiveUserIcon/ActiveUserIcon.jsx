@@ -1,10 +1,10 @@
 import "./ActiveUserIcon.css";
 import UserIcon from "../UserIcon/UserIcon";
 
-const ActiveUserIcon = () => {
+const ActiveUserIcon = ({size}) => {
     return (
         <div className="active-user-icon">
-            <UserIcon/>
+            <UserIcon size={size}/>
             <div className="active-indicator"></div>
         </div>
     );

@@ -3,7 +3,7 @@ import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {faChevronLeft, faMagnifyingGlass, faPhone, faVideo} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 
 const userId = 1;
 
@@ -63,9 +63,9 @@ const chatDetails = {
     ],
 };
 
-const testMessage = chatDetails.messages[0];
-
 const Chat = () => {
+
+    const [messages, setMessages] = useState(chatDetails.messages);
 
     const divRef = useRef(null);
 
@@ -73,7 +73,14 @@ const Chat = () => {
         if (divRef.current) {
             divRef.current.scrollTop = divRef.current.scrollHeight;
         }
-    }, []);
+    }, [messages]);
+
+    const handleMessageClick = (id) => {
+        const foundMessage = messages.find(message => message.id === id);
+        const {fromUserId, content} = foundMessage;
+        const newMessage = {id: chatDetails.messages.length + 1, fromUserId, content};
+        setMessages([...messages, newMessage]);
+    }
 
     return (
         <div className="chat-container container">
@@ -98,8 +105,8 @@ const Chat = () => {
             </header>
 
             <div className="message-bubbles-container" ref={divRef}>
-                {chatDetails.messages.map(({id, content, fromUserId}) => (
-                    <MessageBubble key={id} content={content} fromUser={fromUserId === userId}/>
+                {messages && messages.map(({id, content, fromUserId}) => (
+                    <MessageBubble key={id} id={id} content={content} fromUser={fromUserId === userId} handler={handleMessageClick}/>
                 ))}
             </div>
         </div>

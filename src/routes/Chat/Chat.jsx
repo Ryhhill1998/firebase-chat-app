@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
 import {useEffect, useRef, useState} from "react";
 import NewMessageInput from "../../common/components/NewMessageInput/NewMessageInput";
-import {useLoaderData, useNavigate} from "react-router-dom";
+import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {getAllMessagesFromChatId, getUserFromUserId} from "../../utils/firebase";
@@ -33,14 +33,14 @@ const Chat = () => {
 
     const userId = useSelector(selectUserId);
 
-    const [username, setUsername] = useState(null);
+    const [otherUser, setOtherUser] = useState(null);
 
     useEffect(() => {
         if (!userId || !messages) return;
         const message1 = messages[0];
         const otherUserId = message1.toUserId === userId ? message1.fromUserId : message1.toUserId;
         getUserFromUserId(otherUserId)
-            .then(user => setUsername(user.displayName));
+            .then(user => setOtherUser(user));
     }, [userId, messages]);
 
     // window size config
@@ -78,7 +78,7 @@ const Chat = () => {
                         <div className="user-details-container">
                             <UserIcon  size="medium"/>
                             <h1>
-                                <span>{username}</span>
+                                <span>{otherUser?.displayName}</span>
                                 <span>Active 9h ago</span>
                             </h1>
                         </div>
@@ -97,7 +97,7 @@ const Chat = () => {
                 ))}
             </div>
 
-            <NewMessageInput/>
+            <NewMessageInput userId={userId} otherUserId={otherUser?.id}/>
         </div>
     );
 };

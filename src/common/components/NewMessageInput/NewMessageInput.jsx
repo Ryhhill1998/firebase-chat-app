@@ -2,8 +2,12 @@ import "./NewMessageInput.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
+import {createNewChat, createNewMessage} from "../../../utils/firebase";
+import {useParams} from "react-router-dom";
 
-const NewMessageInput = ({handleSend}) => {
+const NewMessageInput = ({userId, otherUserId}) => {
+
+    const {id: chatId} = useParams();
 
     const [messageContent, setMessageContent] = useState("");
 
@@ -12,15 +16,16 @@ const NewMessageInput = ({handleSend}) => {
         setMessageContent(value);
     };
 
-    const handleSendClick = () => {
+    const handleSendClick = async () => {
         if (!messageContent) return;
-        handleSend(messageContent);
+        console.log(chatId)
+        await createNewMessage(chatId, userId, otherUserId, messageContent);
         setMessageContent("");
     };
 
-    const handleKeyDown = ({key}) => {
+    const handleKeyDown = async ({key}) => {
         if (key !== "Enter") return;
-        handleSendClick();
+        await handleSendClick();
     };
 
     return (

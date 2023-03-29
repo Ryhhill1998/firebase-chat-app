@@ -1,5 +1,5 @@
 import {initializeApp} from "firebase/app";
-import {getFirestore} from "firebase/firestore";
+import {getFirestore, doc, addDoc, collection} from "firebase/firestore";
 import {
     getAuth,
     GoogleAuthProvider,
@@ -28,13 +28,22 @@ export const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 // sign in functions
-// export const signInWithGooglePopup = async () => {
-//     const result = await signInWithPopup(auth, provider);
-//     const credential = await GoogleAuthProvider.credentialFromResult(result);
-//     const token = credential.accessToken;
-//     return result.user;
-// };
+export const signInWithGooglePopup = async () => {
+    const result = await signInWithPopup(auth, provider);
+    const credential = await GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    return result.user;
+};
 
-export const signInWithGoogleRedirect = async () => {
-    signInWithRedirect(auth, provider);
+// create user doc
+export const createUserDoc = async (user) => {
+    const usersColRef = collection(db, "users");
+
+    const userDocRef = await addDoc(usersColRef,{
+        ...user,
+        chats: [],
+        friends: []
+    });
+
+    console.log("User document written with ID: ", userDocRef.id);
 };

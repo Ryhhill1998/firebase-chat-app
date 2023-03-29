@@ -2,14 +2,16 @@ import "./Auth.css";
 
 import logoImgSrc from "../../common/images/logo.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFacebook, faGoogle} from "@fortawesome/free-brands-svg-icons";
-import {signInWithGoogleRedirect} from "../../utils/firebase";
+import {faGoogle} from "@fortawesome/free-brands-svg-icons";
+import {createUserDoc, signInWithGooglePopup} from "../../utils/firebase";
 
 const Auth = () => {
 
-    const handleClick = () => {
-        signInWithGoogleRedirect()
-            .then();
+    const handleClick = async () => {
+        const user = await signInWithGooglePopup()
+        const {uid, displayName, email, photoURL: photoUrl} = user;
+        const data = {uid, displayName, email, photoUrl};
+        await createUserDoc(data);
     };
 
     return (

@@ -14,7 +14,6 @@ const Root = () => {
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            console.log("User:", user);
             if (!user) {
                 dispatch(resetUserId());
                 navigate("/auth");

@@ -6,36 +6,42 @@ import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
 import {useEffect, useRef, useState} from "react";
 import NewMessageInput from "../../common/components/NewMessageInput/NewMessageInput";
 import {useLoaderData, useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {selectUserId} from "../../features/user/userSlice";
+import {getAllMessagesFromChatId, getUserFromUserId} from "../../utils/firebase";
 
-import CHATS from "../../data/chats.json";
-import USERS from "../../data/users.json";
+export const messagesLoader = async ({params}) => {
+    const chatId = params.id;
+    const messages = await getAllMessagesFromChatId(chatId);
 
-const currentUserId = 1;
-
-// loader function
-export const chatLoader = async ({params}) => {
-    const id = +params.id;
-    const foundChat = CHATS.chats.find(chat => chat.id === id);
-
-    if (!foundChat) {
+    if (!messages) {
         throw new Error("The requested chat does not exist.");
     }
 
-    const loadedChat = {...foundChat};
-
-    const {userIds} = foundChat;
-    const otherUserId = userIds.find(userId => userId !== currentUserId);
-    loadedChat.username = USERS.users.find(user => user.id === otherUserId).name;
-
-    return loadedChat;
+    return messages;
 };
 
 const Chat = () => {
-    const chat = useLoaderData();
+
+    const messages = useLoaderData();
+
+    useEffect(() => {
+        console.log(messages)
+    }, [messages]);
 
     const navigate = useNavigate();
 
-    const [messages, setMessages] = useState(chat.messages);
+    const userId = useSelector(selectUserId);
+
+    const [username, setUsername] = useState(null);
+
+    useEffect(() => {
+        if (!userId || !messages) return;
+        const message1 = messages[0];
+        const otherUserId = message1.toUserId === userId ? message1.fromUserId : message1.toUserId;
+        getUserFromUserId(otherUserId)
+            .then(user => setUsername(user.displayName));
+    }, [userId, messages]);
 
     // window size config
     const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight + "px");
@@ -56,20 +62,6 @@ const Chat = () => {
         window.addEventListener('resize', handleResize)
     }, []);
 
-    // action handlers
-    const handleMessageSend = (content) => {
-        const id = messages.length + 1;
-
-        const newMessage = {
-            id,
-            fromUserId: currentUserId,
-            timeStamp: id,
-            content
-        };
-
-        setMessages([...messages, newMessage]);
-    }
-
     const handleBackClick = () => {
         navigate("/");
     };
@@ -86,7 +78,7 @@ const Chat = () => {
                         <div className="user-details-container">
                             <UserIcon  size="medium"/>
                             <h1>
-                                <span>{chat.username}</span>
+                                <span>{username}</span>
                                 <span>Active 9h ago</span>
                             </h1>
                         </div>
@@ -100,12 +92,12 @@ const Chat = () => {
             </header>
 
             <div className="message-bubbles-container" ref={divRef}>
-                {messages.map(({id, content, fromUserId}) => (
-                    <MessageBubble key={id} id={id} content={content} fromUser={fromUserId === currentUserId}/>
+                {messages && messages.map(({id, content, fromUserId}) => (
+                    <MessageBubble key={id} id={id} content={content} fromUser={fromUserId === userId}/>
                 ))}
             </div>
 
-            <NewMessageInput handleSend={handleMessageSend}/>
+            <NewMessageInput/>
         </div>
     );
 };

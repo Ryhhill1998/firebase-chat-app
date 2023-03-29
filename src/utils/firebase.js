@@ -1,5 +1,5 @@
 import {initializeApp} from "firebase/app";
-import {getFirestore, doc, setDoc, addDoc, getDocs, collection, query, where} from "firebase/firestore";
+import {getFirestore, doc, setDoc, addDoc, getDoc, getDocs, collection, query, where} from "firebase/firestore";
 import {
     getAuth,
     GoogleAuthProvider,
@@ -58,10 +58,10 @@ export const createNewChat = async (fromUserId, toUserId, content) =>  {
 
     console.log("Chat document written with ID: ", chatDocRef.id);
 
-    const messageId = await createNewMessage(chatDocRef.id, fromUserId, toUserId, content);
+    await createNewMessage(chatDocRef.id, fromUserId, toUserId, content);
 
-    await setChatPreview(fromUserId, chatDocRef.id, messageId);
-    await setChatPreview(toUserId, chatDocRef.id, messageId);
+    await setChatPreview(fromUserId, toUserId, chatDocRef.id, content);
+    await setChatPreview(toUserId, fromUserId, chatDocRef.id, content);
 
     return chatDocRef.id;
 };
@@ -82,16 +82,16 @@ export const createNewMessage = async (chatId, fromUserId, toUserId, content) =>
 };
 
 // set chat preview - data param includes otherUserId, lastMessageContent, timestamp
-export const setChatPreview = async (userId, chatId, messageId) => {
+export const setChatPreview = async (userId, otherUserId, chatId, content) => {
     const chatPreviewDocRef = doc(db, "users", userId, "chat-previews", chatId);
 
-    await setDoc(chatPreviewDocRef, {messageId});
+    await setDoc(chatPreviewDocRef, {otherUserId, content});
 
     console.log("Chat preview document written with ID: ", chatPreviewDocRef.id);
 };
 
 // get all users
-export const getAllUsers = async (userId) => {
+export const getAllUsers = async () => {
     const querySnapshot = await getDocs(collection(db, "users"));
     const allUsers = [];
 
@@ -100,4 +100,39 @@ export const getAllUsers = async (userId) => {
     });
 
     return allUsers;
+};
+
+export const getChat = async (userId, otherUserId) => {
+    const chatPreviewsColRef = await collection(db, "users", userId, "chat-previews");
+    const q = query(chatPreviewsColRef, where("otherUserId", "==", otherUserId));
+    const querySnapshot = await getDocs(q);
+
+    const foundChat = [];
+    querySnapshot.forEach((doc) => {
+        foundChat.push({id: doc.id, ...doc.data()});
+    });
+    return foundChat.at(0);
+};
+
+export const getAllMessagesFromChatId = async (chatId) => {
+    const querySnapshot = await getDocs(collection(db, "chats", chatId, "messages"));
+
+    const messages = [];
+
+    querySnapshot.forEach((doc) => {
+        messages.push({id: doc.id, ...doc.data()});
+    });
+
+    return messages;
+};
+
+export const getUserFromUserId = async (userId) => {
+    const docRef = doc(db, "users", userId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        return ({id: docSnap.id, ...docSnap.data()});
+    } else {
+        console.log("No such document!");
+    }
 };

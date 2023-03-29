@@ -35,9 +35,6 @@ const provider = new GoogleAuthProvider();
 //     return result.user;
 // };
 
-export const signInWithGoogleRedirect = () => {
-    signInWithRedirect(auth, provider)
-        .then(response => {
-            console.log(response);
-        });
+export const signInWithGoogleRedirect = async () => {
+    signInWithRedirect(auth, provider);
 };

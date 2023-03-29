@@ -15,18 +15,12 @@ const Home = () => {
 
     const navigate = useNavigate();
 
-    const userId = useSelector(selectUserId);
-
     const handlePreviewClick = (id) => {
         navigate("/chats/" + id);
     };
 
     const handleSignOutClick = async () => {
         await signOutUser();
-    };
-
-    const handleActiveUserClick = async () => {
-        await createNewChat(userId, 2, "Test");
     };
 
     return (
@@ -42,7 +36,7 @@ const Home = () => {
                 <SearchBar/>
             </div>
 
-            <ActiveUsersSlider handleClick={handleActiveUserClick}/>
+            <ActiveUsersSlider/>
 
             {/*<div className="message-previews-container">*/}
             {/*    {chats && chats.map((chat, i) => {*/}

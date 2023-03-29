@@ -62,6 +62,8 @@ export const createNewChat = async (fromUserId, toUserId, content) =>  {
 
     await setChatPreview(fromUserId, chatDocRef.id, messageId);
     await setChatPreview(toUserId, chatDocRef.id, messageId);
+
+    return chatDocRef.id;
 };
 
 export const createNewMessage = async (chatId, fromUserId, toUserId, content) => {
@@ -96,8 +98,6 @@ export const getAllUsers = async (userId) => {
     querySnapshot.forEach((doc) => {
         allUsers.push({id: doc.id, ...doc.data()});
     });
-
-    console.log(allUsers)
 
     return allUsers;
 };

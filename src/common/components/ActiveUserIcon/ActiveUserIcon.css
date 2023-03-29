@@ -1,5 +1,6 @@
 .active-user-icon {
     position: relative;
+    cursor: pointer;
 }
 
 .active-user-icon .active-indicator {

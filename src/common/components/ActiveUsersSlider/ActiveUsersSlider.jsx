@@ -8,7 +8,7 @@ import {selectUserId} from "../../../features/user/userSlice";
 
 const users = new Array(12).fill(0);
 
-const ActiveUsersSlider = ({handleClick}) => {
+const ActiveUsersSlider = () => {
 
     const userId = useSelector(selectUserId);
 
@@ -67,7 +67,6 @@ const ActiveUsersSlider = ({handleClick}) => {
     useEffect(() => {
         getAllUsers()
             .then(users => {
-                console.log(users)
                 setActiveUsers(users.filter(user => user.id !== userId));
             });
     }, []);
@@ -77,7 +76,7 @@ const ActiveUsersSlider = ({handleClick}) => {
             <div className="active-users-container" {...handlers} style={style}>
                 {activeUsers.map(({id, displayName}) => (
                     <div key={id} className="active-user-container">
-                        <ActiveUserIcon size="large" handleClick={handleClick}/>
+                        <ActiveUserIcon id={id} size="large"/>
                         <p>{displayName}</p>
                     </div>
                 ))}

@@ -3,12 +3,12 @@ import "./Auth.css";
 import logoImgSrc from "../../common/images/logo.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFacebook, faGoogle} from "@fortawesome/free-brands-svg-icons";
-import {signInWithGooglePopup} from "../../utils/firebase";
+import {signInWithGoogleRedirect} from "../../utils/firebase";
 
 const Auth = () => {
 
     const handleClick = () => {
-        signInWithGooglePopup()
+        signInWithGoogleRedirect()
             .then();
     };
 

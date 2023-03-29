@@ -1,6 +1,13 @@
 import {initializeApp} from "firebase/app";
 import {getFirestore} from "firebase/firestore";
-import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged} from "firebase/auth";
+import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    onAuthStateChanged,
+    signInWithRedirect,
+    getRedirectResult
+} from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -21,9 +28,16 @@ export const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 // sign in functions
-export const signInWithGooglePopup = async () => {
-    const result = await signInWithPopup(auth, provider);
-    const credential = await GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    return result.user;
+// export const signInWithGooglePopup = async () => {
+//     const result = await signInWithPopup(auth, provider);
+//     const credential = await GoogleAuthProvider.credentialFromResult(result);
+//     const token = credential.accessToken;
+//     return result.user;
+// };
+
+export const signInWithGoogleRedirect = () => {
+    signInWithRedirect(auth, provider)
+        .then(response => {
+            console.log(response);
+        });
 };

@@ -12,7 +12,8 @@ const ActiveUserIcon = ({id, size}) => {
     const userId = useSelector(selectUserId);
 
     const handleClick = async () => {
-        let chatId = await getChat(userId, id)?.id;
+        const chat = await getChat(userId, id);
+        let chatId = chat?.id;
 
         if (!chatId) {
             chatId = await createNewChat(userId, id, "test");

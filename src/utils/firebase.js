@@ -111,7 +111,8 @@ export const getChat = async (userId, otherUserId) => {
     querySnapshot.forEach((doc) => {
         foundChat.push({id: doc.id, ...doc.data()});
     });
-    return foundChat.at(0);
+
+    return foundChat[0];
 };
 
 export const getAllMessagesFromChatId = async (chatId) => {

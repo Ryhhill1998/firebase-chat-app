@@ -1,12 +1,10 @@
 import {initializeApp} from "firebase/app";
-import {getFirestore, doc, addDoc, collection} from "firebase/firestore";
+import {getFirestore, doc, setDoc, collection, query, where} from "firebase/firestore";
 import {
     getAuth,
     GoogleAuthProvider,
     signInWithPopup,
-    onAuthStateChanged,
-    signInWithRedirect,
-    getRedirectResult
+    signOut
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -35,15 +33,21 @@ export const signInWithGooglePopup = async () => {
     return result.user;
 };
 
-// create user doc
-export const createUserDoc = async (user) => {
-    const usersColRef = collection(db, "users");
+// sign out function
+export const signOutUser = async () => {
+    await signOut(auth);
+};
 
-    const userDocRef = await addDoc(usersColRef,{
-        ...user,
-        chats: [],
-        friends: []
-    });
+// create user doc - userData param includes displayName, email, photoUrl
+export const createUserDoc = async (userData, userId) => {
+    const userDocRef = doc(db, "users", userId);
+    await setDoc(userDocRef, {...userData});
 
     console.log("User document written with ID: ", userDocRef.id);
+};
+
+// create/update chat preview - data param includes chatId, otherUserId, lastMessageContent, timestamp
+export const createOrUpdateChatPreview = async (data, userId) => {
+    const chatPreviewDocRef = doc(db, "users", userId, "chats", data.chatId);
+
 };

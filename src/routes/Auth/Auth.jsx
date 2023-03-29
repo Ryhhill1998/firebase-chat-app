@@ -10,8 +10,8 @@ const Auth = () => {
     const handleClick = async () => {
         const user = await signInWithGooglePopup()
         const {uid, displayName, email, photoURL: photoUrl} = user;
-        const data = {uid, displayName, email, photoUrl};
-        await createUserDoc(data);
+        const data = {displayName, email, photoUrl};
+        await createUserDoc(data, uid);
     };
 
     return (

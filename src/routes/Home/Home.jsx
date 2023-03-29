@@ -11,6 +11,7 @@ import USERS from "../../data/users.json";
 import CHATS from "../../data/chats.json";
 import {useDispatch, useSelector} from "react-redux";
 import {resetUserId, selectUserId, setUserId} from "../../features/user/userSlice";
+import {signOutUser} from "../../utils/firebase";
 
 const Home = () => {
 
@@ -25,15 +26,16 @@ const Home = () => {
         navigate("/chats/" + id);
     };
 
-    if (!userId) {
-        return <></>
-    }
+    const handleSignOutClick = async () => {
+        await signOutUser();
+    };
 
     return (
         <div className="home-container container">
             <header>
                 <FontAwesomeIcon className="icon" icon={faBars}/>
                 <h1>Chats</h1>
+                <button onClick={handleSignOutClick}>Sign out</button>
                 <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
             </header>
 

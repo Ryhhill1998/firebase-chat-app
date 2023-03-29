@@ -1,5 +1,5 @@
 import {initializeApp} from "firebase/app";
-import {getFirestore, doc, setDoc, collection, query, where} from "firebase/firestore";
+import {getFirestore, doc, setDoc, addDoc, collection, query, where} from "firebase/firestore";
 import {
     getAuth,
     GoogleAuthProvider,
@@ -41,13 +41,49 @@ export const signOutUser = async () => {
 // create user doc - userData param includes displayName, email, photoUrl
 export const createUserDoc = async (userData, userId) => {
     const userDocRef = doc(db, "users", userId);
-    await setDoc(userDocRef, {...userData});
+
+    await setDoc(userDocRef, {...userData}, { merge: true });
 
     console.log("User document written with ID: ", userDocRef.id);
 };
 
-// create/update chat preview - data param includes chatId, otherUserId, lastMessageContent, timestamp
-export const createOrUpdateChatPreview = async (data, userId) => {
-    const chatPreviewDocRef = doc(db, "users", userId, "chats", data.chatId);
+// create new chat
+export const createNewChat = async (fromUserId, toUserId, content) =>  {
+    // create new chat document in chats collection
+    const chatsColRef = collection(db, "chats");
 
+    const chatDocRef = await addDoc(chatsColRef, {
+        usersIds: [fromUserId, toUserId]
+    });
+
+    console.log("Chat document written with ID: ", chatDocRef.id);
+
+    const messageId = await createNewMessage(chatDocRef.id, fromUserId, toUserId, content);
+
+    await setChatPreview(fromUserId, chatDocRef.id, messageId);
+    await setChatPreview(toUserId, chatDocRef.id, messageId);
+};
+
+export const createNewMessage = async (chatId, fromUserId, toUserId, content) => {
+    // create new message document in messages sub-collection
+    const messagesColRef = collection(db, "chats", chatId, "messages");
+
+    const messageDocRef = await addDoc(messagesColRef, {
+        fromUserId,
+        toUserId,
+        content
+    });
+
+    console.log("Message document written with ID: ", messageDocRef.id);
+
+    return messageDocRef.id;
+};
+
+// set chat preview - data param includes otherUserId, lastMessageContent, timestamp
+export const setChatPreview = async (userId, chatId, messageId) => {
+    const chatPreviewDocRef = doc(db, "users", userId, "chat-previews", chatId);
+
+    await setDoc(chatPreviewDocRef, {messageId});
+
+    console.log("Chat preview document written with ID: ", chatPreviewDocRef.id);
 };

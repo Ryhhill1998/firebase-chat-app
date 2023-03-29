@@ -11,7 +11,7 @@ import USERS from "../../data/users.json";
 import CHATS from "../../data/chats.json";
 import {useDispatch, useSelector} from "react-redux";
 import {resetUserId, selectUserId, setUserId} from "../../features/user/userSlice";
-import {signOutUser} from "../../utils/firebase";
+import {createNewChat, signOutUser} from "../../utils/firebase";
 
 const Home = () => {
 
@@ -30,6 +30,10 @@ const Home = () => {
         await signOutUser();
     };
 
+    const handleActiveUserClick = async () => {
+        await createNewChat(userId, 2, "Test");
+    };
+
     return (
         <div className="home-container container">
             <header>
@@ -43,7 +47,7 @@ const Home = () => {
                 <SearchBar/>
             </div>
 
-            <ActiveUsersSlider/>
+            <ActiveUsersSlider handleClick={handleActiveUserClick}/>
 
             <div className="message-previews-container">
                 {chats && chats.map((chat, i) => {

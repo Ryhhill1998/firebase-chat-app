@@ -5,7 +5,7 @@ import {useSwipeable} from "react-swipeable";
 
 const users = new Array(12).fill(0);
 
-const ActiveUsersSlider = () => {
+const ActiveUsersSlider = ({handleClick}) => {
 
     const [style, setStyle] = useState({transform: `translateX(0px)`});
     const [xPosition, setXPosition] = useState(0);
@@ -62,7 +62,7 @@ const ActiveUsersSlider = () => {
             <div className="active-users-container" {...handlers} style={style}>
                 {users.map((_, i) => (
                     <div key={i} className="active-user-container">
-                        <ActiveUserIcon size="large"/>
+                        <ActiveUserIcon size="large" handleClick={handleClick}/>
                         <p>Ryan Henzell-Hill</p>
                     </div>
                 ))}

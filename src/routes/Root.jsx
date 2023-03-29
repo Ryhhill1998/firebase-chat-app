@@ -16,13 +16,19 @@ const Root = () => {
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 dispatch(resetUserId());
-                navigate("/auth");
             } else {
                 dispatch(setUserId(user.uid));
-                navigate("/");
             }
         });
     }, []);
+
+    useEffect(() => {
+        if (!userId) {
+            navigate("/auth");
+        } else {
+            navigate("/");
+        }
+    }, [userId]);
 
     return (
         <>

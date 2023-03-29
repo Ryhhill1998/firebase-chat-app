@@ -1,11 +1,16 @@
 import "./ActiveUsersSlider.css";
 import ActiveUserIcon from "../ActiveUserIcon/ActiveUserIcon";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useSwipeable} from "react-swipeable";
+import {getAllUsers} from "../../../utils/firebase";
+import {useSelector} from "react-redux";
+import {selectUserId} from "../../../features/user/userSlice";
 
 const users = new Array(12).fill(0);
 
 const ActiveUsersSlider = ({handleClick}) => {
+
+    const userId = useSelector(selectUserId);
 
     const [style, setStyle] = useState({transform: `translateX(0px)`});
     const [xPosition, setXPosition] = useState(0);
@@ -57,13 +62,23 @@ const ActiveUsersSlider = ({handleClick}) => {
         trackTouch: true
     });
 
+    const [activeUsers, setActiveUsers] = useState([]);
+
+    useEffect(() => {
+        getAllUsers()
+            .then(users => {
+                console.log(users)
+                setActiveUsers(users.filter(user => user.id !== userId));
+            });
+    }, []);
+
     return (
         <div className="slider-container">
             <div className="active-users-container" {...handlers} style={style}>
-                {users.map((_, i) => (
-                    <div key={i} className="active-user-container">
+                {activeUsers.map(({id, displayName}) => (
+                    <div key={id} className="active-user-container">
                         <ActiveUserIcon size="large" handleClick={handleClick}/>
-                        <p>Ryan Henzell-Hill</p>
+                        <p>{displayName}</p>
                     </div>
                 ))}
             </div>

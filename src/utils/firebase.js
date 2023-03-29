@@ -1,5 +1,5 @@
 import {initializeApp} from "firebase/app";
-import {getFirestore, doc, setDoc, addDoc, collection, query, where} from "firebase/firestore";
+import {getFirestore, doc, setDoc, addDoc, getDocs, collection, query, where} from "firebase/firestore";
 import {
     getAuth,
     GoogleAuthProvider,
@@ -38,7 +38,7 @@ export const signOutUser = async () => {
     await signOut(auth);
 };
 
-// create user doc - userData param includes displayName, email, photoUrl
+// create user doc - userData param includes displayName, email
 export const createUserDoc = async (userData, userId) => {
     const userDocRef = doc(db, "users", userId);
 
@@ -86,4 +86,18 @@ export const setChatPreview = async (userId, chatId, messageId) => {
     await setDoc(chatPreviewDocRef, {messageId});
 
     console.log("Chat preview document written with ID: ", chatPreviewDocRef.id);
+};
+
+// get all users
+export const getAllUsers = async (userId) => {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    const allUsers = [];
+
+    querySnapshot.forEach((doc) => {
+        allUsers.push({id: doc.id, ...doc.data()});
+    });
+
+    console.log(allUsers)
+
+    return allUsers;
 };

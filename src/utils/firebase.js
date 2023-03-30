@@ -1,11 +1,19 @@
 import {initializeApp} from "firebase/app";
-import {getFirestore, doc, setDoc, addDoc, getDoc, getDocs, collection, query, where} from "firebase/firestore";
 import {
-    getAuth,
-    GoogleAuthProvider,
-    signInWithPopup,
-    signOut
-} from "firebase/auth";
+    addDoc,
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    getFirestore,
+    onSnapshot,
+    query,
+    setDoc,
+    where,
+    updateDoc,
+    arrayUnion
+} from "firebase/firestore";
+import {getAuth, GoogleAuthProvider, signInWithPopup, signOut} from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -42,52 +50,36 @@ export const signOutUser = async () => {
 export const createUserDoc = async (userData, userId) => {
     const userDocRef = doc(db, "users", userId);
 
-    await setDoc(userDocRef, {...userData}, { merge: true });
+    await setDoc(userDocRef, {...userData}, {merge: true});
 
     console.log("User document written with ID: ", userDocRef.id);
 };
 
 // create new chat
-export const createNewChat = async (fromUserId, toUserId, content) =>  {
+export const createChatDoc = async (fromUserId, toUserId) => {
     // create new chat document in chats collection
     const chatsColRef = collection(db, "chats");
 
     const chatDocRef = await addDoc(chatsColRef, {
-        usersIds: [fromUserId, toUserId]
+        userIds: [fromUserId, toUserId]
     });
 
     console.log("Chat document written with ID: ", chatDocRef.id);
 
-    await createNewMessage(chatDocRef.id, fromUserId, toUserId, content);
-
-    await setChatPreview(fromUserId, toUserId, chatDocRef.id, content);
-    await setChatPreview(toUserId, fromUserId, chatDocRef.id, content);
-
     return chatDocRef.id;
 };
 
+// create new message
 export const createNewMessage = async (chatId, fromUserId, toUserId, content) => {
-    // create new message document in messages sub-collection
-    const messagesColRef = collection(db, "chats", chatId, "messages");
+    const chatDocRef = doc(db, "chats", chatId);
 
-    const messageDocRef = await addDoc(messagesColRef, {
-        fromUserId,
-        toUserId,
-        content
+    await updateDoc(chatDocRef, {
+        messages: arrayUnion({
+            fromUserId,
+            toUserId,
+            content
+        })
     });
-
-    console.log("Message document written with ID: ", messageDocRef.id);
-
-    return messageDocRef.id;
-};
-
-// set chat preview - data param includes otherUserId, lastMessageContent, timestamp
-export const setChatPreview = async (userId, otherUserId, chatId, content) => {
-    const chatPreviewDocRef = doc(db, "users", userId, "chat-previews", chatId);
-
-    await setDoc(chatPreviewDocRef, {otherUserId, content});
-
-    console.log("Chat preview document written with ID: ", chatPreviewDocRef.id);
 };
 
 // get all users

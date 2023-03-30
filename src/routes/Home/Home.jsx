@@ -9,7 +9,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
-import {createNewChat, getAllUsers, signOutUser} from "../../utils/firebase";
+import {createNewChat, getAllUsers, listenToChatChanges, signOutUser} from "../../utils/firebase";
 
 const Home = () => {
 

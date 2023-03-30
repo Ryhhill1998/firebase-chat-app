@@ -1,6 +1,6 @@
 import "./ActiveUserIcon.css";
 import UserIcon from "../UserIcon/UserIcon";
-import {createNewChat, getChat} from "../../../utils/firebase";
+import {createChatDoc, getChat} from "../../../utils/firebase";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
@@ -16,7 +16,7 @@ const ActiveUserIcon = ({id, size}) => {
         let chatId = chat?.id;
 
         if (!chatId) {
-            chatId = await createNewChat(userId, id, "test");
+            chatId = await createChatDoc(userId, id);
         }
 
         navigate("chats/" + chatId);

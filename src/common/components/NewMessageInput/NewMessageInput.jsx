@@ -18,7 +18,6 @@ const NewMessageInput = ({userId, otherUserId}) => {
 
     const handleSendClick = async () => {
         if (!messageContent) return;
-        console.log(chatId)
         await createNewMessage(chatId, userId, otherUserId, messageContent);
         setMessageContent("");
     };

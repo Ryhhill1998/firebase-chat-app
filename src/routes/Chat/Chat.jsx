@@ -12,7 +12,7 @@ import {getAllMessagesFromChatId, getUserFromUserId} from "../../utils/firebase"
 
 export const messagesLoader = async ({params}) => {
     const chatId = params.id;
-    const messages = await getAllMessagesFromChatId(chatId);
+    const messages = await getAllMessagesFromChatId(chatId); // needs to be changed as data structure has changed
 
     if (!messages) {
         throw new Error("The requested chat does not exist.");

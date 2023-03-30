@@ -1,6 +1,5 @@
 import "./MessagePreview.css";
 import UserIcon from "../UserIcon/UserIcon";
-import {readLastMessage} from "../../../utils/firebase";
 import {useNavigate} from "react-router-dom";
 
 const MessagePreview = ({id, content, name, fromUser, unread}) => {
@@ -8,10 +7,6 @@ const MessagePreview = ({id, content, name, fromUser, unread}) => {
     const navigate = useNavigate();
 
     const handleClick = async () => {
-        if (unread) {
-            await readLastMessage(id);
-        }
-
         navigate("chats/" + id);
     }
     

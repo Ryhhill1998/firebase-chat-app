@@ -97,8 +97,8 @@ export const createNewMessage = async (chatId, fromUserId, toUserId, content) =>
     await updateDoc(chatDocRef, {messages: messages});
 };
 
-// read last message
-export const readLastMessage = async (chatId) => {
+// read all messages sent to user
+export const readAllUsersUnreadMessagesInChat = async (chatId, userId) => {
     const chatDocRef = doc(db, "chats", chatId);
 
     const docSnap = await getDoc(chatDocRef);
@@ -108,7 +108,13 @@ export const readLastMessage = async (chatId) => {
         messages.push(...docSnap.data().messages);
     }
 
-    messages.at(-1).read = true;
+    messages.map(message => {
+        if (message.toUserId === userId) {
+            message.read = true;
+        }
+
+        return message;
+    });
 
     await updateDoc(chatDocRef, {messages: messages});
 };
@@ -207,7 +213,11 @@ export const listenToSpecificUserChat = (chatId, userId, setter) => {
         const {userIds, userDetails} = data;
         const otherUserId = userIds[0] === userId ? userIds[1] : userIds[0];
         const otherUserDetails = userDetails.find(user => user.id === otherUserId);
-        setter(({id: docSnap.id, messages: data.messages, otherUserDetails}))
+        setter(({id: docSnap.id, messages: data.messages, otherUserDetails}));
+
+        readAllUsersUnreadMessagesInChat(chatId, userId).then(() => {
+            console.log("read all unread messages")
+        });
     });
 };
 

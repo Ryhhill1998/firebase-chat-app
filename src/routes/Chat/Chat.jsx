@@ -23,13 +23,8 @@ const Chat = () => {
     const [chat, setChat] = useState(null);
 
     useEffect(() => {
-        console.log(chat)
-    }, [chat]);
-
-    useEffect(() => {
         if (!userId) return;
-        console.log(userId)
-        listenToSpecificUserChat(chatId, userId, setChat);
+        return listenToSpecificUserChat(chatId, userId, setChat);
     }, [userId]);
 
     // window size config

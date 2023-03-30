@@ -94,29 +94,36 @@ export const getAllUsers = async () => {
     return allUsers;
 };
 
-export const getChat = async (userId, otherUserId) => {
-    const chatPreviewsColRef = await collection(db, "users", userId, "chat-previews");
-    const q = query(chatPreviewsColRef, where("otherUserId", "==", otherUserId));
+export const getChat = async (fromUserId, toUserId) => {
+    const q = query(collection(db, "chats"),
+        where("userIds", "in", [[fromUserId, toUserId], [toUserId, fromUserId]]));
+
     const querySnapshot = await getDocs(q);
 
-    const foundChat = [];
+    const foundChatId = [];
+
     querySnapshot.forEach((doc) => {
-        foundChat.push({id: doc.id, ...doc.data()});
+        foundChatId.push(doc.id);
     });
 
-    return foundChat[0];
+    if (!foundChatId.length) {
+        return await createChatDoc(fromUserId, toUserId);
+    } else {
+        return foundChatId[0];
+    }
 };
 
-export const getAllMessagesFromChatId = async (chatId) => {
-    const querySnapshot = await getDocs(collection(db, "chats", chatId, "messages"));
+export const getAllChatsByUserId = async (userId) => {
+    const q = query(collection(db, "chats"), where("userIds", "array-contains", userId));
+    const querySnapshot = await getDocs(q);
 
-    const messages = [];
+    const chats = [];
 
     querySnapshot.forEach((doc) => {
-        messages.push({id: doc.id, ...doc.data()});
+        chats.push({id: doc.id, ...doc.data()});
     });
 
-    return messages;
+    return chats;
 };
 
 export const getUserFromUserId = async (userId) => {

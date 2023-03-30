@@ -5,14 +5,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
 import {useEffect, useRef, useState} from "react";
 import NewMessageInput from "../../common/components/NewMessageInput/NewMessageInput";
-import {useLoaderData, useNavigate, useParams} from "react-router-dom";
+import {useLoaderData, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
-import {getAllMessagesFromChatId, getUserFromUserId} from "../../utils/firebase";
+import {getUserFromUserId} from "../../utils/firebase";
 
 export const messagesLoader = async ({params}) => {
     const chatId = params.id;
-    const messages = await getAllMessagesFromChatId(chatId); // needs to be changed as data structure has changed
+    const messages = await getAllMessagesFromChatId(chatId);
 
     if (!messages) {
         throw new Error("The requested chat does not exist.");

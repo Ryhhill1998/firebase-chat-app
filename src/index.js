@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
-    createBrowserRouter, redirect,
+    createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
-import Home from './routes/Home/Home';
+import Home, {chatsLoader} from './routes/Home/Home';
 import Auth from "./routes/Auth/Auth";
 import Chat, {messagesLoader} from "./routes/Chat/Chat";
 import ErrorPage from "./routes/ErrorPage/ErrorPage";
@@ -27,6 +27,7 @@ const router = createBrowserRouter([
                 path: "/",
                 element: <Home/>,
                 errorElement: <ErrorPage/>,
+                loader: chatsLoader
             },
             {
                 path: "/auth",

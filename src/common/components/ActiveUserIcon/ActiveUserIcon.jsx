@@ -12,12 +12,7 @@ const ActiveUserIcon = ({id, size}) => {
     const userId = useSelector(selectUserId);
 
     const handleClick = async () => {
-        const chat = await getChat(userId, id);
-        let chatId = chat?.id;
-
-        if (!chatId) {
-            chatId = await createChatDoc(userId, id);
-        }
+        const chatId = await getChat(userId, id);
 
         navigate("chats/" + chatId);
     };

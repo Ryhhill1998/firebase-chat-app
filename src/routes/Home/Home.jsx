@@ -3,15 +3,21 @@ import SearchBar from "../../common/components/SearchBar/SearchBar";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
 import ActiveUsersSlider from "../../common/components/ActiveUsersSlider/ActiveUsersSlider";
 import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useLoaderData, useNavigate} from "react-router-dom";
 import {faBars, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
-import {createNewChat, getAllUsers, listenToChatChanges, signOutUser} from "../../utils/firebase";
+import {getAllChatsByUserId, getAllUsers, signOutUser} from "../../utils/firebase";
+
+export const chatsLoader = async () => {
+    return await getAllChatsByUserId("k1XLSiGMaRSLucA7arcZQYtJ6r93");
+};
 
 const Home = () => {
+
+    const chats = useLoaderData();
 
     const navigate = useNavigate();
 

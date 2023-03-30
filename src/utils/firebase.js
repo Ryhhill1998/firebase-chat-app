@@ -122,6 +122,8 @@ export const readAllUsersUnreadMessagesInChat = async (chatId, userId) => {
         return message;
     });
 
+    console.log(messages)
+
     await updateDoc(chatDocRef, {messages: messages});
 };
 

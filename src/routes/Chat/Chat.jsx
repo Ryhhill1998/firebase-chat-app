@@ -83,20 +83,22 @@ const Chat = () => {
                 </nav>
             </header>
 
-            <div className="message-bubbles-container" ref={divRef}>
-                {chat.messages.map(({id, content, fromUserId, read}, i) => (
-                    <MessageBubble
-                        key={i}
-                        id={id}
-                        content={content}
-                        fromUser={fromUserId === userId}
-                        read={read}
-                        lastMessage={i === chat.messages.length - 1}
-                    />
-                ))}
-            </div>
+            <div>
+                <div className="message-bubbles-container" ref={divRef}>
+                    {chat.messages && chat.messages.map(({id, content, fromUserId, read}, i) => (
+                        <MessageBubble
+                            key={i}
+                            id={id}
+                            content={content}
+                            fromUser={fromUserId === userId}
+                            read={read}
+                            lastMessage={i === chat.messages.length - 1}
+                        />
+                    ))}
+                </div>
 
-            <NewMessageInput userId={userId} otherUserId={chat.otherUserDetails.id}/>
+                <NewMessageInput userId={userId} otherUserId={chat.otherUserDetails.id}/>
+            </div>
         </div>
     );
 };

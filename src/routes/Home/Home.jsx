@@ -56,9 +56,8 @@ const Home = () => {
                 {chats && chats.map((chat, i) => {
                     const {id, messages, otherUserDetails} = chat;
                     const lastMessage = messages?.at(-1);
-                    console.log("lastMessage:", lastMessage)
 
-                    return messages && (
+                    return lastMessage && (
                         <MessagePreview
                             key={id}
                             id={id}

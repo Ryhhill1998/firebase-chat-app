@@ -6,8 +6,9 @@
     cursor: pointer;
 }
 
+.message-preview.unread .content h3,
 .message-preview.unread .content p {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.85rem;
     color: white;
 }

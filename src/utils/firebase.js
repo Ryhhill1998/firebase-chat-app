@@ -208,16 +208,14 @@ export const listenToAllUserChats = (userId, setter) => {
 
 export const listenToSpecificUserChat = (chatId, userId, setter) => {
     console.log(chatId)
-    return onSnapshot(doc(db, "chats", chatId), (docSnap) => {
+    return onSnapshot(doc(db, "chats", chatId), async (docSnap) => {
         const data = docSnap.data();
         const {userIds, userDetails} = data;
         const otherUserId = userIds[0] === userId ? userIds[1] : userIds[0];
         const otherUserDetails = userDetails.find(user => user.id === otherUserId);
         setter(({id: docSnap.id, messages: data.messages, otherUserDetails}));
 
-        readAllUsersUnreadMessagesInChat(chatId, userId).then(() => {
-            console.log("read all unread messages")
-        });
+        await readAllUsersUnreadMessagesInChat(chatId, userId);
     });
 };
 

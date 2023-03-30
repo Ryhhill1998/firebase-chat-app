@@ -4,8 +4,22 @@ import logoImgSrc from "../../common/images/logo.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {createUserDoc, signInWithGooglePopup} from "../../utils/firebase";
+import {useSelector} from "react-redux";
+import {selectUserId} from "../../features/user/userSlice";
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
 const Auth = () => {
+
+    const navigate = useNavigate();
+
+    const userId = useSelector(selectUserId);
+
+    useEffect(() => {
+        if (userId) {
+            navigate("/");
+        }
+    }, [userId]);
 
     const handleClick = async () => {
         const user = await signInWithGooglePopup()

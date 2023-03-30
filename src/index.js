@@ -16,6 +16,7 @@ import ErrorComponent from "./common/components/ErrorComponent/ErrorComponent";
 import store from './app/store'
 import {Provider} from 'react-redux'
 import Root from "./routes/Root";
+import Profile from "./routes/Profile/Profile";
 
 const router = createBrowserRouter([
     {
@@ -26,17 +27,19 @@ const router = createBrowserRouter([
             {
                 path: "/",
                 element: <Home/>,
-                errorElement: <ErrorPage/>,
             },
             {
                 path: "/auth",
                 element: <Auth/>,
-                errorElement: <ErrorPage/>,
             },
             {
                 path: "/chats/:id",
                 element: <Chat/>,
                 errorElement: <ErrorComponent/>,
+            },
+            {
+                path: "/profile",
+                element: <Profile/>,
             },
         ],
     },

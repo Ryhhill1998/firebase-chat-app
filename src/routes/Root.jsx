@@ -25,8 +25,9 @@ const Root = () => {
     useEffect(() => {
         if (!userId) {
             navigate("/auth");
+            localStorage.removeItem("userId");
         } else {
-            navigate("/");
+            localStorage.setItem("userId", JSON.stringify(userId));
         }
     }, [userId]);
 

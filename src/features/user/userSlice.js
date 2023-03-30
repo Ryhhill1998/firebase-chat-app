@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    userId: null,
+    userId: JSON.parse(localStorage.getItem("userId")),
     chats: []
 };
 

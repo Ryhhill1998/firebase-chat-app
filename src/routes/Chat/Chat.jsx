@@ -5,13 +5,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
 import {useEffect, useRef, useState} from "react";
 import NewMessageInput from "../../common/components/NewMessageInput/NewMessageInput";
-import {useLoaderData, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
-import {
-    getChatFromChatId,
-    listenToSpecificUserChat
-} from "../../utils/firebase";
+import {listenToSpecificUserChat} from "../../utils/firebase";
 
 const Chat = () => {
 

@@ -28,7 +28,8 @@ const Home = () => {
 
     const navigate = useNavigate();
 
-    const handlePreviewClick = (id) => {
+    const handlePreviewClick = (id, readingMessage) => {
+        console.log(readingMessage)
         navigate("/chats/" + id);
     };
 
@@ -54,15 +55,17 @@ const Home = () => {
             <div className="message-previews-container">
                 {chats && chats.map((chat, i) => {
                     const {id, messages, otherUserDetails} = chat;
-                    console.log(chat)
+                    const lastMessage = messages.at(-1);
+                    console.log(lastMessage)
 
                     return messages && (
                         <MessagePreview
                             key={id}
                             id={id}
                             name={otherUserDetails.displayName}
-                            content={messages.at(-1).content}
-                            fromUser={userId === messages.at(-1).fromUserId}
+                            content={lastMessage.content}
+                            fromUser={userId === lastMessage.fromUserId}
+                            unread={userId === lastMessage.toUserId && !lastMessage.read}
                             handleClick={handlePreviewClick}
                         />
                     );

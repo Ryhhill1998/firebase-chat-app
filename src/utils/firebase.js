@@ -90,13 +90,17 @@ export const createNewMessage = async (chatId, fromUserId, toUserId, content) =>
     messages.push({
         fromUserId,
         toUserId,
-        content
+        content,
+        read: false
     });
 
     console.log(messages)
 
     await updateDoc(chatDocRef, {messages: messages});
 };
+
+// read last message
+
 
 // get all users
 export const getAllUsers = async () => {

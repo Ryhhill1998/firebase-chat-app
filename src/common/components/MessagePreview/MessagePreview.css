@@ -6,6 +6,10 @@
     cursor: pointer;
 }
 
+.message-preview.unread .content p {
+    font-weight: 600;
+}
+
 .message-preview > * {
     flex-shrink: 0;
 }

@@ -57,11 +57,16 @@ export const createUserDoc = async (userData, userId) => {
 
 // create new chat
 export const createChatDoc = async (fromUserId, toUserId) => {
+    // get user details
+    const fromUserDetails = await getUserFromUserId(fromUserId);
+    const toUserDetails = await getUserFromUserId(toUserId);
+
     // create new chat document in chats collection
     const chatsColRef = collection(db, "chats");
 
     const chatDocRef = await addDoc(chatsColRef, {
-        userIds: [fromUserId, toUserId]
+        userIds: [fromUserId, toUserId],
+        userDetails: [fromUserDetails, toUserDetails]
     });
 
     console.log("Chat document written with ID: ", chatDocRef.id);
@@ -113,18 +118,18 @@ export const getChat = async (fromUserId, toUserId) => {
     }
 };
 
-export const getAllChatsByUserId = async (userId) => {
-    const q = query(collection(db, "chats"), where("userIds", "array-contains", userId));
-    const querySnapshot = await getDocs(q);
-
-    const chats = [];
-
-    querySnapshot.forEach((doc) => {
-        chats.push({id: doc.id, ...doc.data()});
-    });
-
-    return chats;
-};
+// export const getAllChatsByUserId = async (userId) => {
+//     const q = query(collection(db, "chats"), where("userIds", "array-contains", userId));
+//     const querySnapshot = await getDocs(q);
+//
+//     const chats = [];
+//
+//     querySnapshot.forEach((doc) => {
+//         chats.push({id: doc.id, ...doc.data()});
+//     });
+//
+//     return chats;
+// };
 
 export const getUserFromUserId = async (userId) => {
     const docRef = doc(db, "users", userId);
@@ -135,4 +140,21 @@ export const getUserFromUserId = async (userId) => {
     } else {
         console.log("No such document!");
     }
+};
+
+export const listenToUserChats = (userId, setter) => {
+    const q = query(collection(db, "chats"), where("userIds", "array-contains", userId));
+
+    return onSnapshot(q, (querySnapshot) => {
+        const chats = [];
+
+        querySnapshot.forEach((doc) => {
+            const {userIds, userDetails} = doc.data();
+            const otherUserId = userIds[0] === userId ? userIds[1] : userIds[0];
+            const otherUserDetails = userDetails.find(user => user.id === otherUserId);
+            chats.push({id: doc.id, messages: doc.messages, otherUserDetails});
+        });
+
+        setter(chats);
+    });
 };

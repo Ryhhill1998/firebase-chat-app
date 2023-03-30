@@ -1,6 +1,6 @@
 import "./ActiveUserIcon.css";
 import UserIcon from "../UserIcon/UserIcon";
-import {createChatDoc, getChat} from "../../../utils/firebase";
+import {getChat} from "../../../utils/firebase";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
@@ -13,7 +13,6 @@ const ActiveUserIcon = ({id, size}) => {
 
     const handleClick = async () => {
         const chatId = await getChat(userId, id);
-
         navigate("chats/" + chatId);
     };
 

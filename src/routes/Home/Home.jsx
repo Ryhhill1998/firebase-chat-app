@@ -9,15 +9,23 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
-import {getAllChatsByUserId, getAllUsers, signOutUser} from "../../utils/firebase";
-
-export const chatsLoader = async () => {
-    return await getAllChatsByUserId("k1XLSiGMaRSLucA7arcZQYtJ6r93");
-};
+import {getUserFromUserId, listenToUserChats, signOutUser} from "../../utils/firebase";
 
 const Home = () => {
 
-    const chats = useLoaderData();
+    const userId = useSelector(selectUserId);
+
+    const [chats, setChats] = useState([]);
+
+    useEffect(() => {
+        if (!userId) return;
+        listenToUserChats(userId, setChats);
+    }, [userId]);
+
+    useEffect(() => {
+        if (!chats) return;
+        console.log(chats);
+    }, [chats]);
 
     const navigate = useNavigate();
 

@@ -8,7 +8,10 @@ const MessagePreview = ({id, content, name, fromUser, unread}) => {
     const navigate = useNavigate();
 
     const handleClick = async () => {
-        await readLastMessage(id);
+        if (unread) {
+            await readLastMessage(id);
+        }
+
         navigate("chats/" + id);
     }
     

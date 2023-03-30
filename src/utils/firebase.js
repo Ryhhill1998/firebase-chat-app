@@ -78,13 +78,24 @@ export const createChatDoc = async (fromUserId, toUserId) => {
 export const createNewMessage = async (chatId, fromUserId, toUserId, content) => {
     const chatDocRef = doc(db, "chats", chatId);
 
-    await updateDoc(chatDocRef, {
-        messages: arrayUnion({
-            fromUserId,
-            toUserId,
-            content
-        })
+    const docSnap = await getDoc(chatDocRef);
+    const messages = [];
+
+    if (docSnap.exists()) {
+        messages.push(...docSnap.data().messages);
+    } else {
+        console.log("No such document!");
+    }
+
+    messages.push({
+        fromUserId,
+        toUserId,
+        content
     });
+
+    console.log(messages)
+
+    await updateDoc(chatDocRef, {messages: messages});
 };
 
 // get all users

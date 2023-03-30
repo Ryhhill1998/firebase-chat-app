@@ -28,10 +28,6 @@ const Home = () => {
 
     const navigate = useNavigate();
 
-    const handleSignOutClick = async () => {
-        await signOutUser();
-    };
-
     const handleProfileClick = () => {
         navigate("profile");
     };
@@ -44,8 +40,6 @@ const Home = () => {
                 </button>
 
                 <h1>Chats</h1>
-
-                {/*<button onClick={handleSignOutClick}>Sign out</button>*/}
 
                 <button>
                     <FontAwesomeIcon className="icon" icon={faPenToSquare}/>

@@ -1,13 +1,13 @@
 import "./Profile.css";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRightFromBracket, faChevronLeft, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {selectDisplayName, selectUserId, setDisplayName} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {updateUserDisplayName} from "../../utils/firebase";
+import {signOutUser, updateUserDisplayName} from "../../utils/firebase";
 
 const Profile = () => {
 
@@ -58,6 +58,10 @@ const Profile = () => {
         setName(value);
     };
 
+    const handleSignOutClick = async () => {
+        await signOutUser();
+    };
+
     return (
         <div className="profile-container container">
             <header>
@@ -67,14 +71,17 @@ const Profile = () => {
 
                 <h1>Edit Profile</h1>
 
-                <button onClick={handleSaveClick}>
-                    <FontAwesomeIcon className="icon" icon={faCircleCheck} style={saveButtonStyle}/>
+                <button onClick={handleSaveClick}  style={saveButtonStyle}>
+                    <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
                 </button>
             </header>
 
             <section className="change-icon-section">
                 <UserIcon size="xLarge"/>
-                <button>Change icon</button>
+                <button>
+                    Change icon
+                    <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
+                </button>
             </section>
 
             <section className="change-details-section">
@@ -83,6 +90,11 @@ const Profile = () => {
                     <input type="text" value={name} onChange={handleDisplayNameChange}/>
                 </label>
             </section>
+
+            <button className="sign-out-button" onClick={handleSignOutClick}>
+                <FontAwesomeIcon className="icon" icon={faArrowRightFromBracket}/>
+                Sign out
+            </button>
         </div>
     );
 };

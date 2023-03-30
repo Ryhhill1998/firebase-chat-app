@@ -41,6 +41,10 @@
     border-top: solid 1px #434242;
 }
 
+.profile-container .change-icon-section .icon {
+    margin-left: 0.5em;
+}
+
 .profile-container label {
     font-size: 0.9rem;
     display: flex;
@@ -53,4 +57,15 @@
     color: white;
     font-size: 0.9rem;
     outline: none;
+}
+
+.profile-container .sign-out-button {
+    color: red;
+    align-self: flex-start;
+    margin-top: 0.5em;
+}
+
+.profile-container .sign-out-button .icon {
+    margin-right: 0.5em;
+    transform: rotate(180deg);
 }

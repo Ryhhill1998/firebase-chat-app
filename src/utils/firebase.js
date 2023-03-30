@@ -178,7 +178,7 @@ export const listenToAllUserChats = (userId, setter) => {
             const {userIds, userDetails} = doc.data();
             const otherUserId = userIds[0] === userId ? userIds[1] : userIds[0];
             const otherUserDetails = userDetails.find(user => user.id === otherUserId);
-            chats.push({id: doc.id, messages: doc.messages, otherUserDetails});
+            chats.push({id: doc.id, messages: doc.data().messages, otherUserDetails});
         });
 
         setter(chats);

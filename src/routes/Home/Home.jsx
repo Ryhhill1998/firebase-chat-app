@@ -22,6 +22,10 @@ const Home = () => {
         listenToAllUserChats(userId, setChats);
     }, [userId]);
 
+    useEffect(() => {
+        console.log(chats)
+    }, [chats])
+
     const navigate = useNavigate();
 
     const handlePreviewClick = (id) => {
@@ -50,6 +54,7 @@ const Home = () => {
             <div className="message-previews-container">
                 {chats && chats.map((chat, i) => {
                     const {id, messages, otherUserDetails} = chat;
+                    console.log(chat)
 
                     return messages && (
                         <MessagePreview

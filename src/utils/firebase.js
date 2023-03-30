@@ -55,6 +55,12 @@ export const createUserDoc = async (userData, userId) => {
     console.log("User document written with ID: ", userDocRef.id);
 };
 
+// update user display name
+export const updateUserDisplayName = async (userId, displayName) => {
+    const docSnap = await doc(db, "users", userId);
+    await updateDoc(docSnap, {displayName});
+};
+
 // create new chat
 export const createChatDoc = async (fromUserId, toUserId) => {
     // get user details

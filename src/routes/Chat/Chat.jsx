@@ -77,8 +77,15 @@ const Chat = () => {
             </header>
 
             <div className="message-bubbles-container" ref={divRef}>
-                {chat.messages.map(({id, content, fromUserId}, i) => (
-                    <MessageBubble key={i} id={id} content={content} fromUser={fromUserId === userId}/>
+                {chat.messages.map(({id, content, fromUserId, read}, i) => (
+                    <MessageBubble
+                        key={i}
+                        id={id}
+                        content={content}
+                        fromUser={fromUserId === userId}
+                        read={read}
+                        lastMessage={i === chat.messages.length - 1}
+                    />
                 ))}
             </div>
 

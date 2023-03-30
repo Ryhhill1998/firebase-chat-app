@@ -1,13 +1,9 @@
 .chat-container {
     padding: 1em 1.25em;
     background-color: #222222;
-    position: sticky;
-    top: 0;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: 1em;
-    max-height: 100vh;
 }
 
 .chat-container nav {
@@ -62,14 +58,6 @@
 .chat-container .message-bubbles-container {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    height: 100%;
-    overflow-anchor: none;
     gap: 1em;
     overflow: scroll;
 }
-
-.chat-container .message-bubbles-container .message-bubble:last-child {
-    overflow-anchor: auto;
-}
-

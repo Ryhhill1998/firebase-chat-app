@@ -1,5 +1,8 @@
 .message-bubble-container {
     max-width: 75%;
+}
+
+.message-bubble-container > div {
     display: flex;
     gap: 0.75em;
 }
@@ -33,4 +36,10 @@
 
 .message-bubble-container.received .message-bubble {
     background-color: #434242;
+}
+
+.message-bubble-container > p {
+    font-size: 0.7rem;
+    margin-top: 0.5em;
+    text-align: right;
 }

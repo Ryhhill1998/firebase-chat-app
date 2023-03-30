@@ -8,40 +8,43 @@ import NewMessageInput from "../../common/components/NewMessageInput/NewMessageI
 import {useLoaderData, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
-import {getUserFromUserId} from "../../utils/firebase";
+import {
+    getChatFromChatId,
+    getUserFromUserId,
+    listenToAllUserChats,
+    listenToSpecificUserChat
+} from "../../utils/firebase";
 
 export const messagesLoader = async ({params}) => {
     const chatId = params.id;
-    const messages = await getAllMessagesFromChatId(chatId);
+    const chat = await getChatFromChatId(chatId);
 
-    if (!messages) {
+    if (!chat) {
         throw new Error("The requested chat does not exist.");
     }
 
-    return messages;
+    return chat;
 };
 
 const Chat = () => {
 
-    const messages = useLoaderData();
-
-    useEffect(() => {
-        console.log(messages)
-    }, [messages]);
+    const chat = useLoaderData();
 
     const navigate = useNavigate();
 
     const userId = useSelector(selectUserId);
 
-    const [otherUser, setOtherUser] = useState(null);
+    const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        if (!userId || !messages) return;
-        const message1 = messages[0];
-        const otherUserId = message1.toUserId === userId ? message1.fromUserId : message1.toUserId;
-        getUserFromUserId(otherUserId)
-            .then(user => setOtherUser(user));
-    }, [userId, messages]);
+        if (!chat) return;
+        listenToSpecificUserChat(chat.id, setMessages);
+    }, [chat]);
+
+    useEffect(() => {
+        console.log("messages:", messages)
+        setMessages(chat.messages);
+    }, [chat]);
 
     // window size config
     const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight + "px");
@@ -78,7 +81,7 @@ const Chat = () => {
                         <div className="user-details-container">
                             <UserIcon  size="medium"/>
                             <h1>
-                                <span>{otherUser?.displayName}</span>
+                                <span>{chat.otherUserDetails.displayName}</span>
                                 <span>Active 9h ago</span>
                             </h1>
                         </div>
@@ -92,12 +95,12 @@ const Chat = () => {
             </header>
 
             <div className="message-bubbles-container" ref={divRef}>
-                {messages && messages.map(({id, content, fromUserId}) => (
-                    <MessageBubble key={id} id={id} content={content} fromUser={fromUserId === userId}/>
+                {messages && messages.map(({id, content, fromUserId}, i) => (
+                    <MessageBubble key={i} id={id} content={content} fromUser={fromUserId === userId}/>
                 ))}
             </div>
 
-            <NewMessageInput userId={userId} otherUserId={otherUser?.id}/>
+            <NewMessageInput userId={userId} otherUserId={chat.otherUserDetails.id}/>
         </div>
     );
 };

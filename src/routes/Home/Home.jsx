@@ -9,7 +9,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
-import {getUserFromUserId, listenToUserChats, signOutUser} from "../../utils/firebase";
+import {listenToAllUserChats, signOutUser} from "../../utils/firebase";
 
 const Home = () => {
 
@@ -19,13 +19,8 @@ const Home = () => {
 
     useEffect(() => {
         if (!userId) return;
-        listenToUserChats(userId, setChats);
+        listenToAllUserChats(userId, setChats);
     }, [userId]);
-
-    useEffect(() => {
-        if (!chats) return;
-        console.log(chats);
-    }, [chats]);
 
     const navigate = useNavigate();
 
@@ -52,24 +47,22 @@ const Home = () => {
 
             <ActiveUsersSlider/>
 
-            {/*<div className="message-previews-container">*/}
-            {/*    {chats && chats.map((chat, i) => {*/}
-            {/*        const {id, messages, userIds} = chat;*/}
-            {/*        const otherUserId = userIds.find(userId => userId !== id);*/}
-            {/*        const name = users.find(user => user.id === otherUserId).name;*/}
+            <div className="message-previews-container">
+                {chats && chats.map((chat, i) => {
+                    const {id, messages, otherUserDetails} = chat;
 
-            {/*        return (*/}
-            {/*            <MessagePreview*/}
-            {/*                key={id * (i + 1)}*/}
-            {/*                id={id}*/}
-            {/*                name={name}*/}
-            {/*                content={messages.at(-1).content}*/}
-            {/*                fromUser={userId === messages.at(-1).fromUserId}*/}
-            {/*                handleClick={handlePreviewClick}*/}
-            {/*            />*/}
-            {/*        )*/}
-            {/*    })}*/}
-            {/*</div>*/}
+                    return messages && (
+                        <MessagePreview
+                            key={id}
+                            id={id}
+                            name={otherUserDetails.displayName}
+                            content={messages.at(-1).content}
+                            fromUser={userId === messages.at(-1).fromUserId}
+                            handleClick={handlePreviewClick}
+                        />
+                    );
+                })}
+            </div>
         </div>
     );
 }

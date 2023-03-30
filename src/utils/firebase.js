@@ -99,7 +99,7 @@ export const getAllUsers = async () => {
     return allUsers;
 };
 
-export const getChat = async (fromUserId, toUserId) => {
+export const getChatId = async (fromUserId, toUserId) => {
     const q = query(collection(db, "chats"),
         where("userIds", "in", [[fromUserId, toUserId], [toUserId, fromUserId]]));
 
@@ -142,7 +142,22 @@ export const getUserFromUserId = async (userId) => {
     }
 };
 
-export const listenToUserChats = (userId, setter) => {
+export const getChatFromChatId = async (chatId, userId) => {
+    const docRef = doc(db, "chats", chatId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        const {userIds, userDetails} = data;
+        const otherUserId = userIds[0] === userId ? userIds[1] : userIds[0];
+        const otherUserDetails = userDetails.find(user => user.id === otherUserId);
+        return ({id: docSnap.id, messages: data.messages, otherUserDetails});
+    } else {
+        console.log("No such document!");
+    }
+};
+
+export const listenToAllUserChats = (userId, setter) => {
     const q = query(collection(db, "chats"), where("userIds", "array-contains", userId));
 
     return onSnapshot(q, (querySnapshot) => {
@@ -158,3 +173,10 @@ export const listenToUserChats = (userId, setter) => {
         setter(chats);
     });
 };
+
+export const listenToSpecificUserChat = (chatId, setter) => {
+    return onSnapshot(doc(db, "chats", chatId), (doc) => {
+        setter(doc.data().messages);
+    });
+};
+

@@ -1,14 +1,21 @@
 import "./MessagePreview.css";
 import UserIcon from "../UserIcon/UserIcon";
+import {readLastMessage} from "../../../utils/firebase";
+import {useNavigate} from "react-router-dom";
 
-const MessagePreview = ({id, content, name, fromUser, unread, handleClick}) => {
+const MessagePreview = ({id, content, name, fromUser, unread}) => {
 
-    console.log(unread)
+    const navigate = useNavigate();
+
+    const handleClick = async () => {
+        await readLastMessage(id);
+        navigate("chats/" + id);
+    }
     
     const contentWidth = window.innerWidth >= 500 ? "300px" : 0.6 * window.innerWidth + "px";
 
     return (
-        <div className={`message-preview ${unread ? "unread" : ""}`} onClick={() => handleClick(id, unread)}>
+        <div className={`message-preview ${unread ? "unread" : ""}`} onClick={handleClick}>
             <UserIcon size="large"/>
             <div className="content">
                 <h3>{name}</h3>

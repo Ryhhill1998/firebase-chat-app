@@ -2,7 +2,7 @@ import "./NewMessageInput.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
-import {createNewChat, createNewMessage} from "../../../utils/firebase";
+import {createNewMessage} from "../../../utils/firebase";
 import {useParams} from "react-router-dom";
 
 const NewMessageInput = ({userId, otherUserId}) => {

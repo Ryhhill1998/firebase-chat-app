@@ -81,10 +81,8 @@ export const createNewMessage = async (chatId, fromUserId, toUserId, content) =>
     const docSnap = await getDoc(chatDocRef);
     const messages = [];
 
-    if (docSnap.exists()) {
+    if (docSnap.exists() && docSnap.data().messages) {
         messages.push(...docSnap.data().messages);
-    } else {
-        console.log("No such document!");
     }
 
     messages.push({
@@ -100,7 +98,20 @@ export const createNewMessage = async (chatId, fromUserId, toUserId, content) =>
 };
 
 // read last message
+export const readLastMessage = async (chatId) => {
+    const chatDocRef = doc(db, "chats", chatId);
 
+    const docSnap = await getDoc(chatDocRef);
+    const messages = [];
+
+    if (docSnap.exists() && docSnap.data().messages) {
+        messages.push(...docSnap.data().messages);
+    }
+
+    messages.at(-1).read = true;
+
+    await updateDoc(chatDocRef, {messages: messages});
+};
 
 // get all users
 export const getAllUsers = async () => {
@@ -189,9 +200,14 @@ export const listenToAllUserChats = (userId, setter) => {
     });
 };
 
-export const listenToSpecificUserChat = (chatId, setter) => {
-    return onSnapshot(doc(db, "chats", chatId), (doc) => {
-        setter(doc.data().messages);
+export const listenToSpecificUserChat = (chatId, userId, setter) => {
+    console.log(chatId)
+    return onSnapshot(doc(db, "chats", chatId), (docSnap) => {
+        const data = docSnap.data();
+        const {userIds, userDetails} = data;
+        const otherUserId = userIds[0] === userId ? userIds[1] : userIds[0];
+        const otherUserDetails = userDetails.find(user => user.id === otherUserId);
+        setter(({id: docSnap.id, messages: data.messages, otherUserDetails}))
     });
 };
 

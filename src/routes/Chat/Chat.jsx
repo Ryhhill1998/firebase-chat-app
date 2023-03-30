@@ -5,46 +5,32 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
 import {useEffect, useRef, useState} from "react";
 import NewMessageInput from "../../common/components/NewMessageInput/NewMessageInput";
-import {useLoaderData, useNavigate} from "react-router-dom";
+import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {
     getChatFromChatId,
-    getUserFromUserId,
-    listenToAllUserChats,
     listenToSpecificUserChat
 } from "../../utils/firebase";
 
-export const messagesLoader = async ({params}) => {
-    const chatId = params.id;
-    const chat = await getChatFromChatId(chatId);
-
-    if (!chat) {
-        throw new Error("The requested chat does not exist.");
-    }
-
-    return chat;
-};
-
 const Chat = () => {
-
-    const chat = useLoaderData();
 
     const navigate = useNavigate();
 
+    const {id: chatId} = useParams();
     const userId = useSelector(selectUserId);
 
-    const [messages, setMessages] = useState([]);
+    const [chat, setChat] = useState(null);
 
     useEffect(() => {
-        if (!chat) return;
-        listenToSpecificUserChat(chat.id, setMessages);
+        console.log(chat)
     }, [chat]);
 
     useEffect(() => {
-        console.log("messages:", messages)
-        setMessages(chat.messages);
-    }, [chat]);
+        if (!userId) return;
+        console.log(userId)
+        listenToSpecificUserChat(chatId, userId, setChat);
+    }, [userId]);
 
     // window size config
     const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight + "px");
@@ -55,7 +41,7 @@ const Chat = () => {
         if (divRef.current) {
             divRef.current.scrollTop = divRef.current.scrollHeight;
         }
-    }, [messages, windowInnerHeight]);
+    }, [chat, windowInnerHeight]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -68,6 +54,10 @@ const Chat = () => {
     const handleBackClick = () => {
         navigate("/");
     };
+
+    if (!chat) {
+        return <></>;
+    }
 
     return (
         <div className="chat-container container" style={{height: windowInnerHeight}}>
@@ -95,7 +85,7 @@ const Chat = () => {
             </header>
 
             <div className="message-bubbles-container" ref={divRef}>
-                {messages && messages.map(({id, content, fromUserId}, i) => (
+                {chat.messages.map(({id, content, fromUserId}, i) => (
                     <MessageBubble key={i} id={id} content={content} fromUser={fromUserId === userId}/>
                 ))}
             </div>

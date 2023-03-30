@@ -28,11 +28,6 @@ const Home = () => {
 
     const navigate = useNavigate();
 
-    const handlePreviewClick = (id, readingMessage) => {
-        console.log(readingMessage)
-        navigate("/chats/" + id);
-    };
-
     const handleSignOutClick = async () => {
         await signOutUser();
     };
@@ -55,8 +50,8 @@ const Home = () => {
             <div className="message-previews-container">
                 {chats && chats.map((chat, i) => {
                     const {id, messages, otherUserDetails} = chat;
-                    const lastMessage = messages.at(-1);
-                    console.log(lastMessage)
+                    const lastMessage = messages?.at(-1);
+                    console.log("lastMessage:", lastMessage)
 
                     return messages && (
                         <MessagePreview
@@ -66,7 +61,6 @@ const Home = () => {
                             content={lastMessage.content}
                             fromUser={userId === lastMessage.fromUserId}
                             unread={userId === lastMessage.toUserId && !lastMessage.read}
-                            handleClick={handlePreviewClick}
                         />
                     );
                 })}

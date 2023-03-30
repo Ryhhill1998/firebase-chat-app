@@ -8,7 +8,7 @@ import NewMessageInput from "../../common/components/NewMessageInput/NewMessageI
 import {useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
-import {listenToSpecificUserChat} from "../../utils/firebase";
+import {listenToSpecificUserChat, readAllUsersUnreadMessagesInChat} from "../../utils/firebase";
 
 const Chat = () => {
 
@@ -18,6 +18,13 @@ const Chat = () => {
     const userId = useSelector(selectUserId);
 
     const [chat, setChat] = useState(null);
+
+    useEffect(() => {
+        readAllUsersUnreadMessagesInChat(chatId, userId)
+            .then(() => {
+                console.log("messages read")
+            });
+    }, [chat]);
 
     useEffect(() => {
         if (!userId) return;

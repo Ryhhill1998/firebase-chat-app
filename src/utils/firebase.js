@@ -192,8 +192,6 @@ export const listenToSpecificUserChat = (chatId, userId, setter) => {
         const otherUserId = userIds[0] === userId ? userIds[1] : userIds[0];
         const otherUserDetails = userDetails.find(user => user.id === otherUserId);
         setter(({id: docSnap.id, messages: data.messages, otherUserDetails}));
-
-        await readAllUsersUnreadMessagesInChat(chatId, userId);
     });
 };
 

@@ -1,12 +1,13 @@
 import "./UserIcon.css";
 
-import userIconImage from "../../images/user.jpg";
+import userIconImage from "../../images/user.png";
 
 const sizesMap = {
-    tiny: "20px",
-    small: "30px",
+    xSmall: "20px",
+    small: "25px",
     medium: "40px",
     large: "60px",
+    xLarge: "80px",
 }
 
 const UserIcon = ({size}) => {

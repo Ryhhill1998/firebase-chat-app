@@ -2,7 +2,7 @@ import "./Auth.css";
 
 import logoImgSrc from "../../common/images/logo.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGoogle} from "@fortawesome/free-brands-svg-icons";
+import {faFacebook, faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {createUserDoc, signInWithGooglePopup} from "../../utils/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
@@ -39,8 +39,13 @@ const Auth = () => {
             </header>
 
             <button onClick={handleClick}>
-                Google sign in
-                <FontAwesomeIcon className="icon" icon={faGoogle}/>
+                <span>Sign in</span>
+                <FontAwesomeIcon className="icon" icon={faGoogle} size="2x"/>
+            </button>
+
+            <button onClick={handleClick}>
+                <span>Sign in</span>
+                <FontAwesomeIcon className="icon" icon={faFacebook} size="2x"/>
             </button>
         </div>
     );

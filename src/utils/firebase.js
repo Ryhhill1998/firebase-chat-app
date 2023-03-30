@@ -150,40 +150,12 @@ export const getChatId = async (fromUserId, toUserId) => {
     }
 };
 
-// export const getAllChatsByUserId = async (userId) => {
-//     const q = query(collection(db, "chats"), where("userIds", "array-contains", userId));
-//     const querySnapshot = await getDocs(q);
-//
-//     const chats = [];
-//
-//     querySnapshot.forEach((doc) => {
-//         chats.push({id: doc.id, ...doc.data()});
-//     });
-//
-//     return chats;
-// };
-
 export const getUserFromUserId = async (userId) => {
     const docRef = doc(db, "users", userId);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
         return ({id: docSnap.id, ...docSnap.data()});
-    } else {
-        console.log("No such document!");
-    }
-};
-
-export const getChatFromChatId = async (chatId, userId) => {
-    const docRef = doc(db, "chats", chatId);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-        const data = docSnap.data();
-        const {userIds, userDetails} = data;
-        const otherUserId = userIds[0] === userId ? userIds[1] : userIds[0];
-        const otherUserDetails = userDetails.find(user => user.id === otherUserId);
-        return ({id: docSnap.id, messages: data.messages, otherUserDetails});
     } else {
         console.log("No such document!");
     }

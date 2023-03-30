@@ -9,8 +9,14 @@
     justify-content: space-between;
 }
 
+.home-container header button {
+    border: none;
+    background: none;
+}
+
 .home-container header .icon {
     color: #EBB02D;
+    font-size: 1.2rem;
 }
 
 .home-container header h1 {

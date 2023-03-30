@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {onAuthStateChanged} from "firebase/auth";
-import {auth} from "../utils/firebase";
-import {resetUserId, selectUserId, setUserId} from "../features/user/userSlice";
+import {auth, getUserFromUserId} from "../utils/firebase";
+import {resetUserId, selectUserId, setDisplayName, setUserId} from "../features/user/userSlice";
 import {Outlet, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 
@@ -28,6 +28,8 @@ const Root = () => {
             localStorage.removeItem("userId");
         } else {
             localStorage.setItem("userId", JSON.stringify(userId));
+            getUserFromUserId(userId)
+                .then(user => dispatch(setDisplayName(user.displayName)));
         }
     }, [userId]);
 

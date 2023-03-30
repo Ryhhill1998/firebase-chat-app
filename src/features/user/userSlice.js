@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     userId: JSON.parse(localStorage.getItem("userId")),
-    chats: []
+    displayName: null
 };
 
 export const userSlice = createSlice({
@@ -15,14 +15,14 @@ export const userSlice = createSlice({
         resetUserId: state => {
             state.userId = null;
         },
-        setChats: (state, action) => {
-            state.chats = action.payload;
+        setDisplayName: (state, action) => {
+            state.displayName = action.payload;
         }
     }
 })
 
 // Action creators are generated for each case reducer function
-export const {setUserId, resetUserId, setChats} = userSlice.actions
+export const {setUserId, resetUserId, setDisplayName} = userSlice.actions
 export const selectUserId = state => state.user.userId;
-export const selectChats = state => state.user.chats;
+export const selectDisplayName = state => state.user.displayName;
 export default userSlice.reducer

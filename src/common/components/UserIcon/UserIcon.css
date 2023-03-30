@@ -1,11 +1,14 @@
 .user-icon {
-    background-color: white;
+    background-color: #FF2E63;
     border-radius: 50%;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .user-icon img {
-    height: 100%;
-    width: 100%;
+    height: 80%;
+    width: 80%;
     border-radius: 50%;
 }

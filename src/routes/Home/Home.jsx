@@ -4,7 +4,7 @@ import MessagePreview from "../../common/components/MessagePreview/MessagePrevie
 import ActiveUsersSlider from "../../common/components/ActiveUsersSlider/ActiveUsersSlider";
 import {useEffect, useState} from "react";
 import {useLoaderData, useNavigate} from "react-router-dom";
-import {faBars, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import {faBars, faPenToSquare, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {useSelector} from "react-redux";
@@ -32,13 +32,24 @@ const Home = () => {
         await signOutUser();
     };
 
+    const handleProfileClick = () => {
+        navigate("profile");
+    };
+
     return (
         <div className="home-container container">
             <header>
-                <FontAwesomeIcon className="icon" icon={faBars}/>
+                <button onClick={handleProfileClick}>
+                    <FontAwesomeIcon className="icon" icon={faUser}/>
+                </button>
+
                 <h1>Chats</h1>
-                <button onClick={handleSignOutClick}>Sign out</button>
-                <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
+
+                {/*<button onClick={handleSignOutClick}>Sign out</button>*/}
+
+                <button>
+                    <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
+                </button>
             </header>
 
             <div className="search-bar-container">

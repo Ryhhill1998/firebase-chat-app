@@ -8,14 +8,21 @@ import NewMessageInput from "../../common/components/NewMessageInput/NewMessageI
 import {useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
-import {readAllUsersUnreadMessagesInChat} from "../../utils/firebase";
-import {selectOpenedChat} from "../../features/chats/chatsSlice";
+import {listenToSpecificUserChat, readAllUsersUnreadMessagesInChat} from "../../utils/firebase";
 
 const Chat = () => {
     const navigate = useNavigate();
 
+    const {id: chatId} = useParams();
     const userId = useSelector(selectUserId);
-    const chat = useSelector(selectOpenedChat);
+
+    const [chat, setChat] = useState(null);
+
+    useEffect(() => {
+        if (!userId) return;
+
+        listenToSpecificUserChat(chatId, userId, setChat)
+    }, [chatId, userId]);
 
     useEffect(() => {
         if (!userId || !chat) return;
@@ -48,13 +55,6 @@ const Chat = () => {
     const handleBackClick = () => {
         navigate("/");
     };
-
-    useEffect(() => {
-        if (!chat) {
-            console.log("navigating to home")
-            navigate("/");
-        }
-    }, [chat]);
 
     if (!chat) {
         return <></>;

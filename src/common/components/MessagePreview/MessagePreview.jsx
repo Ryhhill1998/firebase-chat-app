@@ -1,17 +1,12 @@
 import "./MessagePreview.css";
 import UserIcon from "../UserIcon/UserIcon";
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {setOpenChatId} from "../../../features/chats/chatsSlice";
 
 const MessagePreview = ({id, content, name, fromUser, iconColour, unread}) => {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-
     const handleClick = async () => {
-        dispatch(setOpenChatId(id));
         navigate("chats/" + id);
     }
     

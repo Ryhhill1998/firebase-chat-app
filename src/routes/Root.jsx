@@ -1,10 +1,9 @@
 import {useDispatch, useSelector} from "react-redux";
 import {onAuthStateChanged} from "firebase/auth";
-import {auth, getUserFromUserId, listenToAllUserChats} from "../utils/firebase";
+import {auth, getUserFromUserId} from "../utils/firebase";
 import {resetUserId, selectUserId, setDisplayName, setIconColour, setUserId} from "../features/user/userSlice";
 import {Outlet, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {setAllChats} from "../features/chats/chatsSlice";
+import {useEffect} from "react";
 
 const Root = () => {
 
@@ -37,18 +36,6 @@ const Root = () => {
                 });
         }
     }, [userId]);
-
-    const [chats, setChats] = useState([]);
-
-    useEffect(() => {
-        if (!userId) return;
-        listenToAllUserChats(userId, setChats);
-    }, [userId]);
-
-    useEffect(() => {
-        if (!chats) return;
-        dispatch(setAllChats(chats));
-    }, [chats]);
 
     return (
         <>

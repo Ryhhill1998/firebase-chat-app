@@ -8,15 +8,21 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
-import {selectAllChats} from "../../features/chats/chatsSlice";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {listenToAllUserChats} from "../../utils/firebase";
 
 const Home = () => {
 
-    const userId = useSelector(selectUserId);
-    const chats = useSelector(selectAllChats);
-
     const navigate = useNavigate();
+
+    const userId = useSelector(selectUserId);
+
+    const [chats, setChats] = useState([]);
+
+    useEffect(() => {
+        if (!userId) return;
+        listenToAllUserChats(userId, setChats);
+    }, [userId]);
 
     const handleProfileClick = () => {
         navigate("profile");

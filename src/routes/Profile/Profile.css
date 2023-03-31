@@ -2,8 +2,11 @@
     padding: 1em 1.25em;
     display: flex;
     flex-direction: column;
-    /*justify-content: center;*/
     gap: 0.5em;
+}
+
+.profile-container button {
+    font-size: 0.8rem;
 }
 
 .profile-container header {
@@ -36,15 +39,57 @@
     padding: 1em 0;
 }
 
+/* CHANGE ICON */
 .profile-container .change-icon-section {
     align-items: center;
     border-top: solid 1px #434242;
+    position: relative;
 }
 
 .profile-container .change-icon-section .icon {
     margin-left: 0.5em;
 }
 
+.profile-container .change-icon-popup {
+    border-radius: 8px;
+    position: absolute;
+    background-color: #434242;
+    padding: 0.75em;
+    max-width: 320px;
+    z-index: 10;
+}
+
+.profile-container .change-icon-popup h2 {
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.profile-container .change-icon-popup .icons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75em;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+
+.profile-container .change-icon-popup .buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+.profile-container .change-icon-popup .buttons-container button {
+    padding: 0.75em 1em;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    border: solid 1px white;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+/* CHANGE DETAILS */
 .profile-container label {
     font-size: 0.9rem;
     display: flex;

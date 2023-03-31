@@ -82,6 +82,42 @@ const Profile = () => {
                     Change icon
                     <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
                 </button>
+
+                <div className="change-icon-popup">
+                    <h2>Choose an icon</h2>
+
+                    <div className="icons-container">
+                        <button>
+                            <UserIcon size="large"/>
+                        </button>
+                        <button>
+                            <UserIcon size="large"/>
+                        </button>
+                        <button>
+                            <UserIcon size="large"/>
+                        </button>
+                        <button>
+                            <UserIcon size="large"/>
+                        </button>
+                        <button>
+                            <UserIcon size="large"/>
+                        </button>
+                        <button>
+                            <UserIcon size="large"/>
+                        </button>
+                        <button>
+                            <UserIcon size="large"/>
+                        </button>
+                        <button>
+                            <UserIcon size="large"/>
+                        </button>
+                    </div>
+
+                    <div className="buttons-container">
+                        <button>Apply</button>
+                        <button>Reset</button>
+                    </div>
+                </div>
             </section>
 
             <section className="change-details-section">

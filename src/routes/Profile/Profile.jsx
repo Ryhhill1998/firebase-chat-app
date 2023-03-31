@@ -27,7 +27,7 @@ const Profile = () => {
     const iconColour = useSelector(selectIconColour);
 
     const [name, setName] = useState("");
-    const [saveButtonStyle, setSaveButtonStyle] = useState({visibility: "visible"});
+    const [saveButtonStyle, setSaveButtonStyle] = useState({visibility: "hidden"});
 
     useEffect(() => {
         if (!currentDisplayName) return;
@@ -36,6 +36,8 @@ const Profile = () => {
     }, [currentDisplayName]);
 
     useEffect(() => {
+        if (!currentDisplayName) return;
+
         if (name === currentDisplayName) {
             setSaveButtonStyle(saveButtonStyle => {
                 const updatedStyle = {...saveButtonStyle};
@@ -91,6 +93,7 @@ const Profile = () => {
             </header>
 
             <section className="change-icon-section">
+                {!iconColour && <UserIcon size="xLarge" skeleton={true}/>}
                 {iconColour && <UserIcon size="xLarge" colour={iconColour}/>}
                 <button onClick={handleChangeIconClick}>
                     Change icon

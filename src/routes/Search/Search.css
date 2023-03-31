@@ -12,3 +12,13 @@
     border: none;
     color: #EBB02D;
 }
+
+.search-page-container h2 {
+    font-size: 0.8rem;
+    margin: 1em 0 0.5em;
+    color: #B2B2B2;
+}
+
+.search-page-container .message-preview {
+    padding: 0.5em 0;
+}

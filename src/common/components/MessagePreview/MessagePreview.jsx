@@ -7,7 +7,7 @@ const MessagePreview = ({id, content, name, fromUser, iconColour, unread}) => {
     const navigate = useNavigate();
 
     const handleClick = async () => {
-        navigate("chats/" + id);
+        navigate("/chats/" + id);
     }
     
     const contentWidth = window.innerWidth >= 500 ? "300px" : 0.6 * window.innerWidth + "px";
@@ -17,7 +17,9 @@ const MessagePreview = ({id, content, name, fromUser, iconColour, unread}) => {
             <UserIcon size="large" colour={iconColour}/>
             <div className="content">
                 <h3>{name}</h3>
-                <p style={{width: contentWidth}}>{(fromUser ? "You: " : "") + content}</p>
+                {content && (
+                    <p style={{width: contentWidth}}>{(fromUser ? "You: " : "") + content}</p>
+                )}
             </div>
         </div>
     );

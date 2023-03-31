@@ -27,3 +27,7 @@
 .home-container .search-bar-container {
     padding: 0 1.25em 1em;
 }
+
+.home-container .message-previews-container .message-preview {
+    padding: 0.5em 1.25em;
+}

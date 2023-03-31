@@ -12,7 +12,8 @@ import {
     where,
     updateDoc,
     serverTimestamp,
-    orderBy
+    orderBy,
+    limit
 } from "firebase/firestore";
 import {getAuth, GoogleAuthProvider, signInWithPopup, signOut, FacebookAuthProvider} from "firebase/auth";
 
@@ -200,6 +201,25 @@ export const getUserFromUserId = async (userId) => {
     } else {
         console.log("No such document!");
     }
+};
+
+export const getThreeMostRecentChatsByUserId = async (userId) => {
+    const q = query(collection(db, "chats"),
+        where("userIds", "array-contains", userId),
+        orderBy("lastMessageTimestamp", "desc"),
+        limit(3));
+
+    const querySnapshot = await getDocs(q);
+    const chats = [];
+
+    querySnapshot.forEach((doc) => {
+        const {userIds, userDetails} = doc.data();
+        const otherUserId = userIds[0] === userId ? userIds[1] : userIds[0];
+        const otherUserDetails = userDetails.find(user => user.id === otherUserId);
+        chats.push({id: doc.id, messages: doc.data().messages, otherUserDetails});
+    });
+
+    return chats;
 };
 
 export const listenToAllUserChats = (userId, setter) => {

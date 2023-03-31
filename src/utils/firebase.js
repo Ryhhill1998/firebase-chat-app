@@ -159,6 +159,20 @@ export const getAllUsers = async () => {
     return allUsers;
 };
 
+export const getAllChatsByUserId = async (userId) => {
+    const q = query(collection(db, "chats"),
+        where("userIds", "array-contains", userId));
+
+    const querySnapshot = await getDocs(q);
+    const allChats = [];
+
+    querySnapshot.forEach((doc) => {
+        allChats.push({id: doc.id, ...doc.data()});
+    });
+
+    return allChats;
+};
+
 export const getChatId = async (fromUserId, toUserId) => {
     const q = query(collection(db, "chats"),
         where("userIds", "in", [[fromUserId, toUserId], [toUserId, fromUserId]]));

@@ -3,9 +3,9 @@ import SearchBar from "../../features/search/SearchBar/SearchBar";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {useNavigate} from "react-router-dom";
-import {focusOutSearch} from "../../features/search/searchSlice";
+import {focusOutSearch, selectSearchQuery, selectUserSearchResults} from "../../features/search/searchSlice";
 import {useEffect, useState} from "react";
-import {getThreeMostRecentChatsByUserId} from "../../utils/firebase";
+import {getAllChatsByUserId, getThreeMostRecentChatsByUserId} from "../../utils/firebase";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
 
 const Search = () => {
@@ -15,6 +15,7 @@ const Search = () => {
     const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
+    const userSearchResults = useSelector(selectUserSearchResults);
 
     const handleCancelClick = () => {
         dispatch(focusOutSearch());
@@ -28,11 +29,14 @@ const Search = () => {
     };
 
     useEffect(() => {
-        if (!userId) return;
 
         getSuggestions(userId)
-            .then(response => setSuggestions(response));
-    }, [userId]);
+            .then(results => setSuggestions(results));
+    }, []);
+
+    useEffect(() => {
+        console.log(userSearchResults)
+    }, [userSearchResults]);
 
     return (
         <div className="search-page-container container">
@@ -41,16 +45,36 @@ const Search = () => {
                 <button onClick={handleCancelClick}>Cancel</button>
             </header>
 
-            <h2>Suggested</h2>
 
-            {suggestions && suggestions.map(suggestion => {
-                const {id, otherUserDetails} = suggestion;
-                const {displayName, iconColour} = otherUserDetails;
+            {!userSearchResults && suggestions && (
+                <div>
+                    <h2>Suggested</h2>
 
-                return (
-                    <MessagePreview id={id} name={displayName} iconColour={iconColour}/>
-                )
-            })}
+                    {suggestions.map(suggestion => {
+                            const {id, otherUserDetails} = suggestion;
+                            const {displayName, iconColour} = otherUserDetails;
+
+                            return (
+                                <MessagePreview key={id} id={id} name={displayName} iconColour={iconColour}/>
+                            )
+                        }
+                    )}
+                </div>
+            )}
+
+            {userSearchResults && (
+                <div>
+                    <h2>Users</h2>
+
+                    {userSearchResults.map(user => {
+                        const {id, displayName, iconColour} = user;
+
+                        return (
+                            <MessagePreview key={id} id={id} name={displayName} iconColour={iconColour}/>
+                        )
+                    })}
+                </div>
+            )}
         </div>
     );
 };

@@ -202,10 +202,6 @@ export const getUserFromUserId = async (userId) => {
     }
 };
 
-export const getAllChatsByUserId = async (userId) => {
-
-};
-
 export const listenToAllUserChats = (userId, setter) => {
     const q = query(collection(db, "chats"),
         where("userIds", "array-contains", userId),

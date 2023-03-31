@@ -28,10 +28,6 @@ const SearchBar = () => {
         }
     };
 
-    useEffect(() => {
-        console.log(focused)
-    }, [focused]);
-
     return (
         <div className="search-bar">
             <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>

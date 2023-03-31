@@ -15,6 +15,7 @@ const Search = () => {
     const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
+    const searchQuery = useSelector(selectSearchQuery);
     const userSearchResults = useSelector(selectUserSearchResults);
 
     const handleCancelClick = () => {
@@ -64,7 +65,7 @@ const Search = () => {
                 </div>
             )}
 
-            {userSearchResults && (
+            {userSearchResults && userSearchResults.length > 0 && (
                 <div>
                     <h2>Users</h2>
 
@@ -75,6 +76,12 @@ const Search = () => {
                             <MessagePreview key={id} id={id} name={displayName} iconColour={iconColour}/>
                         )
                     })}
+                </div>
+            )}
+
+            {searchQuery && !userSearchResults?.length && (
+                <div>
+                    <h2>No results</h2>
                 </div>
             )}
         </div>

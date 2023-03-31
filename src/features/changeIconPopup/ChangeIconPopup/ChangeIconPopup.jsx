@@ -19,7 +19,7 @@ const ChangeIconPopup = () => {
         {colour: "#AA77FF", selected: false},
         {colour: "#19A7CE", selected: false},
         {colour: "#FE6244", selected: false},
-        {colour: "#F7DB6A", selected: false},
+        {colour: "#FCFFA6", selected: false},
         {colour: "#E6A4B4", selected: false},
         {colour: "#5D9C59", selected: false},
         {colour: "#E21818", selected: false},

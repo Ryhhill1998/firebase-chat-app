@@ -10,6 +10,7 @@ import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {getChatFromChatId, listenToSpecificUserChat, readAllUsersUnreadMessagesInChat} from "../../utils/firebase";
 import Auth from "../Auth/Auth";
+import {selectAllChats, selectOpenedChat} from "../../features/chats/chatsSlice";
 
 export const chatLoader = async ({params}) => {
     const {id} = params;
@@ -33,22 +34,23 @@ const Chat = () => {
 
     const {id: chatId} = useParams();
     const userId = useSelector(selectUserId);
+    const openChat = useSelector(selectOpenedChat);
 
     const [chat, setChat] = useState(useLoaderData());
 
     useEffect(() => {
-        if (!userId) return;
+        if (!userId || !chatId) return;
 
         readAllUsersUnreadMessagesInChat(chatId, userId)
             .then(() => {
                 console.log("messages read")
             });
-    }, [chat, userId]);
+    }, [chat, chatId, userId]);
 
     useEffect(() => {
-        if (!userId) return;
+        if (!userId || chatId) return;
         return listenToSpecificUserChat(chatId, userId, setChat);
-    }, [userId]);
+    }, [chatId, userId]);
 
     // window size config
     const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight + "px");

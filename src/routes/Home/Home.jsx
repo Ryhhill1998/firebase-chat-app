@@ -22,10 +22,6 @@ const Home = () => {
         navigate("profile");
     };
 
-    useEffect(() => {
-        console.log(chats);
-    }, [chats])
-
     return (
         <div className="home-container container">
             <header>

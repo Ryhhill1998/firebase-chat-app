@@ -48,8 +48,6 @@ const Root = () => {
     useEffect(() => {
         if (!chats) return;
 
-        console.log(chats)
-
         dispatch(setAllChats(chats));
     }, [chats]);
 

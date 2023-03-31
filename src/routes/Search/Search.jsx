@@ -38,6 +38,8 @@ const Search = () => {
         console.log(userSearchResults)
     }, [userSearchResults]);
 
+    // TODO - display no results when no results and remove users header when search query is gone - show suggested
+
     return (
         <div className="search-page-container container">
             <header>

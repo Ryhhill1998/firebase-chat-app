@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    focusInSearch,
+    focusInSearch, resetUserSearchResults,
     selectSearchIsFocused,
     selectSearchQuery,
     setSearchQuery,
@@ -46,8 +46,13 @@ const SearchBar = () => {
         const {value} = target;
         dispatch(setSearchQuery(value));
 
-        const userResults = allUsers.filter(user => user.displayName.toLowerCase().includes(value.toLowerCase()));
-        dispatch(setUserSearchResults(userResults));
+        if (!value) {
+            dispatch(resetUserSearchResults());
+        } else {
+            const userResults = allUsers
+                .filter(user => user.displayName.toLowerCase().includes(value.toLowerCase()));
+            dispatch(setUserSearchResults(userResults));
+        }
     };
 
     const handleFocus = () => {

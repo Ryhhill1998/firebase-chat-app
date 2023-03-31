@@ -26,6 +26,9 @@ export const searchSlice = createSlice({
         setUserSearchResults: (state, action) => {
             state.userSearchResults = action.payload;
         },
+        resetUserSearchResults: state => {
+            state.userSearchResults = null;
+        },
         setMessagesSearchResults: (state, action) => {
             state.messagesSearchResults = action.payload;
         }
@@ -38,6 +41,7 @@ export const {
     focusInSearch,
     focusOutSearch,
     setUserSearchResults,
+    resetUserSearchResults,
     setMessagesSearchResults
 } = searchSlice.actions
 export const selectSearchQuery = state => state.search.query;

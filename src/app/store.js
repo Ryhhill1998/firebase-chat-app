@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import userReducer from "../../src/features/user/userSlice";
+import userReducer from "../features/user/userSlice";
+import changeIconPopupReducer from "../features/changeIconPopup/changeIconPopupSlice";
 
 export default configureStore({
     reducer: {
         user: userReducer,
+        changeIconPopup: changeIconPopupReducer,
     },
 });

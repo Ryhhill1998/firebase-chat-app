@@ -9,12 +9,12 @@ import {
     selectIconColour,
     selectUserId,
     setDisplayName,
-    setIconColour
 } from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {signOutUser, updateUserDisplayName, updateUserIconColour} from "../../utils/firebase";
-import UserIconButton from "../../common/components/UserIconButton/UserIconButton";
+import {signOutUser, updateUserDisplayName} from "../../utils/firebase";
+import ChangeIconPopup from "../../features/changeIconPopup/ChangeIconPopup/ChangeIconPopup";
+import {selectChangeIconPopupIsVisible, showChangeIconPopup} from "../../features/changeIconPopup/changeIconPopupSlice";
 
 const Profile = () => {
 
@@ -70,64 +70,10 @@ const Profile = () => {
         await signOutUser();
     };
 
-    const [iconButtons, setIconButtons] = useState([
-        {colour: "#FF2E63", selected: false},
-        {colour: "#19A7CE", selected: false},
-        {colour: "#FE6244", selected: false},
-        {colour: "#AA77FF", selected: false},
-        {colour: "#E21818", selected: false},
-        {colour: "#5D9C59", selected: false}
-    ]);
-
-    useEffect(() => {
-        if (!iconColour) return;
-
-        setIconButtons(iconButtons => {
-            const updatedIconButtons = [...iconButtons];
-            updatedIconButtons.find(button => button.colour === iconColour).selected = true;
-            return updatedIconButtons;
-        })
-    }, [iconColour]);
-
-    const handleIconButtonClick = (index) => {
-        setIconButtons(iconButtons => {
-            const updatedIconButtons = [...iconButtons].map(button => {
-                button.selected = false;
-                return button;
-            });
-
-            updatedIconButtons[index].selected = true;
-            return updatedIconButtons;
-        });
-    };
-
-    const [popupVisible, setPopupVisible] = useState(false);
+    const popupVisible = useSelector(selectChangeIconPopupIsVisible);
 
     const handleChangeIconClick = () => {
-        setPopupVisible(true);
-    }
-
-    const handleClosePopupClick = () => {
-        setPopupVisible(false);
-        handleResetPopupClick();
-    };
-
-    const handleResetPopupClick = () => {
-        setIconButtons(iconButtons => {
-            return [...iconButtons].map((button, i) => {
-                button.selected = i === 0;
-                return button;
-            });
-        });
-    };
-
-    const handleSavePopupClick = () => {
-        const newIconColour = iconButtons.find(button => button.selected).colour;
-        updateUserIconColour(userId, newIconColour)
-            .then(() => {
-                dispatch(setIconColour(newIconColour));
-                handleClosePopupClick();
-            });
+        dispatch(showChangeIconPopup());
     };
 
     return (
@@ -151,30 +97,7 @@ const Profile = () => {
                     <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
                 </button>
 
-                {popupVisible && (
-                    <div className="change-icon-popup">
-                        <div className="popup-buttons">
-                            <button onClick={handleClosePopupClick}>Close</button>
-                            <button onClick={handleResetPopupClick}>Reset</button>
-                        </div>
-
-                        <h2>Choose an icon</h2>
-
-                        <div className="icons-container">
-                            {iconButtons.map((button, i) => (
-                                <UserIconButton
-                                    key={i}
-                                    colour={button.colour}
-                                    index={i}
-                                    selected={button.selected}
-                                    handleClick={handleIconButtonClick}
-                                />
-                            ))}
-                        </div>
-
-                        <button className="apply-button" onClick={handleSavePopupClick}>Save</button>
-                    </div>
-                )}
+                {popupVisible && <ChangeIconPopup/>}
             </section>
 
             <section className="change-details-section">

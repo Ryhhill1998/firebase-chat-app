@@ -8,6 +8,7 @@ import {selectDisplayName, selectUserId, setDisplayName} from "../../features/us
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {signOutUser, updateUserDisplayName} from "../../utils/firebase";
+import UserIconButton from "../../common/components/UserIconButton/UserIconButton";
 
 const Profile = () => {
 
@@ -84,39 +85,20 @@ const Profile = () => {
                 </button>
 
                 <div className="change-icon-popup">
+                    <div className="popup-buttons">
+                        <button>Close</button>
+                        <button>Clear</button>
+                    </div>
+
                     <h2>Choose an icon</h2>
 
                     <div className="icons-container">
-                        <button>
-                            <UserIcon size="large"/>
-                        </button>
-                        <button>
-                            <UserIcon size="large"/>
-                        </button>
-                        <button>
-                            <UserIcon size="large"/>
-                        </button>
-                        <button>
-                            <UserIcon size="large"/>
-                        </button>
-                        <button>
-                            <UserIcon size="large"/>
-                        </button>
-                        <button>
-                            <UserIcon size="large"/>
-                        </button>
-                        <button>
-                            <UserIcon size="large"/>
-                        </button>
-                        <button>
-                            <UserIcon size="large"/>
-                        </button>
+                        {new Array(6).fill(0).map(entry => (
+                            <UserIconButton/>
+                        ))}
                     </div>
 
-                    <div className="buttons-container">
-                        <button>Apply</button>
-                        <button>Reset</button>
-                    </div>
+                    <button className="apply-button">Save</button>
                 </div>
             </section>
 

@@ -1,5 +1,5 @@
 import './Home.css';
-import SearchBar from "../../common/components/SearchBar/SearchBar";
+import SearchBar from "../../features/search/SearchBar/SearchBar";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
 import ActiveUsersSlider from "../../common/components/ActiveUsersSlider/ActiveUsersSlider";
 import {useEffect, useState} from "react";
@@ -21,10 +21,6 @@ const Home = () => {
         if (!userId) return;
         listenToAllUserChats(userId, setChats);
     }, [userId]);
-
-    useEffect(() => {
-        console.log(chats)
-    }, [chats])
 
     const navigate = useNavigate();
 

@@ -11,7 +11,8 @@ import {
     setDoc,
     where,
     updateDoc,
-    arrayUnion
+    serverTimestamp,
+    orderBy
 } from "firebase/firestore";
 import {getAuth, GoogleAuthProvider, signInWithPopup, signOut, FacebookAuthProvider} from "firebase/auth";
 
@@ -120,9 +121,7 @@ export const createNewMessage = async (chatId, fromUserId, toUserId, content) =>
         read: false
     });
 
-    console.log(messages)
-
-    await updateDoc(chatDocRef, {messages: messages});
+    await updateDoc(chatDocRef, {messages: messages, lastMessageTimestamp: serverTimestamp()});
 };
 
 // read all messages sent to user
@@ -144,8 +143,6 @@ export const readAllUsersUnreadMessagesInChat = async (chatId, userId) => {
         return message;
     });
 
-    console.log(messages)
-
     await updateDoc(chatDocRef, {messages: messages});
 };
 
@@ -157,8 +154,6 @@ export const getAllUsers = async () => {
     querySnapshot.forEach((doc) => {
         allUsers.push({id: doc.id, ...doc.data()});
     });
-
-    console.log(allUsers)
 
     return allUsers;
 };
@@ -207,8 +202,14 @@ export const getUserFromUserId = async (userId) => {
     }
 };
 
+export const getAllChatsByUserId = async (userId) => {
+
+};
+
 export const listenToAllUserChats = (userId, setter) => {
-    const q = query(collection(db, "chats"), where("userIds", "array-contains", userId));
+    const q = query(collection(db, "chats"),
+        where("userIds", "array-contains", userId),
+        orderBy("lastMessageTimestamp", "desc"));
 
     return onSnapshot(q, (querySnapshot) => {
         const chats = [];
@@ -225,7 +226,6 @@ export const listenToAllUserChats = (userId, setter) => {
 };
 
 export const listenToSpecificUserChat = (chatId, userId, setter) => {
-    console.log(chatId)
     return onSnapshot(doc(db, "chats", chatId), async (docSnap) => {
         const data = docSnap.data();
         const {userIds, userDetails} = data;

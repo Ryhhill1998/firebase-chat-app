@@ -17,6 +17,7 @@ import store from './app/store'
 import {Provider} from 'react-redux'
 import Root from "./routes/Root";
 import Profile from "./routes/Profile/Profile";
+import Search from "./routes/Search/Search";
 
 const router = createBrowserRouter([
     {
@@ -25,12 +26,12 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage/>,
         children: [
             {
-                path: "/",
-                element: <Home/>,
-            },
-            {
                 path: "/auth",
                 element: <Auth/>,
+            },
+            {
+                path: "/",
+                element: <Home/>,
             },
             {
                 path: "/chats/:id",
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
             {
                 path: "/profile",
                 element: <Profile/>,
+            },
+            {
+                path: "/search",
+                element: <Search/>,
             },
         ],
     },

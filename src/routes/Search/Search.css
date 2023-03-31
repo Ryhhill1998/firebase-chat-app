@@ -1,0 +1,14 @@
+.search-page-container {
+    padding: 1em 1.25em;
+}
+
+.search-page-container header {
+    display: flex;
+    gap: 0.5em;
+}
+
+.search-page-container header button {
+    background: none;
+    border: none;
+    color: #EBB02D;
+}

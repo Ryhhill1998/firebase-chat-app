@@ -26,5 +26,5 @@ export const searchSlice = createSlice({
 
 export const {setSearchQuery, resetSearchQuery, focusInSearch, focusOutSearch} = searchSlice.actions
 export const selectSearchQuery = state => state.search.query;
-export const selectSearchIsFocused = state => state.search.focus;
+export const selectSearchIsFocused = state => state.search.focused;
 export default searchSlice.reducer

@@ -3,7 +3,12 @@ import SearchBar from "../../features/search/SearchBar/SearchBar";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {useNavigate} from "react-router-dom";
-import {focusOutSearch, selectSearchQuery, selectUserSearchResults} from "../../features/search/searchSlice";
+import {
+    focusOutSearch,
+    resetSearchQuery,
+    selectSearchQuery,
+    selectUserSearchResults
+} from "../../features/search/searchSlice";
 import {useEffect, useState} from "react";
 import {getAllChatsByUserId, getThreeMostRecentChatsByUserId} from "../../utils/firebase";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
@@ -20,6 +25,7 @@ const Search = () => {
 
     const handleCancelClick = () => {
         dispatch(focusOutSearch());
+        dispatch(resetSearchQuery());
         navigate("/");
     };
 
@@ -30,16 +36,13 @@ const Search = () => {
     };
 
     useEffect(() => {
+        if (!userId) return;
 
         getSuggestions(userId)
             .then(results => setSuggestions(results));
-    }, []);
+    }, [userId]);
 
-    useEffect(() => {
-        console.log(userSearchResults)
-    }, [userSearchResults]);
-
-    // TODO - display no results when no results
+    // TODO - search messages by search query
 
     return (
         <div className="search-page-container container">

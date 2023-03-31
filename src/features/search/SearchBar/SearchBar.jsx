@@ -1,10 +1,10 @@
 import "./SearchBar.css";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
+import {faCircleXmark, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    focusInSearch, resetUserSearchResults,
+    focusInSearch, resetSearchQuery, resetUserSearchResults,
     selectSearchIsFocused,
     selectSearchQuery,
     setSearchQuery,
@@ -62,9 +62,14 @@ const SearchBar = () => {
         }
     };
 
+    const handleClearSearchClick = () => {
+        dispatch(resetSearchQuery());
+    };
+
     return (
         <div className="search-bar">
             <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
+
             <input
                 type="text"
                 name="searchQuery"
@@ -75,6 +80,12 @@ const SearchBar = () => {
                 onFocus={handleFocus}
                 autoFocus={!!focused}
             />
+
+            {searchQuery && (
+                <button className="clear-search-button" onClick={handleClearSearchClick}>
+                    <FontAwesomeIcon className="icon" icon={faCircleXmark}/>
+                </button>
+            )}
         </div>
     );
 };

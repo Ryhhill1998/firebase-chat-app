@@ -9,10 +9,17 @@ import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {getChatFromChatId, listenToSpecificUserChat, readAllUsersUnreadMessagesInChat} from "../../utils/firebase";
+import Auth from "../Auth/Auth";
 
 export const chatLoader = async ({params}) => {
     const {id} = params;
-    const chat = await getChatFromChatId(id);
+    const userId = JSON.parse(localStorage.getItem("userId"));
+
+    if (!userId) {
+        return <Auth/>;
+    }
+
+    const chat = await getChatFromChatId(id, userId);
 
     if (!chat) {
         throw new Error("The requested chat does not exist.");
@@ -22,7 +29,6 @@ export const chatLoader = async ({params}) => {
 };
 
 const Chat = () => {
-
     const navigate = useNavigate();
 
     const {id: chatId} = useParams();
@@ -31,12 +37,13 @@ const Chat = () => {
     const [chat, setChat] = useState(useLoaderData());
 
     useEffect(() => {
+        if (!userId) return;
+
         readAllUsersUnreadMessagesInChat(chatId, userId)
             .then(() => {
                 console.log("messages read")
             });
-        console.log(chat)
-    }, [chat]);
+    }, [chat, userId]);
 
     useEffect(() => {
         if (!userId) return;

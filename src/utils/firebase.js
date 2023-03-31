@@ -182,12 +182,15 @@ export const getChatId = async (fromUserId, toUserId) => {
     }
 };
 
-export const getChatFromChatId = async (chatId) => {
+export const getChatFromChatId = async (chatId, userId) => {
     const docRef = doc(db, "chats", chatId);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-        return ({id: docSnap.id, ...docSnap.data()});
+        const {userIds, userDetails} = docSnap.data();
+        const otherUserId = userIds[0] === userId ? userIds[1] : userIds[0];
+        const otherUserDetails = userDetails.find(user => user.id === otherUserId);
+        return {id: docSnap.id, messages: docSnap.data().messages, otherUserDetails};
     } else {
         return null;
     }

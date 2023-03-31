@@ -182,6 +182,17 @@ export const getChatId = async (fromUserId, toUserId) => {
     }
 };
 
+export const getChatFromChatId = async (chatId) => {
+    const docRef = doc(db, "chats", chatId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        return ({id: docSnap.id, ...docSnap.data()});
+    } else {
+        return null;
+    }
+};
+
 export const getUserFromUserId = async (userId) => {
     const docRef = doc(db, "users", userId);
     const docSnap = await getDoc(docRef);

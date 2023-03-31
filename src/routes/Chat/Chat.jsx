@@ -5,10 +5,21 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
 import {useEffect, useRef, useState} from "react";
 import NewMessageInput from "../../common/components/NewMessageInput/NewMessageInput";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
-import {listenToSpecificUserChat, readAllUsersUnreadMessagesInChat} from "../../utils/firebase";
+import {getChatFromChatId, listenToSpecificUserChat, readAllUsersUnreadMessagesInChat} from "../../utils/firebase";
+
+export const chatLoader = async ({params}) => {
+    const {id} = params;
+    const chat = await getChatFromChatId(id);
+
+    if (!chat) {
+        throw new Error("The requested chat does not exist.");
+    }
+
+    return chat;
+};
 
 const Chat = () => {
 
@@ -17,7 +28,7 @@ const Chat = () => {
     const {id: chatId} = useParams();
     const userId = useSelector(selectUserId);
 
-    const [chat, setChat] = useState(null);
+    const [chat, setChat] = useState(useLoaderData());
 
     useEffect(() => {
         readAllUsersUnreadMessagesInChat(chatId, userId)
@@ -55,7 +66,7 @@ const Chat = () => {
         navigate("/");
     };
 
-    if (!chat) {
+    if (!chat.otherUserDetails) {
         return <></>;
     }
 
@@ -69,7 +80,7 @@ const Chat = () => {
                         </button>
 
                         <div className="user-details-container">
-                            <UserIcon size="medium" colour={chat.otherUserDetails.iconColour}/>
+                            <UserIcon size="medium" colour={chat?.otherUserDetails?.iconColour}/>
                             <h1>
                                 <span>{chat.otherUserDetails.displayName}</span>
                                 <span>Active 9h ago</span>

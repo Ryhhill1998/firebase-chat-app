@@ -13,7 +13,7 @@ import {
     updateDoc,
     arrayUnion
 } from "firebase/firestore";
-import {getAuth, GoogleAuthProvider, signInWithPopup, signOut} from "firebase/auth";
+import {getAuth, GoogleAuthProvider, signInWithPopup, signOut, FacebookAuthProvider} from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -31,13 +31,22 @@ const db = getFirestore(app);
 
 export const auth = getAuth(app);
 
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 
 // sign in functions
 export const signInWithGooglePopup = async () => {
-    const result = await signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, googleProvider);
     const credential = await GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
+    return result.user;
+};
+
+const facebookProvider = new FacebookAuthProvider();
+
+export const signInWithFacebookPopup = async () => {
+    const result = await signInWithPopup(auth, facebookProvider);
+    const credential = FacebookAuthProvider.credentialFromResult(result);
+    const accessToken = credential.accessToken;
     return result.user;
 };
 

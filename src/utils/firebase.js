@@ -151,6 +151,8 @@ export const getAllUsers = async () => {
         allUsers.push({id: doc.id, ...doc.data()});
     });
 
+    console.log(allUsers)
+
     return allUsers;
 };
 

@@ -74,9 +74,9 @@ const ActiveUsersSlider = () => {
     return (
         <div className="slider-container">
             <div className="active-users-container" {...handlers} style={style}>
-                {activeUsers.map(({id, displayName}) => (
+                {activeUsers.map(({id, displayName, iconColour}) => (
                     <div key={id} className="active-user-container">
-                        <ActiveUserIcon id={id} size="large"/>
+                        <ActiveUserIcon id={id} size="large" colour={iconColour}/>
                         <p>{displayName}</p>
                     </div>
                 ))}

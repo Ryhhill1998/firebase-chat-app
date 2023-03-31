@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
 
-const ActiveUserIcon = ({id, size}) => {
+const ActiveUserIcon = ({id, size, colour}) => {
 
     const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const ActiveUserIcon = ({id, size}) => {
 
     return (
         <div className="active-user-icon" onClick={() => handleClick(id)}>
-            <UserIcon size={size}/>
+            <UserIcon size={size} colour={colour}/>
             <div className="active-indicator"></div>
         </div>
     );

@@ -4,10 +4,16 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightFromBracket, faChevronLeft, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
-import {selectDisplayName, selectIconColour, selectUserId, setDisplayName} from "../../features/user/userSlice";
+import {
+    selectDisplayName,
+    selectIconColour,
+    selectUserId,
+    setDisplayName,
+    setIconColour
+} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {signOutUser, updateUserDisplayName} from "../../utils/firebase";
+import {signOutUser, updateUserDisplayName, updateUserIconColour} from "../../utils/firebase";
 import UserIconButton from "../../common/components/UserIconButton/UserIconButton";
 
 const Profile = () => {
@@ -115,6 +121,15 @@ const Profile = () => {
         });
     };
 
+    const handleSavePopupClick = () => {
+        const newIconColour = iconButtons.find(button => button.selected).colour;
+        updateUserIconColour(userId, newIconColour)
+            .then(() => {
+                dispatch(setIconColour(newIconColour));
+                handleClosePopupClick();
+            });
+    };
+
     return (
         <div className="profile-container container">
             <header>
@@ -157,7 +172,7 @@ const Profile = () => {
                             ))}
                         </div>
 
-                        <button className="apply-button">Save</button>
+                        <button className="apply-button" onClick={handleSavePopupClick}>Save</button>
                     </div>
                 )}
             </section>

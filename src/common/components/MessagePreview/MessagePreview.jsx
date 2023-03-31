@@ -2,7 +2,7 @@ import "./MessagePreview.css";
 import UserIcon from "../UserIcon/UserIcon";
 import {useNavigate} from "react-router-dom";
 
-const MessagePreview = ({id, content, name, fromUser, unread}) => {
+const MessagePreview = ({id, content, name, fromUser, iconColour, unread}) => {
 
     const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ const MessagePreview = ({id, content, name, fromUser, unread}) => {
 
     return (
         <div className={`message-preview ${unread ? "unread" : ""}`} onClick={handleClick}>
-            <UserIcon size="large"/>
+            <UserIcon size="large" colour={iconColour}/>
             <div className="content">
                 <h3>{name}</h3>
                 <p style={{width: contentWidth}}>{(fromUser ? "You: " : "") + content}</p>

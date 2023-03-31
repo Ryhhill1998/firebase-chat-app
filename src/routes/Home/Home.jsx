@@ -64,6 +64,7 @@ const Home = () => {
                             name={otherUserDetails.displayName}
                             content={lastMessage.content}
                             fromUser={userId === lastMessage.fromUserId}
+                            iconColour={chat.otherUserDetails.iconColour}
                             unread={userId === lastMessage.toUserId && !lastMessage.read}
                         />
                     );

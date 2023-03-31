@@ -63,6 +63,27 @@ const Profile = () => {
         await signOutUser();
     };
 
+    const [iconButtons, setIconButtons] = useState([
+        {colour: "#FF2E63", selected: true},
+        {colour: "#19A7CE", selected: false},
+        {colour: "#FE6244", selected: false},
+        {colour: "#AA77FF", selected: false},
+        {colour: "#E21818", selected: false},
+        {colour: "#5D9C59", selected: false}
+    ]);
+
+    const handleIconButtonClick = (index) => {
+        setIconButtons(iconButtons => {
+            const updatedIconButtons = [...iconButtons].map(button => {
+                button.selected = false;
+                return button;
+            });
+
+            updatedIconButtons[index].selected = true;
+            return updatedIconButtons;
+        })
+    };
+
     return (
         <div className="profile-container container">
             <header>
@@ -93,8 +114,14 @@ const Profile = () => {
                     <h2>Choose an icon</h2>
 
                     <div className="icons-container">
-                        {new Array(6).fill(0).map(entry => (
-                            <UserIconButton/>
+                        {iconButtons.map((button, i) => (
+                            <UserIconButton
+                                key={i}
+                                colour={button.colour}
+                                index={i}
+                                selected={button.selected}
+                                handleClick={handleIconButtonClick}
+                            />
                         ))}
                     </div>
 

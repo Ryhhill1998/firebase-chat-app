@@ -84,9 +84,8 @@
     margin-bottom: 1em;
 }
 
-.profile-container .change-icon-popup .icons-container .selected {
+.profile-container .change-icon-popup .icons-container .selected .user-icon {
     border: solid 2px white;
-    border-radius: 50%;
 }
 
 .profile-container .change-icon-popup .apply-button {

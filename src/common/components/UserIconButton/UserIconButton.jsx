@@ -1,10 +1,10 @@
 import "./UserIconButton.css";
 import UserIcon from "../UserIcon/UserIcon";
 
-const UserIconButton = ({colour, selected}) => {
+const UserIconButton = ({colour, selected, index, handleClick}) => {
     return (
-        <button className="selected">
-            <UserIcon size="large"/>
+        <button className={`${selected ? "selected" : ""}`} onClick={() => handleClick(index)}>
+            <UserIcon size="large" colour={colour}/>
         </button>
     );
 };

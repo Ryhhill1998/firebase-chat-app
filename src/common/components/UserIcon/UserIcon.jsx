@@ -10,12 +10,15 @@ const sizesMap = {
     xLarge: "80px",
 }
 
-const UserIcon = ({size}) => {
+const UserIcon = ({size, colour}) => {
 
     const dimensions = sizesMap[size];
 
     return (
-        <div className="user-icon" style={{height: dimensions, width: dimensions}}>
+        <div
+            className="user-icon"
+            style={{height: dimensions, width: dimensions, backgroundColor: colour ? colour : "#FF2E63"}}
+        >
             <img src={userIconImage} alt="user-icon" loading="lazy"/>
         </div>
     );

@@ -3,15 +3,17 @@ import "./Auth.css";
 import logoImgSrc from "../../common/images/logo.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFacebook, faGoogle} from "@fortawesome/free-brands-svg-icons";
-import {createUserDoc, signInWithFacebookPopup, signInWithGooglePopup} from "../../utils/firebase";
-import {useSelector} from "react-redux";
-import {selectUserId} from "../../features/user/userSlice";
+import {createUserDoc, signInWithFacebookPopup, signInWithGooglePopup, userDocExists} from "../../utils/firebase";
+import {useDispatch, useSelector} from "react-redux";
+import {selectUserId, setDisplayName, setIconColour} from "../../features/user/userSlice";
 import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
 const Auth = () => {
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
 
@@ -29,8 +31,16 @@ const Auth = () => {
 
     const createNewUserInDatabase = async (user) => {
         const {uid, displayName, email} = user;
-        const data = {displayName, email, iconColour: getRandomColour()};
+
+        if (await userDocExists(uid)) return;
+
+        const iconColour = getRandomColour();
+
+        const data = {displayName, email, iconColour};
         await createUserDoc(data, uid);
+
+        dispatch(setDisplayName(displayName));
+        dispatch(setIconColour(iconColour));
     };
 
     const handleGoogleSignInClick = async () => {

@@ -30,6 +30,7 @@ const Root = () => {
             localStorage.setItem("userId", JSON.stringify(userId));
             getUserFromUserId(userId)
                 .then(user => {
+                    if (!user) return;
                     dispatch(setDisplayName(user.displayName));
                     dispatch(setIconColour(user.iconColour));
                 });

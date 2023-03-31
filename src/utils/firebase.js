@@ -55,6 +55,13 @@ export const signOutUser = async () => {
     await signOut(auth);
 };
 
+// check if user doc already exists
+export const userDocExists = async (userId) => {
+    const docRef = doc(db, "users", userId);
+    const docSnap = await getDoc(docRef);
+    return docSnap.exists();
+};
+
 // create user doc - userData param includes displayName, email
 export const createUserDoc = async (userData, userId) => {
     const userDocRef = doc(db, "users", userId);

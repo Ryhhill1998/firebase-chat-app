@@ -24,6 +24,7 @@ const Chat = () => {
             .then(() => {
                 console.log("messages read")
             });
+        console.log(chat)
     }, [chat]);
 
     useEffect(() => {
@@ -68,7 +69,7 @@ const Chat = () => {
                         </button>
 
                         <div className="user-details-container">
-                            <UserIcon  size="medium"/>
+                            <UserIcon size="medium" colour={chat.otherUserDetails.iconColour}/>
                             <h1>
                                 <span>{chat.otherUserDetails.displayName}</span>
                                 <span>Active 9h ago</span>
@@ -88,11 +89,11 @@ const Chat = () => {
                     {chat.messages && chat.messages.map(({id, content, fromUserId, read}, i) => (
                         <MessageBubble
                             key={i}
-                            id={id}
                             content={content}
                             fromUser={fromUserId === userId}
-                            read={read}
+                            iconColour={chat.otherUserDetails.iconColour}
                             lastMessage={i === chat.messages.length - 1}
+                            read={read}
                         />
                     ))}
                 </div>

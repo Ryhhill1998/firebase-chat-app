@@ -5,52 +5,26 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
 import {useEffect, useRef, useState} from "react";
 import NewMessageInput from "../../common/components/NewMessageInput/NewMessageInput";
-import {useLoaderData, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
-import {getChatFromChatId, listenToSpecificUserChat, readAllUsersUnreadMessagesInChat} from "../../utils/firebase";
-import Auth from "../Auth/Auth";
-import {selectAllChats, selectOpenedChat} from "../../features/chats/chatsSlice";
-
-export const chatLoader = async ({params}) => {
-    const {id} = params;
-    const userId = JSON.parse(localStorage.getItem("userId"));
-
-    if (!userId) {
-        return <Auth/>;
-    }
-
-    const chat = await getChatFromChatId(id, userId);
-
-    if (!chat) {
-        throw new Error("The requested chat does not exist.");
-    }
-
-    return chat;
-};
+import {readAllUsersUnreadMessagesInChat} from "../../utils/firebase";
+import {selectOpenedChat} from "../../features/chats/chatsSlice";
 
 const Chat = () => {
     const navigate = useNavigate();
 
-    const {id: chatId} = useParams();
     const userId = useSelector(selectUserId);
-    const openChat = useSelector(selectOpenedChat);
-
-    const [chat, setChat] = useState(useLoaderData());
+    const chat = useSelector(selectOpenedChat);
 
     useEffect(() => {
-        if (!userId || !chatId) return;
+        if (!userId || !chat) return;
 
-        readAllUsersUnreadMessagesInChat(chatId, userId)
+        readAllUsersUnreadMessagesInChat(chat.id, userId)
             .then(() => {
                 console.log("messages read")
             });
-    }, [chat, chatId, userId]);
-
-    useEffect(() => {
-        if (!userId || chatId) return;
-        return listenToSpecificUserChat(chatId, userId, setChat);
-    }, [chatId, userId]);
+    }, [chat, userId]);
 
     // window size config
     const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight + "px");
@@ -75,7 +49,14 @@ const Chat = () => {
         navigate("/");
     };
 
-    if (!chat.otherUserDetails) {
+    useEffect(() => {
+        if (!chat) {
+            console.log("navigating to home")
+            navigate("/");
+        }
+    }, [chat]);
+
+    if (!chat) {
         return <></>;
     }
 
@@ -89,7 +70,7 @@ const Chat = () => {
                         </button>
 
                         <div className="user-details-container">
-                            <UserIcon size="medium" colour={chat?.otherUserDetails?.iconColour}/>
+                            <UserIcon size="medium" colour={chat.otherUserDetails.iconColour}/>
                             <h1>
                                 <span>{chat.otherUserDetails.displayName}</span>
                                 <span>Active 9h ago</span>

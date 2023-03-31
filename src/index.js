@@ -9,7 +9,7 @@ import reportWebVitals from './reportWebVitals';
 
 import Home from './routes/Home/Home';
 import Auth from "./routes/Auth/Auth";
-import Chat, {chatLoader} from "./routes/Chat/Chat";
+import Chat from "./routes/Chat/Chat";
 import ErrorPage from "./routes/ErrorPage/ErrorPage";
 import ErrorComponent from "./routes/Chat/ErrorComponent/ErrorComponent";
 
@@ -36,7 +36,6 @@ const router = createBrowserRouter([
             {
                 path: "/chats/:id",
                 element: <Chat/>,
-                loader: chatLoader,
                 errorElement: <ErrorComponent/>,
             },
             {

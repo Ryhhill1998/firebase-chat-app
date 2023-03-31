@@ -21,18 +21,26 @@ const Auth = () => {
         }
     }, [userId]);
 
+    const getRandomColour = () => {
+        const colours = ["#FF2E63", "#19A7CE", "#FE6244", "#AA77FF", "#E21818", "#5D9C59"];
+        const randomIndex = Math.floor(Math.random() * colours.length);
+        return colours[randomIndex];
+    };
+
+    const createNewUserInDatabase = async (user) => {
+        const {uid, displayName, email} = user;
+        const data = {displayName, email, iconColour: getRandomColour()};
+        await createUserDoc(data, uid);
+    };
+
     const handleGoogleSignInClick = async () => {
         const user = await signInWithGooglePopup()
-        const {uid, displayName, email} = user;
-        const data = {displayName, email};
-        await createUserDoc(data, uid);
+        await createNewUserInDatabase(user);
     };
 
     const handleFacebookSignInClick = async () => {
         const user = await signInWithFacebookPopup();
-        const {uid, displayName, email} = user;
-        const data = {displayName, email};
-        await createUserDoc(data, uid);
+        await createNewUserInDatabase(user);
     };
 
     return (

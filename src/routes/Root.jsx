@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {onAuthStateChanged} from "firebase/auth";
 import {auth, getUserFromUserId} from "../utils/firebase";
-import {resetUserId, selectUserId, setDisplayName, setUserId} from "../features/user/userSlice";
+import {resetUserId, selectUserId, setDisplayName, setIconColour, setUserId} from "../features/user/userSlice";
 import {Outlet, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 
@@ -29,7 +29,10 @@ const Root = () => {
         } else {
             localStorage.setItem("userId", JSON.stringify(userId));
             getUserFromUserId(userId)
-                .then(user => dispatch(setDisplayName(user.displayName)));
+                .then(user => {
+                    dispatch(setDisplayName(user.displayName));
+                    dispatch(setIconColour(user.iconColour));
+                });
         }
     }, [userId]);
 

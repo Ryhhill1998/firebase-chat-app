@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightFromBracket, faChevronLeft, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
-import {selectDisplayName, selectUserId, setDisplayName} from "../../features/user/userSlice";
+import {selectDisplayName, selectIconColour, selectUserId, setDisplayName} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {signOutUser, updateUserDisplayName} from "../../utils/firebase";
@@ -18,6 +18,7 @@ const Profile = () => {
 
     const userId = useSelector(selectUserId);
     const currentDisplayName = useSelector(selectDisplayName);
+    const iconColour = useSelector(selectIconColour);
 
     const [name, setName] = useState("");
     const [saveButtonStyle, setSaveButtonStyle] = useState({visibility: "visible"});
@@ -64,13 +65,23 @@ const Profile = () => {
     };
 
     const [iconButtons, setIconButtons] = useState([
-        {colour: "#FF2E63", selected: true},
+        {colour: "#FF2E63", selected: false},
         {colour: "#19A7CE", selected: false},
         {colour: "#FE6244", selected: false},
         {colour: "#AA77FF", selected: false},
         {colour: "#E21818", selected: false},
         {colour: "#5D9C59", selected: false}
     ]);
+
+    useEffect(() => {
+        if (!iconColour) return;
+
+        setIconButtons(iconButtons => {
+            const updatedIconButtons = [...iconButtons];
+            updatedIconButtons.find(button => button.colour === iconColour).selected = true;
+            return updatedIconButtons;
+        })
+    }, [iconColour]);
 
     const handleIconButtonClick = (index) => {
         setIconButtons(iconButtons => {
@@ -81,7 +92,27 @@ const Profile = () => {
 
             updatedIconButtons[index].selected = true;
             return updatedIconButtons;
-        })
+        });
+    };
+
+    const [popupVisible, setPopupVisible] = useState(false);
+
+    const handleChangeIconClick = () => {
+        setPopupVisible(true);
+    }
+
+    const handleClosePopupClick = () => {
+        setPopupVisible(false);
+        handleResetPopupClick();
+    };
+
+    const handleResetPopupClick = () => {
+        setIconButtons(iconButtons => {
+            return [...iconButtons].map((button, i) => {
+                button.selected = i === 0;
+                return button;
+            });
+        });
     };
 
     return (
@@ -99,34 +130,36 @@ const Profile = () => {
             </header>
 
             <section className="change-icon-section">
-                <UserIcon size="xLarge"/>
-                <button>
+                {iconColour && <UserIcon size="xLarge" colour={iconColour}/>}
+                <button onClick={handleChangeIconClick}>
                     Change icon
                     <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
                 </button>
 
-                <div className="change-icon-popup">
-                    <div className="popup-buttons">
-                        <button>Close</button>
-                        <button>Clear</button>
+                {popupVisible && (
+                    <div className="change-icon-popup">
+                        <div className="popup-buttons">
+                            <button onClick={handleClosePopupClick}>Close</button>
+                            <button onClick={handleResetPopupClick}>Reset</button>
+                        </div>
+
+                        <h2>Choose an icon</h2>
+
+                        <div className="icons-container">
+                            {iconButtons.map((button, i) => (
+                                <UserIconButton
+                                    key={i}
+                                    colour={button.colour}
+                                    index={i}
+                                    selected={button.selected}
+                                    handleClick={handleIconButtonClick}
+                                />
+                            ))}
+                        </div>
+
+                        <button className="apply-button">Save</button>
                     </div>
-
-                    <h2>Choose an icon</h2>
-
-                    <div className="icons-container">
-                        {iconButtons.map((button, i) => (
-                            <UserIconButton
-                                key={i}
-                                colour={button.colour}
-                                index={i}
-                                selected={button.selected}
-                                handleClick={handleIconButtonClick}
-                            />
-                        ))}
-                    </div>
-
-                    <button className="apply-button">Save</button>
-                </div>
+                )}
             </section>
 
             <section className="change-details-section">

@@ -70,6 +70,12 @@ export const updateUserDisplayName = async (userId, displayName) => {
     await updateDoc(docSnap, {displayName});
 };
 
+// update user icon colour
+export const updateUserIconColour = async (userId, iconColour) => {
+    const docSnap = await doc(db, "users", userId);
+    await updateDoc(docSnap, {iconColour});
+};
+
 // create new chat
 export const createChatDoc = async (fromUserId, toUserId) => {
     // get user details

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    userId: JSON.parse(localStorage.getItem("userId")),
+    id: JSON.parse(localStorage.getItem("userId")),
     displayName: null,
     iconColour: null,
 };
@@ -11,10 +11,10 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         setUserId: (state, action) => {
-            state.userId = action.payload;
+            state.id = action.payload;
         },
         resetUserId: state => {
-            state.userId = null;
+            state.id = null;
         },
         setDisplayName: (state, action) => {
             state.displayName = action.payload;
@@ -27,7 +27,7 @@ export const userSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {setUserId, resetUserId, setDisplayName, setIconColour} = userSlice.actions
-export const selectUserId = state => state.user.userId;
+export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;
 export const selectIconColour = state => state.user.iconColour;
 export default userSlice.reducer

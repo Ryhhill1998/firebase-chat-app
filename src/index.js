@@ -11,7 +11,7 @@ import Home from './routes/Home/Home';
 import Auth from "./routes/Auth/Auth";
 import Chat, {chatLoader} from "./routes/Chat/Chat";
 import ErrorPage from "./routes/ErrorPage/ErrorPage";
-import ErrorComponent from "./common/components/ErrorComponent/ErrorComponent";
+import ErrorComponent from "./routes/Chat/ErrorComponent/ErrorComponent";
 
 import store from './app/store'
 import {Provider} from 'react-redux'

@@ -1,5 +1,5 @@
 import "./ChangeIconPopup.css";
-import UserIconButton from "../../../common/components/UserIconButton/UserIconButton";
+import UserIconButton from "./UserIconButton/UserIconButton";
 import {updateUserIconColour} from "../../../utils/firebase";
 import {selectIconColour, selectUserId, setIconColour} from "../../user/userSlice";
 import {useDispatch, useSelector} from "react-redux";

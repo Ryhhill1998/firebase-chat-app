@@ -13,6 +13,10 @@ const SearchBar = () => {
         setSearchQuery(value);
     };
 
+    const handleFocus = (event) => {
+        console.log(event)
+    };
+
     return (
         <div className="search-bar">
             <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
@@ -23,6 +27,7 @@ const SearchBar = () => {
                 onChange={handleChange}
                 placeholder="Search"
                 autoComplete="off"
+                onFocus={handleFocus}
             />
         </div>
     );

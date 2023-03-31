@@ -1,5 +1,5 @@
 import "./UserIconButton.css";
-import UserIcon from "../UserIcon/UserIcon";
+import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 
 const UserIconButton = ({colour, selected, index, handleClick}) => {
     return (

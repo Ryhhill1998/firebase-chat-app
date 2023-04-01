@@ -39,7 +39,11 @@ const Home = () => {
     }, [chats]);
 
     const handleProfileClick = () => {
-        navigate("profile");
+        navigate("/profile");
+    };
+
+    const handleNewMessageClick = () => {
+        navigate("/new-message");
     };
 
     return (
@@ -51,7 +55,7 @@ const Home = () => {
 
                 <h1>Chats</h1>
 
-                <button>
+                <button onClick={handleNewMessageClick}>
                     <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
                 </button>
             </header>

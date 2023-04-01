@@ -18,6 +18,7 @@ import {Provider} from 'react-redux'
 import Root from "./routes/Root";
 import Profile from "./routes/Profile/Profile";
 import Search from "./routes/Search/Search";
+import NewMessage from "./routes/NewMessage/NewMessage";
 
 const router = createBrowserRouter([
     {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
             {
                 path: "/search",
                 element: <Search/>,
+            },
+            {
+                path: "/new-message",
+                element: <NewMessage/>,
             },
         ],
     },

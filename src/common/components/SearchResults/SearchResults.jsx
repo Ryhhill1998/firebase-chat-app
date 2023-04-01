@@ -8,7 +8,7 @@ import {getAllUsers} from "../../../utils/firebase";
 import MessagePreview from "../MessagePreview/MessagePreview";
 import {useEffect, useState} from "react";
 
-const SearchResults = () => {
+const SearchResults = ({otherResults}) => {
 
     const navigate = useNavigate();
 
@@ -82,7 +82,7 @@ const SearchResults = () => {
                 </div>
             )}
 
-            {searchQuery && !userResults?.length && (
+            {!otherResults && searchQuery && !userResults?.length && (
                 <div>
                     <h2>No results</h2>
                 </div>

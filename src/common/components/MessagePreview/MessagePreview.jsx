@@ -1,13 +1,21 @@
 import "./MessagePreview.css";
 import UserIcon from "../UserIcon/UserIcon";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {selectUserId} from "../../../features/user/userSlice";
 import {getChatId} from "../../../utils/firebase";
 
-const MessagePreview = ({id, content, name, fromUser, iconColour, unread}) => {
+const MessagePreview = ({id, otherUserId, content, name, fromUser, iconColour, unread}) => {
 
     const navigate = useNavigate();
 
+    const userId = useSelector(selectUserId);
+
     const handleClick = async () => {
+        if (!id) {
+            id = await getChatId(userId, otherUserId);
+        }
+
         navigate("/chats/" + id);
     };
     

@@ -52,7 +52,7 @@ const Search = () => {
             foundUsers = null;
         } else {
             foundUsers = allUsers
-                .filter(user => user.displayName.toLowerCase().includes(searchQuery.toLowerCase()))
+                .filter(user => user.displayName.toLowerCase().includes(searchQuery.toLowerCase()));
         }
 
         setUserResults(foundUsers);
@@ -96,7 +96,7 @@ const Search = () => {
                         const {id, displayName, iconColour} = user;
 
                         return (
-                            <MessagePreview key={id} id={id} name={displayName} iconColour={iconColour}/>
+                            <MessagePreview key={id} otherUserId={id} name={displayName} iconColour={iconColour}/>
                         )
                     })}
                 </div>

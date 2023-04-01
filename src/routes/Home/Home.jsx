@@ -11,7 +11,7 @@ import {selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {listenToAllUserChats} from "../../utils/firebase";
 import {setAllChats} from "../../features/chats/chatsSlice";
-import {focusOutSearch, resetSearchQuery} from "../../features/search/searchSlice";
+import {focusInSearch, focusOutSearch, resetSearchQuery} from "../../features/search/searchSlice";
 
 const Home = () => {
 
@@ -43,6 +43,7 @@ const Home = () => {
     };
 
     const handleNewMessageClick = () => {
+        dispatch(focusInSearch());
         navigate("/new-message");
     };
 
@@ -61,7 +62,7 @@ const Home = () => {
             </header>
 
             <div className="search-bar-container">
-                <SearchBar/>
+                <SearchBar navigateOnFocus={true}/>
             </div>
 
             <ActiveUsersSlider/>

@@ -13,7 +13,7 @@ import {
 import {useNavigate} from "react-router-dom";
 import {useEffect, useRef} from "react";
 
-const SearchBar = () => {
+const SearchBar = ({navigateOnFocus}) => {
 
     const dispatch = useDispatch();
 
@@ -38,7 +38,10 @@ const SearchBar = () => {
     const handleFocus = () => {
         if (!focused) {
             dispatch(focusInSearch());
-            navigate("/search");
+
+            if (navigateOnFocus) {
+                navigate("/search");
+            }
         }
     };
 

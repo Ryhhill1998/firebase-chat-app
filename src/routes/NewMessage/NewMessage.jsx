@@ -73,7 +73,7 @@ const NewMessage = () => {
                 <button style={{visibility: "hidden"}}>Cancel</button>
             </header>
 
-            <SearchBar/>
+            <SearchBar navigateOnFocus={false}/>
 
             {!userResults && suggestions && (
                 <div>

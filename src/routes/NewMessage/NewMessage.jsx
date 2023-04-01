@@ -66,11 +66,14 @@ const NewMessage = () => {
     };
 
     return (
-        <div className="search-page-container container">
+        <div className="new-message-page-container container">
             <header>
-                <SearchBar/>
                 <button onClick={handleCancelClick}>Cancel</button>
+                <h1>New message</h1>
+                <button style={{visibility: "hidden"}}>Cancel</button>
             </header>
+
+            <SearchBar/>
 
             {!userResults && suggestions && (
                 <div>

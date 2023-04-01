@@ -1,0 +1,9 @@
+.search-results-container h2 {
+    font-size: 0.8rem;
+    margin-bottom: 0.5em;
+    color: #B2B2B2;
+}
+
+.search-results-container .message-preview {
+    padding: 0.5em 0;
+}

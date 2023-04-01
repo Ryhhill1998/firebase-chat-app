@@ -1,5 +1,8 @@
 .search-page-container {
     padding: 1em 1.25em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 .search-page-container header {
@@ -12,14 +15,4 @@
     border: none;
     color: #EBB02D;
     font-size: 0.9rem;
-}
-
-.search-page-container h2 {
-    font-size: 0.8rem;
-    margin: 1em 0 0.5em;
-    color: #B2B2B2;
-}
-
-.search-page-container .message-preview {
-    padding: 0.5em 0;
 }

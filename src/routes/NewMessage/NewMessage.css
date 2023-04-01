@@ -20,13 +20,3 @@
     color: #EBB02D;
     font-size: 0.9rem;
 }
-
-.new-message-page-container h2 {
-    font-size: 0.8rem;
-    color: #B2B2B2;
-    margin-bottom: 0.5em;
-}
-
-.new-message-page-container .message-preview {
-    padding: 0.5em 0;
-}

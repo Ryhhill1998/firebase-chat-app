@@ -11,6 +11,7 @@ import {
     setSearchQuery,
 } from "../searchSlice";
 import {useNavigate} from "react-router-dom";
+import {useEffect, useRef} from "react";
 
 const SearchBar = () => {
 
@@ -20,6 +21,14 @@ const SearchBar = () => {
 
     const searchQuery = useSelector(selectSearchQuery);
     const focused = useSelector(selectSearchIsFocused);
+
+    const inputRef = useRef();
+
+    useEffect(() => {
+        if (focused) {
+            inputRef.current.focus();
+        }
+    }, [focused]);
 
     const handleChange = ({target}) => {
         const {value} = target;
@@ -42,6 +51,7 @@ const SearchBar = () => {
             <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
 
             <input
+                ref={inputRef}
                 type="text"
                 name="searchQuery"
                 value={searchQuery + ""}
@@ -49,7 +59,6 @@ const SearchBar = () => {
                 placeholder="Search"
                 autoComplete="off"
                 onFocus={handleFocus}
-                autoFocus={!!focused}
             />
 
             {searchQuery && (

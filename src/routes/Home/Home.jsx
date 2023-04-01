@@ -11,6 +11,7 @@ import {selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {listenToAllUserChats} from "../../utils/firebase";
 import {setAllChats} from "../../features/chats/chatsSlice";
+import {focusOutSearch, resetSearchQuery} from "../../features/search/searchSlice";
 
 const Home = () => {
 
@@ -21,6 +22,10 @@ const Home = () => {
     const userId = useSelector(selectUserId);
 
     const [chats, setChats] = useState([]);
+
+    useEffect(() => {
+        dispatch(resetSearchQuery());
+    }, []);
 
     useEffect(() => {
         if (!userId) return;

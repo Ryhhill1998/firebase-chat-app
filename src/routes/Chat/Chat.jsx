@@ -6,12 +6,15 @@ import MessageBubble from "../../common/components/MessageBubble/MessageBubble";
 import {useEffect, useRef, useState} from "react";
 import NewMessageInput from "../../common/components/NewMessageInput/NewMessageInput";
 import {useNavigate, useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {listenToSpecificUserChat, readAllUsersUnreadMessagesInChat} from "../../utils/firebase";
+import {focusOutSearch} from "../../features/search/searchSlice";
 
 const Chat = () => {
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const {id: chatId} = useParams();
     const userId = useSelector(selectUserId);
@@ -53,6 +56,7 @@ const Chat = () => {
     }, []);
 
     const handleBackClick = () => {
+        dispatch(focusOutSearch());
         navigate("/");
     };
 

@@ -3,7 +3,6 @@
     background-color: #222222;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: 1em;
 }
 
@@ -61,5 +60,9 @@
     flex-direction: column;
     gap: 1em;
     overflow: scroll;
-    margin-bottom: 1em;
+    height: 100%;
+}
+
+.chat-container .message-bubbles-container > div:first-child {
+    margin-top: auto;
 }

@@ -3,8 +3,11 @@ import {createSlice} from '@reduxjs/toolkit'
 const initialState = {
     query: "",
     focused: false,
-    userSearchResults: null,
-    messagesSearchResults: null
+    results: {
+        suggestions: null,
+        users: null,
+        messages: null,
+    }
 };
 
 export const searchSlice = createSlice({
@@ -24,13 +27,13 @@ export const searchSlice = createSlice({
             state.focused = false;
         },
         setUserSearchResults: (state, action) => {
-            state.userSearchResults = action.payload;
+            state.results.users = action.payload;
         },
         resetUserSearchResults: state => {
-            state.userSearchResults = null;
+            state.results.users = null;
         },
         setMessagesSearchResults: (state, action) => {
-            state.messagesSearchResults = action.payload;
+            state.results.messages = action.payload;
         }
     }
 })
@@ -46,5 +49,5 @@ export const {
 } = searchSlice.actions
 export const selectSearchQuery = state => state.search.query;
 export const selectSearchIsFocused = state => state.search.focused;
-export const selectUserSearchResults = state => state.search.userSearchResults;
+export const selectUserSearchResults = state => state.search.results.users;
 export default searchSlice.reducer

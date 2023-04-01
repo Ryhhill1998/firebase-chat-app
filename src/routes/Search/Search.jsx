@@ -5,13 +5,14 @@ import {selectUserId} from "../../features/user/userSlice";
 import {useNavigate} from "react-router-dom";
 import {
     focusOutSearch,
-    resetSearchQuery,
+    resetSearchQuery, resetUserSearchResults,
     selectSearchQuery,
-    selectUserSearchResults
+    selectUserSearchResults, setUserSearchResults
 } from "../../features/search/searchSlice";
 import {useEffect, useState} from "react";
-import {getAllChatsByUserId, getThreeMostRecentChatsByUserId} from "../../utils/firebase";
+import {getAllUsers, getThreeMostRecentChatsByUserId} from "../../utils/firebase";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
+import {selectAllChats} from "../../features/chats/chatsSlice";
 
 const Search = () => {
 
@@ -21,28 +22,48 @@ const Search = () => {
 
     const userId = useSelector(selectUserId);
     const searchQuery = useSelector(selectSearchQuery);
-    const userSearchResults = useSelector(selectUserSearchResults);
+    const allChats = useSelector(selectAllChats);
 
-    const handleCancelClick = () => {
-        dispatch(focusOutSearch());
-        dispatch(resetSearchQuery());
-        navigate("/");
-    };
-
+    const [allUsers, setAllUsers] = useState(null);
     const [suggestions, setSuggestions] = useState(null);
-
-    const getSuggestions = async (id) => {
-        return await getThreeMostRecentChatsByUserId(id);
-    };
+    const [userResults, setUserResults] = useState(null);
 
     useEffect(() => {
         if (!userId) return;
 
-        getSuggestions(userId)
-            .then(results => setSuggestions(results));
+        getAllUsers()
+            .then(results => setAllUsers(results.filter(result => result.id !== userId)));
     }, [userId]);
 
-    // TODO - search messages by search query
+    useEffect(() => {
+        if (!allChats) {
+            navigate("/");
+        } else {
+            setSuggestions(allChats.slice(0, 3));
+        }
+    }, [allChats]);
+
+    useEffect(() => {
+        if (!allUsers) return;
+
+        let foundUsers;
+
+        if (!searchQuery) {
+            foundUsers = null;
+        } else {
+            foundUsers = allUsers
+                .filter(user => user.displayName.toLowerCase().includes(searchQuery.toLowerCase()))
+        }
+
+        setUserResults(foundUsers);
+    }, [allUsers, searchQuery]);
+
+    const handleCancelClick = () => {
+        dispatch(focusOutSearch());
+        dispatch(resetSearchQuery());
+        dispatch(resetUserSearchResults());
+        navigate("/");
+    };
 
     return (
         <div className="search-page-container container">
@@ -51,8 +72,7 @@ const Search = () => {
                 <button onClick={handleCancelClick}>Cancel</button>
             </header>
 
-
-            {!userSearchResults && suggestions && (
+            {!userResults && suggestions && (
                 <div>
                     <h2>Suggested</h2>
 
@@ -68,11 +88,11 @@ const Search = () => {
                 </div>
             )}
 
-            {userSearchResults && userSearchResults.length > 0 && (
+            {userResults?.length > 0 && (
                 <div>
                     <h2>Users</h2>
 
-                    {userSearchResults.map(user => {
+                    {userResults.map(user => {
                         const {id, displayName, iconColour} = user;
 
                         return (
@@ -82,7 +102,7 @@ const Search = () => {
                 </div>
             )}
 
-            {searchQuery && !userSearchResults?.length && (
+            {searchQuery && !userResults?.length && (
                 <div>
                     <h2>No results</h2>
                 </div>

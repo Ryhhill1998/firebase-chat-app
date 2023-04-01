@@ -6,14 +6,17 @@ import {useNavigate} from "react-router-dom";
 import {faPenToSquare, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {listenToAllUserChats} from "../../utils/firebase";
+import {setAllChats} from "../../features/chats/chatsSlice";
 
 const Home = () => {
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
 
@@ -23,6 +26,12 @@ const Home = () => {
         if (!userId) return;
         listenToAllUserChats(userId, setChats);
     }, [userId]);
+
+    useEffect(() => {
+        if (!chats) return;
+
+        dispatch(setAllChats(chats));
+    }, [chats]);
 
     const handleProfileClick = () => {
         navigate("profile");

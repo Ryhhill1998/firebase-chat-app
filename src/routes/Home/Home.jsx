@@ -11,7 +11,13 @@ import {selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {listenToAllUserChats} from "../../utils/firebase";
 import {setAllChats} from "../../features/chats/chatsSlice";
-import {focusInSearch, focusOutSearch, resetSearchQuery} from "../../features/search/searchSlice";
+import {
+    focusInSearch,
+    focusOutSearch,
+    resetMessageResults,
+    resetSearchQuery,
+    resetSelectedMessageId
+} from "../../features/search/searchSlice";
 
 const Home = () => {
 
@@ -25,6 +31,8 @@ const Home = () => {
 
     useEffect(() => {
         dispatch(resetSearchQuery());
+        dispatch(resetMessageResults());
+        dispatch(resetSelectedMessageId());
     }, []);
 
     useEffect(() => {

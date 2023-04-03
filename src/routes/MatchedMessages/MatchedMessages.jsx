@@ -5,6 +5,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectMessageResults} from "../../features/search/searchSlice";
 import {useEffect, useState} from "react";
+import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
 
 const MatchedMessages = () => {
 
@@ -14,21 +15,29 @@ const MatchedMessages = () => {
 
     const messageResults = useSelector(selectMessageResults);
 
-    const [messages, setMessages] = useState();
+    const [details, setDetails] = useState({});
 
     useEffect(() => {
         if (!messageResults || !chatId) return;
 
-        setMessages(messageResults.find(result => result.id === chatId));
-    }, [chatId, messageResults]);
+        const result = messageResults.find(result => result.id === chatId);
+        const {id, otherUserDetails, matchedMessages} = result;
+        const {id: otherUserId, displayName, iconColour} = otherUserDetails;
 
-    useEffect(() => {
-        console.log(messages)
-    }, [messages]);
+        setDetails({
+            id,
+            otherUserId,
+            displayName,
+            iconColour,
+            matchedMessages
+        });
+    }, [chatId, messageResults]);
 
     const handleBackClick = () => {
         navigate("/");
     };
+
+    const {id, otherUserId, displayName, iconColour, matchedMessages} = details;
 
     return (
         <div className="matched-messages-container container">
@@ -37,12 +46,23 @@ const MatchedMessages = () => {
                     <FontAwesomeIcon className="icon" icon={faChevronLeft}/>
                 </button>
 
-                <h1>Name</h1>
+                {displayName && <h1>{displayName}</h1>}
 
                 <button style={{visibility: "hidden"}}>
                     <FontAwesomeIcon className="icon" icon={faChevronLeft}/>
                 </button>
             </header>
+
+            {matchedMessages && matchedMessages.map((message, i) => (
+                <MessagePreview
+                    key={id + i}
+                    id={id}
+                    otherUserId={otherUserId}
+                    name={displayName}
+                    iconColour={iconColour}
+                    content={message.content}
+                />
+            ))}
         </div>
     );
 };

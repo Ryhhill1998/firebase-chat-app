@@ -7,7 +7,7 @@ import {
     focusOutSearch,
     resetMessageResults,
     resetSearchQuery,
-    selectMessageResults
+    selectMessageResults, selectSearchQuery
 } from "../../features/search/searchSlice";
 import {useEffect, useState} from "react";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
@@ -25,8 +25,15 @@ const MatchedMessages = () => {
     const userDisplayName = useSelector(selectDisplayName);
     const userIconColour = useSelector(selectIconColour);
     const messageResults = useSelector(selectMessageResults);
+    const searchQuery = useSelector(selectSearchQuery);
 
     const [details, setDetails] = useState({});
+
+    useEffect(() => {
+        if (!messageResults) {
+            handleBackClick();
+        }
+    }, [messageResults]);
 
     useEffect(() => {
         if (!messageResults || !chatId) return;
@@ -77,6 +84,7 @@ const MatchedMessages = () => {
                             name={fromUser ? userDisplayName : displayName}
                             iconColour={fromUser ? userIconColour : iconColour}
                             content={message.content}
+                            searchString={searchQuery}
                         />
                     );
                 })}

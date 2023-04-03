@@ -30,3 +30,8 @@
     text-overflow: ellipsis;
     font-size: 0.75rem;
 }
+
+.message-preview .content p strong {
+    font-weight: 600;
+    color: white;
+}

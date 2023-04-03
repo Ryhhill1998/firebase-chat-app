@@ -6,8 +6,6 @@ import {getAllUsers} from "../../../utils/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
 
-const users = new Array(12).fill(0);
-
 const ActiveUsersSlider = () => {
 
     const userId = useSelector(selectUserId);
@@ -15,10 +13,14 @@ const ActiveUsersSlider = () => {
     const [style, setStyle] = useState({transform: `translateX(0px)`});
     const [xPosition, setXPosition] = useState(0);
     const [offsetX, setOffsetX] = useState(0);
+    const [activeUsers, setActiveUsers] = useState([]);
 
-    const sliderWidth = (60 * users.length) + (1.25 * 16 * (users.length - 1));
+    const sliderWidth = (60 * activeUsers.length) + (1.25 * 16 * (activeUsers.length - 1));
     const contentWidth = (window.innerWidth > 500 ? 500 : window.innerWidth) - 2 * 20;
     const minXPosition = contentWidth - sliderWidth;
+
+    console.log({sliderWidth}, {contentWidth})
+    console.log(activeUsers.length)
 
     const handlers = useSwipeable({
         onSwiping: ({deltaX}) => {
@@ -33,7 +35,7 @@ const ActiveUsersSlider = () => {
         onTouchEndOrOnMouseUp: () => {
             let newXPosition = xPosition + offsetX;
 
-            if (newXPosition > 0) {
+            if (newXPosition > 0 || sliderWidth <= contentWidth) {
                 newXPosition = 0;
 
                 requestAnimationFrame(() => {
@@ -61,8 +63,6 @@ const ActiveUsersSlider = () => {
         trackMouse: true,
         trackTouch: true
     });
-
-    const [activeUsers, setActiveUsers] = useState([]);
 
     useEffect(() => {
         getAllUsers()

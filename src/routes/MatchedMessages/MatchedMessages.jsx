@@ -6,6 +6,7 @@ import {useSelector} from "react-redux";
 import {selectMessageResults} from "../../features/search/searchSlice";
 import {useEffect, useState} from "react";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
+import {selectDisplayName, selectIconColour, selectUserId} from "../../features/user/userSlice";
 
 const MatchedMessages = () => {
 
@@ -13,6 +14,9 @@ const MatchedMessages = () => {
 
     const navigate = useNavigate();
 
+    const userId = useSelector(selectUserId);
+    const userDisplayName = useSelector(selectDisplayName);
+    const userIconColour = useSelector(selectIconColour);
     const messageResults = useSelector(selectMessageResults);
 
     const [details, setDetails] = useState({});
@@ -22,11 +26,10 @@ const MatchedMessages = () => {
 
         const result = messageResults.find(result => result.id === chatId);
         const {id, otherUserDetails, matchedMessages} = result;
-        const {id: otherUserId, displayName, iconColour} = otherUserDetails;
+        const {displayName, iconColour} = otherUserDetails;
 
         setDetails({
             id,
-            otherUserId,
             displayName,
             iconColour,
             matchedMessages
@@ -37,7 +40,7 @@ const MatchedMessages = () => {
         navigate("/");
     };
 
-    const {id, otherUserId, displayName, iconColour, matchedMessages} = details;
+    const {id, displayName, iconColour, matchedMessages} = details;
 
     return (
         <div className="matched-messages-container container">
@@ -53,16 +56,21 @@ const MatchedMessages = () => {
                 </button>
             </header>
 
-            {matchedMessages && matchedMessages.map((message, i) => (
-                <MessagePreview
-                    key={id + i}
-                    id={id}
-                    otherUserId={otherUserId}
-                    name={displayName}
-                    iconColour={iconColour}
-                    content={message.content}
-                />
-            ))}
+            <div className="messages-container">
+                {matchedMessages && matchedMessages.map((message, i) => {
+                    const fromUser = message.fromUserId === userId;
+
+                    return (
+                        <MessagePreview
+                            key={id + i}
+                            id={id}
+                            name={fromUser ? userDisplayName : displayName}
+                            iconColour={fromUser ? userIconColour : iconColour}
+                            content={message.content}
+                        />
+                    );
+                })}
+            </div>
         </div>
     );
 };

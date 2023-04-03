@@ -1,6 +1,17 @@
 .matched-messages-container {
-    border: solid 1px white;
     padding: 1em 1.25em;
+    display: flex;
+    flex-direction: column;
+}
+
+.matched-messages-container header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+
+.matched-messages-container header h1 {
+    font-size: 1rem;
 }
 
 .matched-messages-container header button {
@@ -8,4 +19,8 @@
     border: none;
     color: #EBB02D;
     font-size: 1rem;
+}
+
+.matched-messages-container .messages-container .message-preview {
+    padding: 0.5em 0;
 }

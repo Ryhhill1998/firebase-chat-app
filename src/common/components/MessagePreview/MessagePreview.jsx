@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
 import {getChatId} from "../../../utils/firebase";
 
-const MessagePreview = ({id, otherUserId, content, name, fromUser, iconColour, unread}) => {
+const MessagePreview = ({id, otherUserId, content, name, fromUser, iconColour, unread, navigateRoute}) => {
 
     const navigate = useNavigate();
 
@@ -16,7 +16,9 @@ const MessagePreview = ({id, otherUserId, content, name, fromUser, iconColour, u
             id = await getChatId(userId, otherUserId);
         }
 
-        navigate("/chats/" + id);
+        const route = navigateRoute ? navigateRoute : "/chats/" + id;
+
+        navigate(route);
     };
     
     const contentWidth = window.innerWidth >= 500 ? "300px" : 0.6 * window.innerWidth + "px";

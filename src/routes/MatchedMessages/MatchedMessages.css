@@ -1,0 +1,11 @@
+.matched-messages-container {
+    border: solid 1px white;
+    padding: 1em 1.25em;
+}
+
+.matched-messages-container header button {
+    background: none;
+    border: none;
+    color: #EBB02D;
+    font-size: 1rem;
+}

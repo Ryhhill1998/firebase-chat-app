@@ -4,9 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {
     focusOutSearch,
-    resetSearchQuery,
-    resetUserSearchResults,
-    selectSearchQuery
+    resetSearchQuery, selectMessageResults,
+    selectSearchQuery, setMessageResults
 } from "../../features/search/searchSlice";
 import SearchResults from "../../common/components/SearchResults/SearchResults";
 import {selectAllChats} from "../../features/chats/chatsSlice";
@@ -21,12 +20,11 @@ const Search = () => {
 
     const allChats = useSelector(selectAllChats);
     const searchQuery = useSelector(selectSearchQuery);
-    const [messageResults, setMessageResults] = useState(null);
+    const messageResults = useSelector(selectMessageResults);
 
     const handleCancelClick = () => {
         dispatch(focusOutSearch());
         dispatch(resetSearchQuery());
-        dispatch(resetUserSearchResults());
         navigate("/");
     };
 
@@ -35,7 +33,7 @@ const Search = () => {
 
         // find all messages that match the search query and add them to the chat object
         // filter by chats that have at least one matched message
-        setMessageResults(allChats
+        const results = allChats
             .map(chat => {
                 const updatedChat = {...chat};
 
@@ -44,12 +42,12 @@ const Search = () => {
 
                 return updatedChat;
             })
-            .filter(chat => chat.matchedMessages.length));
-    }, [allChats, searchQuery]);
+            .filter(chat => chat.matchedMessages.length);
 
-    useEffect(() => {
-        console.log(messageResults);
-    }, [messageResults]);
+        console.log(results)
+
+        dispatch(setMessageResults(results));
+    }, [allChats, searchQuery]);
 
     useEffect(() => {
         if (searchQuery.length >= 3) return;
@@ -66,7 +64,7 @@ const Search = () => {
 
             <SearchResults otherResults={messageResults?.length > 0}/>
 
-            {messageResults?.length && (
+            {messageResults?.length > 0 && (
                 <div>
                     <h2>Messages</h2>
 
@@ -83,6 +81,7 @@ const Search = () => {
                                 name={displayName}
                                 iconColour={iconColour}
                                 content={content}
+                                navigateRoute={"/matched-messages/" + id}
                             />
                         )
                     })}

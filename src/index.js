@@ -19,6 +19,7 @@ import Root from "./routes/Root";
 import Profile from "./routes/Profile/Profile";
 import Search from "./routes/Search/Search";
 import NewMessage from "./routes/NewMessage/NewMessage";
+import MatchedMessages from "./routes/MatchedMessages/MatchedMessages";
 
 const router = createBrowserRouter([
     {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
             {
                 path: "/new-message",
                 element: <NewMessage/>,
+            },
+            {
+                path: "/matched-messages/:chatId",
+                element: <MatchedMessages/>,
             },
         ],
     },

@@ -1,7 +1,7 @@
 import "./NewMessage.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {focusOutSearch, resetSearchQuery, resetUserSearchResults} from "../../features/search/searchSlice";
+import {focusOutSearch, resetSearchQuery} from "../../features/search/searchSlice";
 import SearchBar from "../../features/search/SearchBar/SearchBar";
 import SearchResults from "../../common/components/SearchResults/SearchResults";
 
@@ -14,7 +14,6 @@ const NewMessage = () => {
     const handleCancelClick = () => {
         dispatch(focusOutSearch());
         dispatch(resetSearchQuery());
-        dispatch(resetUserSearchResults());
         navigate("/");
     };
 

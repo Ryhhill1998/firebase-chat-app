@@ -4,6 +4,7 @@ const initialState = {
     query: "",
     focused: false,
     messageResults: null,
+    selectedMessageId: null
 };
 
 export const searchSlice = createSlice({
@@ -23,11 +24,16 @@ export const searchSlice = createSlice({
             state.focused = false;
         },
         setMessageResults: (state, action) => {
-            console.log("setting message results")
             state.messageResults = action.payload;
         },
         resetMessageResults: state => {
             state.messageResults = null;
+        },
+        setSelectedMessageId: (state, action) => {
+            state.selectedMessageId = action.payload;
+        },
+        resetSelectedMessageId: state => {
+            state.selectedMessageId = null;
         },
     }
 })
@@ -38,9 +44,12 @@ export const {
     focusInSearch,
     focusOutSearch,
     setMessageResults,
-    resetMessageResults
+    resetMessageResults,
+    setSelectedMessageId,
+    resetSelectedMessageId
 } = searchSlice.actions
 export const selectSearchQuery = state => state.search.query;
 export const selectSearchIsFocused = state => state.search.focused;
 export const selectMessageResults = state => state.search.messageResults;
+export const selectSelectedMessageId = state => state.search.selectedMessageId;
 export default searchSlice.reducer

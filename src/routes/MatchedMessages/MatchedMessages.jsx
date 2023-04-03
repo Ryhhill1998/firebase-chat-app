@@ -7,7 +7,7 @@ import {
     focusOutSearch,
     resetMessageResults,
     resetSearchQuery,
-    selectMessageResults, selectSearchQuery
+    selectMessageResults, selectSearchQuery, setSelectedMessageId
 } from "../../features/search/searchSlice";
 import {useEffect, useState} from "react";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
@@ -39,13 +39,14 @@ const MatchedMessages = () => {
         if (!messageResults || !chatId) return;
 
         const result = messageResults.find(result => result.id === chatId);
-        const {id, otherUserDetails, matchedMessages} = result;
+        const {id, otherUserDetails, messages, matchedMessages} = result;
         const {displayName, iconColour} = otherUserDetails;
 
         setDetails({
             id,
             displayName,
             iconColour,
+            messages,
             matchedMessages
         });
     }, [chatId, messageResults]);
@@ -57,7 +58,11 @@ const MatchedMessages = () => {
         navigate("/");
     };
 
-    const {id, displayName, iconColour, matchedMessages} = details;
+    const {id, displayName, iconColour, messages, matchedMessages} = details;
+
+    const handlePreviewClick = (index) => {
+        dispatch(setSelectedMessageId(index));
+    };
 
     return (
         <div className="matched-messages-container container">
@@ -76,6 +81,7 @@ const MatchedMessages = () => {
             <div className="messages-container">
                 {matchedMessages && matchedMessages.map((message, i) => {
                     const fromUser = message.fromUserId === userId;
+                    const index = messages.indexOf(message);
 
                     return (
                         <MessagePreview
@@ -85,6 +91,8 @@ const MatchedMessages = () => {
                             iconColour={fromUser ? userIconColour : iconColour}
                             content={message.content}
                             searchString={searchQuery}
+                            handlePreviewClick={handlePreviewClick}
+                            index={index}
                         />
                     );
                 })}

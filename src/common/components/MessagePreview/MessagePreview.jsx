@@ -6,7 +6,19 @@ import {selectUserId} from "../../../features/user/userSlice";
 import {getChatId} from "../../../utils/firebase";
 import {useEffect, useState} from "react";
 
-const MessagePreview = ({id, otherUserId, content, name, fromUser, iconColour, unread, navigateRoute, searchString}) => {
+const MessagePreview = ({
+                            id,
+                            otherUserId,
+                            content,
+                            name,
+                            fromUser,
+                            iconColour,
+                            unread,
+                            navigateRoute,
+                            searchString,
+                            index,
+                            handlePreviewClick
+                        }) => {
 
     const navigate = useNavigate();
 
@@ -34,8 +46,6 @@ const MessagePreview = ({id, otherUserId, content, name, fromUser, iconColour, u
                     suffix: content.slice(nextWhiteSpaceIndex)
                 });
             }
-
-            console.log(content)
         }
     }, [content, searchString]);
 
@@ -44,11 +54,15 @@ const MessagePreview = ({id, otherUserId, content, name, fromUser, iconColour, u
             id = await getChatId(userId, otherUserId);
         }
 
+        if (handlePreviewClick) {
+            handlePreviewClick(index);
+        }
+
         const route = navigateRoute ? navigateRoute : "/chats/" + id;
 
         navigate(route);
     };
-    
+
     const contentWidth = window.innerWidth >= 500 ? "300px" : 0.6 * window.innerWidth + "px";
 
     return (

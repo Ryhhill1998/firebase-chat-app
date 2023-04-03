@@ -9,7 +9,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {listenToSpecificUserChat, readAllUsersUnreadMessagesInChat} from "../../utils/firebase";
-import {focusOutSearch} from "../../features/search/searchSlice";
+import {focusOutSearch, selectSelectedMessageId} from "../../features/search/searchSlice";
 
 const Chat = () => {
     const navigate = useNavigate();
@@ -18,6 +18,7 @@ const Chat = () => {
 
     const {id: chatId} = useParams();
     const userId = useSelector(selectUserId);
+    const selectedMessageId = useSelector(selectSelectedMessageId);
 
     const [chat, setChat] = useState(null);
 
@@ -60,6 +61,13 @@ const Chat = () => {
         navigate("/");
     };
 
+    useEffect(() => {
+        if (!selectedMessageId || !chat) return;
+
+        const message = document.getElementById("message-" + selectedMessageId);
+        message.scrollIntoView();
+    }, [selectedMessageId, chat]);
+
     if (!chat) {
         return <></>;
     }
@@ -98,6 +106,7 @@ const Chat = () => {
                         iconColour={chat.otherUserDetails.iconColour}
                         lastMessage={i === chat.messages.length - 1}
                         read={read}
+                        index={i}
                     />
                 ))}
             </div>

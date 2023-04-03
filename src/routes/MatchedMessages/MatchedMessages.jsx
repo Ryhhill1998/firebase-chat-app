@@ -2,8 +2,13 @@ import "./MatchedMessages.css";
 import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate, useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {selectMessageResults} from "../../features/search/searchSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    focusOutSearch,
+    resetMessageResults,
+    resetSearchQuery,
+    selectMessageResults
+} from "../../features/search/searchSlice";
 import {useEffect, useState} from "react";
 import MessagePreview from "../../common/components/MessagePreview/MessagePreview";
 import {selectDisplayName, selectIconColour, selectUserId} from "../../features/user/userSlice";
@@ -13,6 +18,8 @@ const MatchedMessages = () => {
     const {chatId} = useParams();
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
     const userDisplayName = useSelector(selectDisplayName);
@@ -37,6 +44,9 @@ const MatchedMessages = () => {
     }, [chatId, messageResults]);
 
     const handleBackClick = () => {
+        dispatch(focusOutSearch());
+        dispatch(resetMessageResults());
+        dispatch(resetSearchQuery());
         navigate("/");
     };
 

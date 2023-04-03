@@ -2,6 +2,7 @@ import "./MessageBubble.css";
 import UserIcon from "../UserIcon/UserIcon";
 
 const MessageBubble = ({content, fromUser, iconColour, lastMessage, read}) => {
+
     return (
         <div className={`message-bubble-container ${fromUser ? "sent" : "received"}`}>
             <div>

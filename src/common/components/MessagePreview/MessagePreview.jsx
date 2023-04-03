@@ -12,7 +12,7 @@ const MessagePreview = ({id, otherUserId, content, name, fromUser, iconColour, u
 
     const userId = useSelector(selectUserId);
 
-    const [splitContent, setSplitContent] = useState();
+    const [splitContent, setSplitContent] = useState(null);
 
     useEffect(() => {
         if (!content || !searchString) return;

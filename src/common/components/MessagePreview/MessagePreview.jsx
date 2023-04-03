@@ -29,23 +29,21 @@ const MessagePreview = ({
     useEffect(() => {
         if (!content || !searchString) return;
 
-        if (searchString) {
-            const index = content.toLowerCase().indexOf(searchString.toLowerCase());
-            const nextWhiteSpaceIndex = content.indexOf(" ", index);
+        const index = content.toLowerCase().indexOf(searchString.toLowerCase());
+        const nextWhiteSpaceIndex = content.indexOf(" ", index);
 
-            if (nextWhiteSpaceIndex === -1) {
-                setSplitContent({
-                    prefix: null,
-                    highlightedWord: content,
-                    suffix: null
-                });
-            } else {
-                setSplitContent({
-                    prefix: content.slice(0, index),
-                    highlightedWord: content.slice(index, nextWhiteSpaceIndex),
-                    suffix: content.slice(nextWhiteSpaceIndex)
-                });
-            }
+        if (nextWhiteSpaceIndex === -1) {
+            setSplitContent({
+                prefix: null,
+                highlightedWord: content,
+                suffix: null
+            });
+        } else {
+            setSplitContent({
+                prefix: content.slice(0, index),
+                highlightedWord: content.slice(index, nextWhiteSpaceIndex),
+                suffix: content.slice(nextWhiteSpaceIndex)
+            });
         }
     }, [content, searchString]);
 
@@ -75,7 +73,7 @@ const MessagePreview = ({
                     <p style={{width: contentWidth}}>{(fromUser ? "You: " : "") + content}</p>
                 )}
 
-                {searchString && splitContent && (
+                {splitContent && (
                     <p style={{width: contentWidth}}>
                         {splitContent?.prefix && splitContent.prefix}
                         <strong>{splitContent.highlightedWord}</strong>

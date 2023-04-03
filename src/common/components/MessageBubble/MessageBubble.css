@@ -43,3 +43,8 @@
     margin-top: 0.5em;
     text-align: right;
 }
+
+.message-bubble-container .highlighted-word {
+    background-color: white;
+    color: #434242;
+}

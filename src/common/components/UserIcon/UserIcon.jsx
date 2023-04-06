@@ -8,7 +8,7 @@ const sizesMap = {
     medium: "40px",
     large: "60px",
     xLarge: "80px",
-}
+};
 
 const UserIcon = ({size, colour, skeleton}) => {
 
